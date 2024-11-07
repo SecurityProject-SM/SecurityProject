@@ -102,7 +102,7 @@
                                     </div>
                                     <button type="button" id="update_btn" class="btn btn-primary">수정</button>
                                     <button type="button" id="delete_btn" class="btn btn-danger">회원 탈퇴</button>
-                                    <button type="button" id="contract_btn" class="btn btn-light">내 계약서 보기</button>
+                                    <a href="<c:url value='/contract'/>" class="btn btn-light" role="button">내 계약서 보기</a>
                                 </form>
                             </div>
                         </div>
