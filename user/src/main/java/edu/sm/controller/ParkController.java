@@ -16,7 +16,6 @@ public class ParkController {
 
     private final ParkService parkService;
 
-
     @RequestMapping("")
     public String item(Model model){
         model.addAttribute("center", dir+"center");
@@ -25,7 +24,7 @@ public class ParkController {
 
     @RequestMapping("/calc")
     public String calc(Model model) {
-        model.addAttribute("left", "park/left");
+        log.info("calc run");
         model.addAttribute("center", "park/calc");
         return "index";
     }

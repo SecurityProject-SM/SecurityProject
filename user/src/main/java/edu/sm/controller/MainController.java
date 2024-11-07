@@ -1,21 +1,33 @@
 package edu.sm.controller;
 
+import com.github.pagehelper.PageInfo;
+import edu.sm.app.dto.NoticeDto;
 import edu.sm.app.dto.UsersDto;
+import edu.sm.app.service.NoticeService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 public class MainController {
+
+    final NoticeService noticeService;
 
     @RequestMapping("/")
     public String main(Model model) {
         log.info("Started Main");
 //        model.addAttribute("left", "left");
 //        model.addAttribute("center", "center");
+
+
         return "index";
     }
 
@@ -45,4 +57,6 @@ public class MainController {
 
         return "index";
     }
+
+
 }
