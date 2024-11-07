@@ -14,4 +14,7 @@ public interface NoticeRepository extends SBRepository<Integer, NoticeDto> {
     List<NoticeDto> getNoticePage();
     List<NoticeDto> getFindPage(Search search);
 
+    // 메인 페이지에서 쓸거임
+    List<NoticeDto> selectTop3Notices();
+
 }

@@ -54,9 +54,8 @@ public class NoticeService implements SBService<Integer, NoticeDto> {
     }
 
     // 메인 페이지에서 사용할거
-    public List<NoticeDto> getMainNotice(int pageNo) {
-        PageHelper.startPage(pageNo, 3); // 페이지 당 10개의 항목 표시
-        return noticeRepository.getNoticePage();
+    public List<NoticeDto> getTop3Notices() {
+        return noticeRepository.selectTop3Notices();
     }
 
 }

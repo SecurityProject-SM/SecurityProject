@@ -109,12 +109,4 @@ public class MainInputController {
         return "redirect:/";
     }
 
-    @GetMapping("")
-    public String notice(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
-        log.info("Loading notice list - page {}", pageNo);
-        PageInfo<NoticeDto> pageInfo = new PageInfo<>(noticeService.getNoticePage(pageNo), 3); // 페이지네이션 설정
-        model.addAttribute("cpage", pageInfo);
-        model.addAttribute("target", "notice");
-        return "index";
-    }
 }

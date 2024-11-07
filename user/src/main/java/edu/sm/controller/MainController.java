@@ -22,17 +22,12 @@ public class MainController {
     final NoticeService noticeService;
 
     @RequestMapping("/")
-    public String main(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
-        log.info("Loading main page with recent 3 notices");
+    public String main(Model model) {
         log.info("Started Main");
 //        model.addAttribute("left", "left");
 //        model.addAttribute("center", "center");
 
 
-        PageInfo<NoticeDto> pageInfo = new PageInfo<>(noticeService.getMainNotice(pageNo), 5);
-        model.addAttribute("recentNotices", pageInfo.getList());
-        model.addAttribute("center", "center");
-        model.addAttribute("target", "main");
         return "index";
     }
 
