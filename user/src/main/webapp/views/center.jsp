@@ -51,8 +51,37 @@
                     </div>
                 </div>
                 <!-- 공지사항 내용 -->
+                <table class="table align-items-center">
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성일자</th>
+                        <th>작성자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:choose>
+                        <c:when test="${not empty recentNotices}">
+                            <c:forEach var="n" items="${recentNotices}">
+                                <tr>
+                                    <td>${n.noticeId}</td>
+                                    <td>${n.noticeName}</td>
+                                    <td>${n.noticeTime}</td>
+                                    <td>${n.adminId}</td>
+                                </tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="4" class="text-center">공지사항 데이터가 없습니다.</td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
+                    </tbody>
+                </table>
 
-=                <!-- 전체 공지사항 보기 버튼 -->
+                <!-- 전체 공지사항 보기 버튼 -->
                 <div class="card-footer text-end p-3">
                     <a href="<c:url value='/notice'/>" class="btn btn-primary">전체 공지사항 보기</a>
                 </div>

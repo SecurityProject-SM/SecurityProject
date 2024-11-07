@@ -27,6 +27,8 @@ public class MainController {
 //        model.addAttribute("left", "left");
 //        model.addAttribute("center", "center");
 
+        List<NoticeDto> recentNotices = noticeService.getTop3Notices();
+        model.addAttribute("recentNotices", recentNotices);
 
         return "index";
     }
