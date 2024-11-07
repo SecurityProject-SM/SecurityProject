@@ -75,14 +75,14 @@
                     <div class="col-xl-10 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                         <div class="card card-plain">
                             <div class="card-header pb-0 text-start">
-                                <h4 class="font-weight-bolder">회원 정보 수정</h4>
+                                <h4 class="font-weight-bolder">마이페이지</h4>
                                 <p class="mb-0" style="font-size: 14px">회원 정보를 수정하세요</p>
                             </div>
                             <div class="card-body">
                                 <form id="update_form">
                                     <div class="form-group">
                                         <label for="id">아이디:</label>
-                                        <input type="text" value="${user.userId}" readonly class="form-control" id="id" name="userId">
+                                        <input type="text" readonly value="${user.userId}" readonly class="form-control" id="id" name="userId" style="background:rgba(211,206,206,0.79)">
                                     </div>
                                     <div class="form-group">
                                         <label for="pwd">비밀번호:</label>

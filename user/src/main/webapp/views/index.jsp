@@ -85,8 +85,8 @@
                             </c:when>
                             <c:otherwise>
                                 <!-- 로그인된 경우 사용자 ID 및 Logout 표시 -->
-                                <span class="nav-link text-white font-weight-bold px-0">
-                                        ${sessionScope.loginid.userId}
+                                <span class="nav-link text-white font-weight-bold px-0" >
+                                    <a href="<c:url value="/mypage"/> ">${sessionScope.loginid.userId}</a>
                                 </span>
                                 <a class="nav-link text-white font-weight-bold px-0" href="<c:url value='/logoutimpl'/>" style="margin-left: 15px">
                                     Logout
