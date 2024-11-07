@@ -8,6 +8,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
+
+  /* 로딩 스피너 스타일 추가 */
+  .loading-wrap {
+    display: none; /* 처음에는 숨김 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #3498db;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  /* 로딩 스피너 스타일 끝 */
+
+
   .park-container {
     display: flex; /* Flexbox로 가로 배치 */
     align-items: flex-start; /* 위쪽 정렬 */
@@ -91,6 +124,7 @@
 </style>
 <script>
   let park = {
+    loadingShown: false, // 로딩이 처음 한 번만 나타나도록 제어하는 플래그
     init: function () {
       // this.init();  // 초기 로드
       setInterval(this.parkstat, 5000);  // 5초마다 상태 갱신
@@ -126,6 +160,9 @@
         },
         error: function (error) {
           console.error("주차 상태를 불러오는 중 오류 발생:", error);
+        },
+        complete: function () {
+          $(".loading-wrap").hide(); // AJAX 완료 후 로딩 스피너 숨김
         }
       });
     }
@@ -135,8 +172,15 @@
     park.init();
   });
 </script>
-<div class="park-container">
 
+
+<!-- 로딩 스피너 HTML 추가 -->
+<div class="loading-wrap">
+  <div class="loading-spinner"></div>
+  <p>로딩 중입니다...</p>
+</div>
+
+<div class="park-container">
   <div class="parking-lot">
     <!-- 주차 공간을 표시할 개별 박스들 -->
     <div class="parking-spot" id="spot1"></div>
