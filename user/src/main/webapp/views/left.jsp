@@ -100,8 +100,8 @@
                     <li class="nav-item">
                         <a class="nav-link " href="<c:url value='/logoutimpl'/>">
                             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                            </div>
+                                <i class="bi bi-box-arrow-right text-dark opacity-10"
+                                   style="font-size: 1.2em; text-shadow: 1px 0 currentColor, -1px 0 currentColor, 0 1px currentColor, 0 -1px currentColor;"></i>                            </div>
                             <span class="nav-link-text ms-1">로그아웃</span>
                         </a>
                     </li>
