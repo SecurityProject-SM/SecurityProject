@@ -78,4 +78,29 @@ public class MainInputController {
         usersService.add(usersDto);
         return "redirect:/login";
     }
+
+    @RequestMapping("/updateimpl")
+    public String updateUserInfo(UsersDto updatedUser, HttpSession session, Model model) throws Exception {
+        UsersDto sessionUser = (UsersDto) session.getAttribute("loginid");
+
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+
+        updatedUser.setUserId(sessionUser.getUserId());
+        usersService.modify(updatedUser);
+        session.setAttribute("loginid", updatedUser);
+
+        model.addAttribute("user", updatedUser);
+        model.addAttribute("center", "mypage");
+
+        return "index";
+    }
+
+    @RequestMapping("/deleteimpl")
+    public String deleteUser(@RequestParam("id") String id, HttpSession session) throws Exception {
+        usersService.del(id);
+        session.invalidate();
+        return "redirect:/";
+    }
 }

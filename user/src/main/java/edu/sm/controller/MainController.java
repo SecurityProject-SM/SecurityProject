@@ -1,5 +1,7 @@
 package edu.sm.controller;
 
+import edu.sm.app.dto.UsersDto;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,4 +36,13 @@ public class MainController {
         return "additional-info";
     }
 
+    // 모르겠으니까 일단 여기 작성했음
+    @RequestMapping("/mypage")
+    public String myPage(Model model, HttpSession session) throws Exception {
+        UsersDto usersDto = (UsersDto) session.getAttribute("loginid");
+        model.addAttribute("user", usersDto);
+        model.addAttribute("center", "mypage");
+
+        return "index";
+    }
 }
