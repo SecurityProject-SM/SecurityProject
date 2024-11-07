@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--  파일로 만든 로그 저장할 경로  -->
+    <!--    <property resource="logback.properties" />-->
+    <property name="LOGS_DIR" value="c:/springsm/logs/" />
+
+    <!-- 로그 출력 형식 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!--<Pattern>[%d{MM-dd HH:mm:ss}][%thread] %-5level %logger{36} - %msg%n</Pattern>-->
+            <Pattern>[%d{MM-dd HH:mm:ss}] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- 로그를 파일에 저장할때 이런식으로 저장할거다 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_DIR}/logback.log</file>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_DIR}/logback.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 로그를 파일에 저장할때 이런식으로 저장할거다 -->
+    <appender name="FILE2" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_DIR}/powerinfo.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}, %msg%n</pattern>
+        </encoder>
+        <!-- 파일이 5MB가 넘으면 다른 파일로 저장해라 policy 설정 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_DIR}/powerinfo.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- iot 로그 파일 -->
+    <appender name="FILE3" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_DIR}/power.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}, %msg%n</pattern>
+        </encoder>
+        <!-- 파일이 5MB가 넘으면 다른 파일로 저장해라 policy 설정 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_DIR}/power.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!--    &lt;!&ndash;  level이 debug일때, 파일로 저장  &ndash;&gt;-->
+    <!--    <logger name="org.springframework.web" level="DEBUG">-->
+    <!--        <appender-ref ref="STDOUT" />-->
+    <!--        <appender-ref ref="FILE" />-->
+    <!--    </logger>-->
+
+    <!--  JsController 로그는 파일로 찍어라  -->
+    <logger name="edu.sm.controller.ChartsRestController" level="INFO">
+        <appender-ref ref="FILE2" />
+    </logger>
+
+    <!--  어떠한 컨트롤러가 동작될때 info레벨로 찍어라  -->
+    <logger name="edu.sm.controller.IotRestController" level="INFO">
+        <appender-ref ref="FILE3" />
+    </logger>
+
+    <!--  로그 레벨  -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />       <!--  스탠다드 아웃풋 형태로 info 레벨로 출력  -->
+    </root>
+
+    <logger name="jdbc" level="OFF" />
+    <logger name="jdbc.sqlonly" level="INFO" />
+    <logger name="jdbc.sqltiming" level="OFF" />
+    <logger name="jdbc.audit" level="OFF" />
+    <logger name="jdbc.resultset" level="OFF" />
+    <logger name="jdbc.resultsettable" level="INFO" />
+    <logger name="jdbc.connection" level="OFF" />
+    <!-- INFO(trace > debug > info > warn > error)  -->
+</configuration>
