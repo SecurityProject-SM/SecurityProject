@@ -8,6 +8,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
+  .button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+
+  .custom-button {
+    padding: 10px 20px;
+    background-color: slategrey;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+  }
+
+  .custom-button:hover {
+    background-color: #004c99;
+  }
+
   .park-container {
     display: flex; /* Flexbox로 가로 배치 */
     align-items: flex-start; /* 위쪽 정렬 */
@@ -181,5 +203,12 @@
       <h3 style="float:left">주차중 :</h3>
       <h3 id="parkingCount">...</h3>
     </div>
+    <div class="button-container">
+      <button class="custom-button">주차 정산</button>
+      <button class="custom-button">요금 결제</button>
+      <button class="custom-button">위치 조회</button>
+
+    </div>
+
   </div>
 </div>
