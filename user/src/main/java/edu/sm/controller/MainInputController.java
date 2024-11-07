@@ -1,12 +1,16 @@
 package edu.sm.controller;
 
+import com.github.pagehelper.PageInfo;
+import edu.sm.app.dto.NoticeDto;
 import edu.sm.app.dto.UsersDto;
+import edu.sm.app.service.NoticeService;
 import edu.sm.app.service.UsersService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainInputController {
 
     final UsersService usersService;
+    final NoticeService noticeService;
 
     // 로그아웃 처리
     @RequestMapping("/logoutimpl")
@@ -102,5 +107,14 @@ public class MainInputController {
         usersService.del(id);
         session.invalidate();
         return "redirect:/";
+    }
+
+    @GetMapping("")
+    public String notice(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
+        log.info("Loading notice list - page {}", pageNo);
+        PageInfo<NoticeDto> pageInfo = new PageInfo<>(noticeService.getNoticePage(pageNo), 3); // 페이지네이션 설정
+        model.addAttribute("cpage", pageInfo);
+        model.addAttribute("target", "notice");
+        return "index";
     }
 }
