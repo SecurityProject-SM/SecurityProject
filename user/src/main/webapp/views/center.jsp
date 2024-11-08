@@ -142,6 +142,7 @@
 
     $(function () {
         center.init();
+
     });
 </script>
 
