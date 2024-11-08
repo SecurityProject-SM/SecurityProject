@@ -1,6 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<style>
+    .card-body{
+        background-color: #ffffff;
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
+</style>
 <html>
 <head>
     <title>계약서 보기</title>
