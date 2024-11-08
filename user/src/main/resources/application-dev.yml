@@ -16,11 +16,11 @@ spring:
   datasource:
     # SQL 로그를 찍기위해 위에것을 사용 실 서비스 시에는 아래 드라이버 사용
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/smartbuilding?characterEncoding=utf8
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/final_project?characterEncoding=utf8
     #    driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mysql://127.0.0.1:3306/immersive?characterEncoding=utf8
-    username: smuser
-    password: 111111
+    username: root
+    password: 1234
 
 # Mybatis settings
 mybatis:
@@ -69,9 +69,7 @@ app:
     uploadimgdir: c:/springsm/imgs/
 
   key:
-    wkey: ENC(4PAWoDD5oYX4vQinseKwW+ga3MPEBm3s68OnAiWR1mfpdUbARblM1k4ued+xkw4ok4QfuDFSPfP2qc3IpN1np9T5cKv/PGilw2hR/lV33dRNMcwwheKLtejQwPXKTiXM+t/0opitWOGchB5p9ZtsZNHXx8/qT0pn)
-    # 기상청 개인 키값|
-    okey: ENC(W0YAGg22Zx2P8I9+K/N+U+FoiZ0TWK6h/FMnLYA2Wb4ZEUkGTCR14hcisaIYaG9g)
+    okey: d9bd21f2e39484f2a5b501bcd28825b3
     # open weather 키값
     algo: PBEWithMD5AndDES    # ENC변경 필 (보안사유)
     skey: mykey

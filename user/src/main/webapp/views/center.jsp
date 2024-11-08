@@ -13,10 +13,75 @@
 </head>
 
 <style>
+    .weather-item {
+        display: inline-block;
+        border-right: 1px solid #ddd;
+        padding: 10px;
+        white-space: nowrap;
+        text-align: center;
+        min-width: 150px; /* 각 항목의 최소 너비 설정 */
+    }
+    .weather-icon {
+        width: 40px;
+        height: 40px;
+        vertical-align: middle;
+    }
+    #weatherContainer {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 10px;
+    }
 </style>
 
 <script>
+    let center = {
+        init: function () {
+            $.ajax({
+                url: '/ow',
+                success: (result) => {
+                    console.log("받아온 데이터:", result);
+
+                    let weatherList = result.list;
+                    let weatherContainer = $('#weatherContainer');
+                    weatherContainer.empty();
+
+                    if (weatherList && weatherList.length > 0) {
+                        weatherList.forEach((item) => {
+                            let temp = item.main.temp;
+                            let des = item.weather[0].description;
+                            let icon = item.weather[0].icon;
+                            let time = item.dt_txt;
+
+                            let weatherHtml = `
+                                <div class="weather-item mb-3">
+                                    <p><strong>시간:</strong> ${time}</p>
+                                    <p><strong>온도:</strong> ${temp}°C</p>
+                                    <p><strong>설명:</strong> ${des}</p>
+                                    <img src="http://openweathermap.org/img/wn/${icon}.png" alt="${des}">
+                                </div>
+                            `;
+
+                            weatherContainer.append(weatherHtml);
+                        });
+                    } else {
+                        weatherContainer.append("<p>날씨 데이터를 불러올 수 없습니다.</p>");
+                    }
+                },
+                error: (error) => {
+                    console.error("데이터 요청 실패:", error);
+                    $('#weatherContainer').append("<p>데이터 요청에 실패했습니다.</p>");
+                }
+            });
+        }
+    };
+
+    $(function () {
+        center.init();
+    });
 </script>
+
+
 
 <body>
 <div class="container-fluid py-4">
@@ -39,7 +104,10 @@
         </div>
         <div class="col-lg-5">
             <div class="card card-carousel overflow-hidden h-100 p-0">
-            </div>
+                <div class="card-header pb-0 pt-3 bg-transparent">
+                    <h6 class="text-capitalize">날씨</h6>
+                </div>
+                <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
         </div>
     </div>
     <div class="row mt-4">
@@ -57,7 +125,6 @@
                         <th>번호</th>
                         <th>제목</th>
                         <th>작성일자</th>
-                        <th>작성자</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -68,7 +135,6 @@
                                     <td>${n.noticeId}</td>
                                     <td>${n.noticeName}</td>
                                     <td>${n.noticeTime}</td>
-                                    <td>${n.adminId}</td>
                                 </tr>
                             </c:forEach>
                         </c:when>
