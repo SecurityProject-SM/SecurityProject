@@ -225,5 +225,10 @@
       <h3 style="float:left">주차중 :</h3>
       <h3 id="parkingCount">...</h3>
     </div>
+
+    <div class="status-box">
+      <h4> 정산하기</h4>
+    <a href="<c:url value="park/calc"/>" class="btn btn-light" role="button" style="text-align: center">정산하기</a>
+    </div>
   </div>
 </div>
