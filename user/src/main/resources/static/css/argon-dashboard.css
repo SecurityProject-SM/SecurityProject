@@ -7,6 +7,12 @@
  */
 :root,
 [data-bs-theme=light] {
+  --bs-body-bg-rgb: 255, 255, 255; /* 배경 색상 */
+  --bs-primary-rgb: 13, 110, 253;  /* 기본 색상 */
+  --bd-accent-rgb: 255, 193, 7;    /* 강조 색상 */
+  --bd-violet-rgb: 111, 66, 193;   /* 보라색 */
+  --bd-pink-rgb: 214, 51, 132;     /* 핑크색 */
+
   --bs-blue: #63B3ED;
   --bs-indigo: #596CFF;
   --bs-purple: #6f42c1;
@@ -22213,12 +22219,12 @@ fieldset:disabled .btn {
 
 .card.card-plain {
   background-color: transparent;
-  box-shadow: none !important;
+  /*box-shadow: none; !important; */
 }
 
 .card .card-footer {
   padding: 1.5rem;
-  background-color: transparent;
+  /*background-color: transparent;*/
 }
 
 .author {
