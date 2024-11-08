@@ -47,7 +47,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="../pages/tables.html">
+                <a class="nav-link " href="<c:url value="/energy"/>">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="bi bi-lightbulb text-dark text-sm opacity-10"></i> <!-- 에너지 관리 아이콘 (전구 모양) -->
                     </div>
@@ -127,7 +127,5 @@
         </div>
     </div>
 </div>
-
-
 </body>
 </html>

@@ -1,6 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<style>
+    .bg-gray-100{
+        --bd-pink-rgb: 214, 51, 132;
+        background-image: linear-gradient(180deg, rgba(var(--bs-body-bg-rgb), 0.01), rgba(var(--bs-body-bg-rgb), 1) 85%),
+            radial-gradient(ellipse at top left, rgba(var(--bs-primary-rgb), 0.5), transparent 50%),
+            radial-gradient(ellipse at top right, rgba(var(--bd-accent-rgb), 0.5), transparent 50%),
+            radial-gradient(ellipse at center right, rgba(var(--bd-violet-rgb), 0.5), transparent 50%),
+            radial-gradient(ellipse at center left, rgba(var(--bd-pink-rgb), 0.5), transparent 50%);
+    }
+    .card-body{
+        background-color: #ffffff;
+    }
+    .card-footer{
+        background-color: #ffffff;
+    }
+    .card.card-plain{
+        box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    }
+</style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
