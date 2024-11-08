@@ -1,10 +1,15 @@
 # tomcat server setting
 server:
-  port: 80
+  port: 8443  # HTTPS를 사용할 포트 (기본 포트가 8443)
   servlet:
     encoding:
       charset: UTF-8
       force: true
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12  # 인증서 파일 경로
+    key-store-password: "111111"  # 인증서 생성 시 사용한 비밀번호
+    key-store-type: PKCS12  # 인증서 유형
 
 # Spring boot environment settings
 spring:
@@ -60,7 +65,7 @@ logging:
 # 위까지는 spring꺼 아래부터는 팀, 개인의 변수들
 app:
   url:
-#    server-url: http://172.16.21.91:81
+  #    server-url: http://172.16.21.91:81
   dir:
     imgdir: file:///c:/springsm/imgs/    # 위치가 springsm 하위가 아니어도 상관없음
     uploaddir: c:/springsm/imgs/         # 파일을 저장할때는 아펭 file:/// 빠짐
@@ -69,9 +74,7 @@ app:
     uploadimgdir: c:/springsm/imgs/
 
   key:
-    wkey: ENC(4PAWoDD5oYX4vQinseKwW+ga3MPEBm3s68OnAiWR1mfpdUbARblM1k4ued+xkw4ok4QfuDFSPfP2qc3IpN1np9T5cKv/PGilw2hR/lV33dRNMcwwheKLtejQwPXKTiXM+t/0opitWOGchB5p9ZtsZNHXx8/qT0pn)
-    # 기상청 개인 키값|
-    okey: ENC(W0YAGg22Zx2P8I9+K/N+U+FoiZ0TWK6h/FMnLYA2Wb4ZEUkGTCR14hcisaIYaG9g)
+    okey: d9bd21f2e39484f2a5b501bcd28825b3
     # open weather 키값
     algo: PBEWithMD5AndDES    # ENC변경 필 (보안사유)
     skey: mykey

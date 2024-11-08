@@ -35,6 +35,7 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
+    <%-- jquary --%>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -85,8 +86,8 @@
                             </c:when>
                             <c:otherwise>
                                 <!-- 로그인된 경우 사용자 ID 및 Logout 표시 -->
-                                <span class="nav-link text-white font-weight-bold px-0" >
-                                    <a href="<c:url value="/mypage"/> ">${sessionScope.loginid.userId}</a>
+                                <span class="nav-link text-white font-weight-bold px-0">
+                                    <a href="<c:url value="/mypage"/>";  style="color: white">${sessionScope.loginid.userId}</a>
                                 </span>
                                 <a class="nav-link text-white font-weight-bold px-0" href="<c:url value='/logoutimpl'/>" style="margin-left: 15px">
                                     Logout

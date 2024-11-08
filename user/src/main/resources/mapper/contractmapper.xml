@@ -21,4 +21,7 @@
         DELETE FROM contract WHERE contract_id=#{contractId}
     </delete>
 
+    <select id="selectByUserId" parameterType="String" resultType="ContractDto">
+        SELECT * FROM contract WHERE user_id=#{userId}
+    </select>
 </mapper>
