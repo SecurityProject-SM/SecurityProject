@@ -2,14 +2,14 @@ package edu.sm.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.*;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
+//@EnableWebSocketMessageBroker
 @EnableWebSocketMessageBroker
 @Configuration
 public class StomWebSocketConfig implements WebSocketMessageBrokerConfigurer{
-
+//public class StomWebSocketConfig implements WebSocketConfigurer{
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
@@ -34,9 +34,11 @@ public class StomWebSocketConfig implements WebSocketMessageBrokerConfigurer{
 //        registry.addEndpoint("/wss").setAllowedOrigins("http://127.0.0.1").withSockJS();
     }
 
+
     /* 어플리케이션 내부에서 사용할 path를 지정할 수 있음 */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/send", "/broadcast", "/control"); // IoT 제어용 경로 추가 /control
+        registry.setApplicationDestinationPrefixes("/app"); // 클라이언트가 서버로 메시지를 보낼 때 사용할 경로
     }
 }
