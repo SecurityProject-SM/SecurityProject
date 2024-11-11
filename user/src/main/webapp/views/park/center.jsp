@@ -204,10 +204,15 @@
       <h3 id="parkingCount">...</h3>
     </div>
     <div class="button-container">
-      <button class="custom-button">주차 정산</button>
-      <button class="custom-button">요금 결제</button>
-      <button class="custom-button">위치 조회</button>
-
+      <a class="nav-link" href="<c:url value="/park/parkset"/>">
+        <button class="custom-button">주차 정산</button>
+      </a>
+      <a class="nav-link" href="<c:url value="/park/parkloc"/>">
+        <button class="custom-button">위치 조회</button>
+      </a>
+        <a class="nav-link" href="<c:url value="/park/parkpay"/>">
+          <button class="custom-button">요금 결제</button>
+        </a>
     </div>
 
   </div>
