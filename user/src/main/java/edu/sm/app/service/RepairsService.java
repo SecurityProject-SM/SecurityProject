@@ -1,6 +1,7 @@
 package edu.sm.app.service;
 
 
+import edu.sm.app.dto.ParkDto;
 import edu.sm.app.dto.RepairsDto;
 import edu.sm.app.frame.SBService;
 import edu.sm.app.repository.RepairsRepository;
@@ -38,5 +39,10 @@ public class RepairsService  implements SBService<Integer, RepairsDto> {
     @Override
     public List<RepairsDto> get() throws Exception {
         return repairsRepository.select();
+    }
+
+    @Override
+    public List<ParkDto> findByCarNumber() throws Exception {
+        return List.of();
     }
 }

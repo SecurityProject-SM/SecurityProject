@@ -2,6 +2,7 @@ package edu.sm.app.service;
 
 import com.github.pagehelper.PageHelper;
 import edu.sm.app.dto.NoticeDto;
+import edu.sm.app.dto.ParkDto;
 import edu.sm.app.dto.Search;
 import edu.sm.app.frame.SBService;
 import edu.sm.app.repository.NoticeRepository;
@@ -39,6 +40,11 @@ public class NoticeService implements SBService<Integer, NoticeDto> {
     @Override
     public List<NoticeDto> get() throws Exception {
         return noticeRepository.select();
+    }
+
+    @Override
+    public List<ParkDto> findByCarNumber() throws Exception {
+        return List.of();
     }
 
     // 공지사항 기본 목록 가져오기 (페이징)

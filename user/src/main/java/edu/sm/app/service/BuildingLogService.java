@@ -1,6 +1,7 @@
 package edu.sm.app.service;
 
 import edu.sm.app.dto.BuildingLogDto;
+import edu.sm.app.dto.ParkDto;
 import edu.sm.app.frame.SBService;
 import edu.sm.app.repository.BuildingLogRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,4 +39,11 @@ public class BuildingLogService implements SBService<Integer, BuildingLogDto> {
     public List<BuildingLogDto> get() throws Exception {
         return buildingLogRepository.select();
     }
+
+    @Override
+    public List<ParkDto> findByCarNumber() throws Exception {
+        return List.of();
+    }
+
+
 }
