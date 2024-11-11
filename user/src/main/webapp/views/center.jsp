@@ -108,6 +108,14 @@
     let center = {
         init: function () {
             $.ajax({
+                url:'<c:url value="/wh"/>',
+                success : (result)=>{
+                    let wtext = result.response.body.items.item[0].wfSv;
+                    $('#dayweather').text(wtext);
+                }
+            });
+
+            $.ajax({
                 url: '<c:url value="/ow"/>',
                 success: (result) => {
                     $('#weatherContainer').empty();
@@ -138,11 +146,8 @@
         }
     };
 
-
-
     $(function () {
         center.init();
-
     });
 </script>
 
@@ -172,7 +177,8 @@
                     <h6 class="text-capitalize">날씨</h6>
                 </div>
                 <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
-                <h1 style="height: 150px">test</h1>
+                <div>test</div>
+                <p id="dayweather"></p>
             </div>
         </div>
         <div class="row mt-4">
@@ -180,7 +186,7 @@
                 <div class="card">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
-                            <h6 class="mb-2">공지사항</h6>
+                            <h6 class="mb-2">날씨 차트 띄울예정</h6>
                         </div>
                     </div>
                     <!-- 공지사항 내용 -->

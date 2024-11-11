@@ -25,6 +25,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MainController {
 
+    @Value("${app.key.wkey}")
+    private String wkey;
+
     @Value("${app.key.okey}")
     private String okey;
 

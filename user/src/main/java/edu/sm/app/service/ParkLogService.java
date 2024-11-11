@@ -38,4 +38,8 @@ public class ParkLogService implements SBService<Integer, ParkLogDto> {
     public List<ParkLogDto> get() throws Exception {
         return parkLogRepository.select();
     }
+
+    public List<ParkLogDto> findByCarNum(String carNum) throws Exception {
+        return parkLogRepository.findByCarNum(carNum);
+    }
 }
