@@ -23,20 +23,15 @@
     // 포트원 결제 요청 함수
     function requestPay() {
         const IMP = window.IMP; // 포트원 결제 객체 초기화
-        IMP.init('store-0d2d51f1-bdca-4fa2-8574-90baab8f7a48'); // 상점 아이디 (포트원에서 발급받은 상점 아이디)
+        IMP.init('imp84274542'); // 가맹점 식별 코드 (포트원에서 발급한 고객사 식별 코드)
 
         // 결제 요청 정보
         IMP.request_pay({
-            pg: 'html5_inicis', // 사용할 PG사 (예: html5_inicis, kakao 등)
+            pg: 'tosspayments', // 사용할 PG사 (토스)
             pay_method: 'card', // 결제수단 (카드, 계좌이체 등)
             merchant_uid: 'order_' + new Date().getTime(), // 주문 번호 (유니크한 값)
             name: '주차 정산 요금', // 주문명
-            amount: 5000, // 결제 금액 (원화 단위)
-            buyer_email: 'buyer@example.com', // 구매자 이메일
-            buyer_name: '홍길동', // 구매자 이름
-            buyer_tel: '010-1234-5678', // 구매자 전화번호
-            buyer_addr: '서울특별시 강남구', // 구매자 주소 (선택)
-            buyer_postcode: '123-456', // 구매자 우편번호 (선택)
+            amount: 5000 // 결제 금액 (원화 단위)
         }, function (rsp) {
             if (rsp.success) {
                 // 결제 성공 시 처리 로직

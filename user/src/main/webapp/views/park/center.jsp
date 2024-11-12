@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <style>
 
   /* 로딩 스피너 스타일 추가 */
@@ -127,7 +128,7 @@
     loadingShown: false, // 로딩이 처음 한 번만 나타나도록 제어하는 플래그
     init: function () {
       // this.init();  // 초기 로드
-      setInterval(this.parkstat, 5000);  // 5초마다 상태 갱신
+      setInterval(this.parkstat, 3000);  // 3초마다 상태 갱신
       setInterval(this.getTime, 1000);
     },
     getTime:function(){

@@ -1,4 +1,5 @@
-# tomcat server setting
+
+  # tomcat server setting
 server:
   port: 8443  # HTTPS를 사용할 포트 (기본 포트가 8443)
   servlet:
@@ -21,11 +22,11 @@ spring:
   datasource:
     # SQL 로그를 찍기위해 위에것을 사용 실 서비스 시에는 아래 드라이버 사용
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/final_project?characterEncoding=utf8
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/smartbuilding?characterEncoding=utf8
     #    driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mysql://127.0.0.1:3306/immersive?characterEncoding=utf8
-    username: root
-    password: 1234
+    username: smuser
+    password: 111111
 
 # Mybatis settings
 mybatis:
@@ -84,3 +85,8 @@ app:
     redirect-uri: "http://127.0.0.1/oauth/kakao/callback"  # Redirect URI 설정
     token-uri: "https://kauth.kakao.com/oauth/token"  # 카카오에서 AccessToken 요청용 URI
     user-info-uri: "https://kapi.kakao.com/v2/user/me"  # 사용자 정보 요청용 URI
+
+  portone:
+    api-key: "5476864681222488"
+    api-secret: "xV6REJbttIbs9wvCNZj1xitzDyPsKNzfk4VahE2UYuBiNcd7BB4D9JqkqZuw85dbcyIqdOPMqaRiuuph"
+    channel-key: "channel-key-0aa64efe-c9da-41ec-a022-03e0b5d90950"
