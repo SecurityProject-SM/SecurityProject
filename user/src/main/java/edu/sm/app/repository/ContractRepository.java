@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Mapper
-public interface ContractRepository extends SBRepository<Integer, ContractDto> {
+public interface
+ContractRepository extends SBRepository<Integer, ContractDto> {
     ContractDto selectByUserId(String userId);
 
 }
