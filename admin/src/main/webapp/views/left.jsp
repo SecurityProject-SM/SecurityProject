@@ -21,9 +21,9 @@
 <body>
 <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
     <div class="brand-logo">
-        <a href="<c:url value="/index.html"/>">
-            <img src="<c:url value="/images/logo-icon.png"/>" class="logo-icon" alt="logo icon">
-            <h5 class="logo-text">Dashtreme Admin</h5>
+        <a href="<c:url value="/"/>">
+            <img src="<c:url value="/img/gunamul2.jpeg"/>" class="logo-icon" alt="logo icon">
+            <h5 class="logo-text">건어물</h5>
         </a>
     </div>
     <ul class="sidebar-menu do-nicescrol">
@@ -66,13 +66,13 @@
         </li>
 
         <li>
-            <a href="<c:url value="/login.html"/>" target="_blank">
+            <a href="<c:url value="/login"/>">
                 <i class="zmdi zmdi-lock"></i> <span>Login</span>
             </a>
         </li>
 
         <li>
-            <a href="<c:url value="/register.html"/>" target="_blank">
+            <a href="<c:url value="/register.html"/>">
                 <i class="zmdi zmdi-account-circle"></i> <span>Registration</span>
             </a>
         </li>
