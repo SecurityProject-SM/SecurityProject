@@ -74,6 +74,8 @@ app:
     uploadimgdir: c:/springsm/imgs/
 
   key:
+    wkey: ENC(4PAWoDD5oYX4vQinseKwW+ga3MPEBm3s68OnAiWR1mfpdUbARblM1k4ued+xkw4ok4QfuDFSPfP2qc3IpN1np9T5cKv/PGilw2hR/lV33dRNMcwwheKLtejQwPXKTiXM+t/0opitWOGchB5p9ZtsZNHXx8/qT0pn)
+    # 기상청 키값
     okey: d9bd21f2e39484f2a5b501bcd28825b3
     # open weather 키값
     algo: PBEWithMD5AndDES    # ENC변경 필 (보안사유)
