@@ -40,7 +40,7 @@
                notice_detail AS noticeDetail,
                notice_time AS noticeTime
         FROM notice
-        ORDER BY notice_time DESC
+        ORDER BY notice_time ASC
     </select>
 
     <!-- 검색 조건에 따른 공지사항 조회 (페이징) -->
@@ -58,7 +58,7 @@
         <if test="keyword == 'detail'">
             AND notice_detail LIKE CONCAT('%', #{search}, '%')
         </if>
-        ORDER BY notice_time DESC
+        ORDER BY notice_time ASC
     </select>
 
     <!-- 메인 페이지에서 최근 3개의 공지사항 조회 -->
