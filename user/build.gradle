@@ -67,6 +67,9 @@ dependencies {
     // pageing
     implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.6'
 
+    // ReversedLinesFileReader 를 사용하기 위한 라이브러리
+    implementation 'commons-io:commons-io:2.11.0'
+
     //websocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.webjars:webjars-locator-core'

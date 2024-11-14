@@ -14,15 +14,17 @@ public class Main {
         String buildingId = "B001";
         String floor = "3";
         String houseId = "H001";
-        String iotId = "IOT1";
+        String iotId = "IOT2";
         String iotName = "에어컨";
 //        String[] categories = {"T", "H", "B", "E"}; // T: 온도, H: 습도, B: 조도, E: 전력량
         String category = "E";
-        String loc = "건어물학원 강의실1";
+        String loc = "3층 사무실";
+
+
 
         Random r = new Random();
         for (int i = 0; i < 100; i++) {
-            float value = 30.00f + r.nextFloat() * (32.00f - 30.00f);  // 센서 측정 값
+            float value = 20.00f + r.nextFloat() * (32.00f - 30.00f);  // 센서 측정 값
 
             DecimalFormat df = new DecimalFormat("#.##");  // 소수점 둘째 자리까지 포맷 지정
             String formattedValue = df.format(value);
