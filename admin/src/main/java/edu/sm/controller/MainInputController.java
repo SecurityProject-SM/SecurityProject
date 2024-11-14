@@ -52,20 +52,11 @@ public class MainInputController {
         }
     }
 
-    @RequestMapping("/additionalimpl")
-    public String additionalimpl(HttpSession session, AdminsDto adminsDto, Model model) throws Exception {
-        log.info("Received additional info: userPwd={}, userTel={}, userMail={}", adminsDto.getAdminPwd(), adminsDto.getAdminTel(), adminsDto.getAdminEmail());
-        AdminsDto sessionUser = (AdminsDto) session.getAttribute("loginid");
-
-        if (sessionUser == null) {
-            return "redirect:/login";
-        }
-
-        adminsDto.setAdminId(sessionUser.getAdminId());
-        adminsService.updateAdditionalInfo(adminsDto);
-
-        session.setAttribute("loginid", adminsDto);
-
-        return "redirect:/";
+    @RequestMapping("/registerimpl")
+    public String registerimpl(Model model, AdminsDto adminsDto) throws Exception {
+        adminsService.add(adminsDto);
+        return "redirect:/login";
     }
+
 }
+

@@ -12,7 +12,7 @@
         SELECT * FROM admins
     </select>
     <insert id="insert" parameterType="AdminsDto">
-        INSERT INTO users VALUES (#{adminId},#{buildingId},#{adminPwd},#{adminTel},#{adminEmail},#{adminName},#{0})
+        INSERT INTO admins VALUES (#{adminId},null,#{adminPwd},#{adminTel},#{adminEmail},#{adminName},0)
     </insert>
     <update id="update" parameterType="AdminsDto">
         UPDATE users SET building_id = #{buildingId},admin_pwd=#{adminPwd},admin_tel=#{adminTel},admin_email=#{adminEmail},admin_name=#{adminName},admin_power=#{adminPower} WHERE admin_id=#{adminId}
@@ -20,25 +20,5 @@
     <delete id="delete" parameterType="String">
         DELETE FROM users WHERE admin_id=#{adminId}
     </delete>
-
-
-
-<!--    이거 하다 말았음 빨리 하셈 -->
-    <!-- 카카오 회원가입 -->
-    <insert id="insertKakaoUser" parameterType="edu.sm.app.dto.AdminsDto">
-        INSERT INTO users (admin_id, admin_name)
-        VALUES (#{adminId}, #{adminName})
-    </insert>
-    <select id="findByKakaoId" parameterType="String" resultType="edu.sm.app.dto.AdminsDto">
-        SELECT * FROM users WHERE user_id = #{kakaoId}
-    </select>
-    <update id="updateAdditionalInfo" parameterType="edu.sm.app.dto.AdminsDto">
-        UPDATE users
-        SET
-            user_pwd = #{userPwd},
-            user_tel = #{userTel},
-            user_mail = #{userMail}
-        WHERE user_id = #{userId}
-    </update>
 
 </mapper>

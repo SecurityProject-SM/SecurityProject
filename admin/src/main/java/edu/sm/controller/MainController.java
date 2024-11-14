@@ -21,4 +21,10 @@ public class MainController {
         log.info("Started Login,,,,");
         return "login";
     }
+
+    @RequestMapping("/register")
+    public String register(Model model) {
+        log.info("Started register,,,,");
+        return "register";
+    }
 }

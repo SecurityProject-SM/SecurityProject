@@ -50,24 +50,24 @@
             </ul>
 
             <ul class="navbar-nav align-items-center right-nav-link">
-                <li class="nav-item dropdown-lg">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="<c:url value='/javascript:void();'/>">
-                        <i class="fa fa-envelope-open-o"></i></a>
-                </li>
-                <li class="nav-item dropdown-lg">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="<c:url value='/javascript:void();'/>">
-                        <i class="fa fa-bell-o"></i></a>
-                </li>
-                <li class="nav-item language">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="<c:url value='/javascript:void();'/>">
-                        <i class="fa fa-flag"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-item"><i class="flag-icon flag-icon-gb mr-2"></i> English</li>
-                        <li class="dropdown-item"><i class="flag-icon flag-icon-fr mr-2"></i> French</li>
-                        <li class="dropdown-item"><i class="flag-icon flag-icon-cn mr-2"></i> Chinese</li>
-                        <li class="dropdown-item"><i class="flag-icon flag-icon-de mr-2"></i> German</li>
-                    </ul>
-                </li>
+                <c:choose>
+                    <c:when test="${sessionScope.loginid == null}">
+                        <li>
+                            <a href="<c:url value="/login"/>">
+                                <i class="zmdi zmdi-view-dashboard"></i> <span>sign in</span>
+                            </a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li>
+                            <a href="<c:url value="/logoutimpl"/>">
+                                <i class="zmdi zmdi-view-dashboard"></i> <span>sign out</span>
+                            </a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+
+
                 <li class="nav-item">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
                         <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>

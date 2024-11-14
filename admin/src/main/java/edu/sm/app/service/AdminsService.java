@@ -41,18 +41,4 @@ public class AdminsService implements SBService<String, AdminsDto> {
         return adminRepository.select();
     }
 
-    // 카카오
-    public void addKakaoUser(AdminsDto adminsDto) throws Exception {
-        adminRepository.insertKakaoUser(adminsDto);
-    }
-
-    public AdminsDto findByKakaoId(String kakaoId) throws Exception {
-        return adminRepository.findByKakaoId(kakaoId);
-    }
-
-    public void updateAdditionalInfo(AdminsDto adminsDto) throws Exception {
-        log.info("Updating additional info for user ID: {}", adminsDto.getAdminId());
-        adminRepository.updateAdditionalInfo(adminsDto);
-    }
-
 }

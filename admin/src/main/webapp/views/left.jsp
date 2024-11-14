@@ -55,7 +55,7 @@
         <li>
             <a href="<c:url value="/notice"/>">
                 <i class="zmdi zmdi-calendar-check"></i> <span>공지사항</span>
-<%-- 수정사항 생기거나 필요하다면 사용할것  <small class="badge float-right badge-light">New</small>--%>
+                <%-- 수정사항 생기거나 필요하다면 사용할것  <small class="badge float-right badge-light">New</small>--%>
             </a>
         </li>
 
@@ -64,23 +64,41 @@
                 <i class="zmdi zmdi-face"></i> <span>Profile</span>
             </a>
         </li>
+        <li class="sidebar-header">회원</li>
+        <c:choose>
+            <c:when test="${sessionScope.loginid == null}">
+                <li>
+                    <a href="<c:url value="/login"/>">
+                        <i class="zmdi zmdi-lock"></i> <span>Login</span>
+                    </a>
+                </li>
 
-        <li>
-            <a href="<c:url value="/login"/>">
-                <i class="zmdi zmdi-lock"></i> <span>Login</span>
-            </a>
-        </li>
+                <li>
+                    <a href="<c:url value="/register"/>">
+                        <i class="zmdi zmdi-account-circle"></i> <span>Registration</span>
+                    </a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li>
+                    <a href="<c:url value="/logoutimpl"/>">
+                        <i class="zmdi zmdi-account-circle"></i> <span>sign out</span>
+                    </a>
+                </li>
 
-        <li>
-            <a href="<c:url value="/register.html"/>">
-                <i class="zmdi zmdi-account-circle"></i> <span>Registration</span>
-            </a>
-        </li>
+                <li>
+                    <a href="<c:url value="/mypage"/>">
+                        <i class="zmdi zmdi-account-circle"></i> <span>My Page</span>
+                    </a>
+                </li>
+            </c:otherwise>
+        </c:choose>
 
-        <li class="sidebar-header">LABELS</li>
-        <li><a href="<c:url value="/javaScript:void();"/>"><i class="zmdi zmdi-coffee text-danger"></i> <span>Important</span></a></li>
-        <li><a href="<c:url value="/javaScript:void();"/>"><i class="zmdi zmdi-chart-donut text-success"></i> <span>Warning</span></a></li>
-        <li><a href="<c:url value="/javaScript:void();"/>"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li>
+
+        <%--        <li class="sidebar-header">LABELS</li>--%>
+        <%--        <li><a href="<c:url value="/javaScript:void();"/>"><i class="zmdi zmdi-coffee text-danger"></i> <span>Important</span></a></li>--%>
+        <%--        <li><a href="<c:url value="/javaScript:void();"/>"><i class="zmdi zmdi-chart-donut text-success"></i> <span>Warning</span></a></li>--%>
+        <%--        <li><a href="<c:url value="/javaScript:void();"/>"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li>--%>
 
     </ul>
 

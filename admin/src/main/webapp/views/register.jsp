@@ -43,36 +43,49 @@
     let login = {
         init: function () {
             $('#login_form > button').click(() => {
-                this.check();
+                console.log("Submit button clicked");  // 버튼 클릭 확인용 로그
+                // this.check();
+                this.send();
             });
+
             // Enter 키 눌렀을 때 폼 제출되도록 추가
             $('#login_form').on('keyup', (event) => {
                 if (event.keyCode === 13) {  // Enter key code is 13
-                    this.check();
+                    // this.check();
+                    this.send();
                 }
             });
         },
 
-        check: function () {
-            let id = $('#id').val();
-            let pwd = $('#pwd').val();
-            if (id == '' || id == null) {
-                alert('id is mandatory');
-                $('#id').focus();
-                return;
-            }
-            if (pwd == '' || pwd == null) {
-                alert('pwd is mandatory');
-                $('#pwd').focus();
-                return;
-            }
-            this.send();
-        },
+        // check: function () {
+        //     let pwd = $('#pwd').val();
+        //     let tel = $('#tel').val();
+        //     let mail = $('#mail').val();
+        //
+        //     if (pwd == '' || pwd == null) {
+        //         alert('pwd is mandatory');
+        //         $('#pwd').focus();
+        //         return;
+        //     }
+        //
+        //     if (tel == '' || tel == null) {
+        //         alert('tel is mandatory');
+        //         $('#tel').focus();
+        //         return;
+        //     }
+        //
+        //     if (mail == '' || mail == null) {
+        //         alert('mail is mandatory');
+        //         $('#mail').focus();
+        //         return;
+        //     }
+        //     this.send();
+        // },
 
         send: function () {
-            // method, action
+            console.log("Submitting form");  // 폼 전송 확인용 로그
             $('#login_form').attr('method', 'post');
-            $('#login_form').attr('action', '/loginimpl');
+            $('#login_form').attr('action', '/registerimpl');
             $('#login_form').submit();
         }
     };
@@ -81,7 +94,6 @@
         login.init();
     })
 </script>
-
 
 <body class="bg-theme bg-theme1">
 
@@ -113,39 +125,33 @@
                     <img src="<c:url value="/assets/images/logo-icon.png"/>" alt="logo icon">
                 </div>
                 <div class="card-title text-uppercase text-center py-3">Sign In</div>
-                <form id="login_form" method="post" action="/loginimpl">
+                <form id="login_form" method="post" action="/registerimpl">
                     <div class="form-group">
-                        <label for="id" class="sr-only">Username</label>
-                        <div class="position-relative has-icon-right">
-                            <input type="text" id="id" class="form-control input-shadow" value="admin01" name="id"
-                                   placeholder="Enter Username">
-                            <div class="form-control-position">
-                                <i class="icon-user"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="pwd" class="sr-only">Password</label>
-                        <div class="position-relative has-icon-right">
-                            <input type="password" id="pwd" class="form-control input-shadow" value="adminpass1" name="pwd"
-                                   placeholder="Enter Password">
-                            <div class="form-control-position">
-                                <i class="icon-lock"></i>
-                            </div>
-                        </div>
+                        <label for="adminId" class="sr-only">Id</label>
+                        <input type="text" id="adminId" class="form-control input-shadow" name="adminId" placeholder="Enter Username">
                     </div>
 
-                    <button type="button" class="btn btn-light btn-block">Sign In</button>
-<%--                    <div class="text-center mt-3">Sign In With</div>--%>
+                    <div class="form-group">
+                        <label for="adminPwd" class="sr-only">Password</label>
+                        <input type="password" id="adminPwd" class="form-control input-shadow" name="adminPwd" placeholder="Enter Password">
+                    </div>
 
-<%--                    <div class="form-row mt-6">--%>
-<%--                        <div class="form-group mb-0 col-12" style="margin-top: 15px">--%>
-<%--                            <button type="button" class="btn btn-light btn-block"><i class="fa fa-facebook-square"></i>--%>
-<%--                                Facebook--%>
-<%--                            </button>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
+                    <div class="form-group">
+                        <label for="adminTel" class="sr-only">Tel</label>
+                        <input type="text" id="adminTel" class="form-control input-shadow" name="adminTel" placeholder="Enter Tel">
+                    </div>
 
+                    <div class="form-group">
+                        <label for="adminEmail" class="sr-only">Email</label>
+                        <input type="email" id="adminEmail" class="form-control input-shadow" name="adminEmail" placeholder="Enter Email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adminName" class="sr-only">Name</label>
+                        <input type="text" id="adminName" class="form-control input-shadow" name="adminName" placeholder="Enter Name">
+                    </div>
+
+                    <button type="button" class="btn btn-light btn-block" onclick="login.check()">Sign In</button>
                 </form>
             </div>
         </div>
