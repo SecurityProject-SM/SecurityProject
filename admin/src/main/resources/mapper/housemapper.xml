@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.sm.app.repository.HouseRepository">
+
+
+    <select id="selectOne" parameterType="String" resultType="HouseDto">
+        SELECT * FROM house WHERE user_id=#{userId}
+    </select>
+    <select id="select" resultType="HouseDto">
+        SELECT * FROM house
+    </select>
+    <insert id="insert" parameterType="HouseDto">
+        INSERT INTO house VALUES (#{userId},#{userPwd},#{userTel},#{userMail},#{userName},#{userPower},#{userFlag})
+    </insert>
+    <update id="update" parameterType="HouseDto">
+        UPDATE house SET total_floor=#{totalFloor},total_units=#{totalUnits} WHERE building_Id=#{houseId}
+    </update>
+    <delete id="delete" parameterType="String">
+        DELETE FROM house WHERE user_id=#{userId}
+    </delete>
+
+</mapper>

@@ -29,47 +29,106 @@
     <link href="<c:url value="/css/sidebar-menu.css"/>" rel="stylesheet"/>
     <!-- Custom Style-->
     <link href="<c:url value="/css/app-style.css"/>" rel="stylesheet"/>
+
+    <!-- jQuery, Popper, Bootstrap from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <style>
 </style>
 
 <script>
-</script>
+    let login = {
+        init: function () {
+            $('#login_form > button').click(() => {
+                this.check();
+            });
+            // Enter 키 눌렀을 때 폼 제출되도록 추가
+            $('#login_form').on('keyup', (event) => {
+                if (event.keyCode === 13) {  // Enter key code is 13
+                    this.check();
+                }
+            });
+        },
 
+        check: function () {
+            let id = $('#id').val();
+            let pwd = $('#pwd').val();
+            if (id == '' || id == null) {
+                alert('id is mandatory');
+                $('#id').focus();
+                return;
+            }
+            if (pwd == '' || pwd == null) {
+                alert('pwd is mandatory');
+                $('#pwd').focus();
+                return;
+            }
+            this.send();
+        },
+
+        send: function () {
+            // method, action
+            $('#login_form').attr('method', 'post');
+            $('#login_form').attr('action', '/loginimpl');
+            $('#login_form').submit();
+        }
+    };
+
+    $(function () {
+        login.init();
+    })
+</script>
 
 
 <body class="bg-theme bg-theme1">
 
 <!-- start loader -->
-<div id="pageloader-overlay" class="visible incoming"><div class="loader-wrapper-outer"><div class="loader-wrapper-inner" ><div class="loader"></div></div></div></div>
+<div id="pageloader-overlay" class="visible incoming">
+    <div class="loader-wrapper-outer">
+        <div class="loader-wrapper-inner">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
 <!-- end loader -->
 
 <!-- Start wrapper-->
 <div id="wrapper">
 
-    <div class="loader-wrapper"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+    <div class="loader-wrapper">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
     <div class="card card-authentication1 mx-auto my-5">
         <div class="card-body">
             <div class="card-content p-2">
                 <div class="text-center">
-                    <img src="assets/images/logo-icon.png" alt="logo icon">
+                    <img src="<c:url value="/assets/images/logo-icon.png"/>" alt="logo icon">
                 </div>
                 <div class="card-title text-uppercase text-center py-3">Sign In</div>
-                <form>
+                <form id="login_form" method="post" action="/loginimpl">
                     <div class="form-group">
-                        <label for="exampleInputUsername" class="sr-only">Username</label>
+                        <label for="id" class="sr-only">Username</label>
                         <div class="position-relative has-icon-right">
-                            <input type="text" id="exampleInputUsername" class="form-control input-shadow" placeholder="Enter Username">
+                            <input type="text" id="id" class="form-control input-shadow" value="admin01" name="id"
+                                   placeholder="Enter Username">
                             <div class="form-control-position">
                                 <i class="icon-user"></i>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword" class="sr-only">Password</label>
+                        <label for="pwd" class="sr-only">Password</label>
                         <div class="position-relative has-icon-right">
-                            <input type="password" id="exampleInputPassword" class="form-control input-shadow" placeholder="Enter Password">
+                            <input type="password" id="pwd" class="form-control input-shadow" value="adminpass1" name="pwd"
+                                   placeholder="Enter Password">
                             <div class="form-control-position">
                                 <i class="icon-lock"></i>
                             </div>
@@ -81,7 +140,9 @@
 
                     <div class="form-row mt-6">
                         <div class="form-group mb-0 col-12" style="margin-top: 15px">
-                            <button type="button" class="btn btn-light btn-block"><i class="fa fa-facebook-square"></i> Facebook</button>
+                            <button type="button" class="btn btn-light btn-block"><i class="fa fa-facebook-square"></i>
+                                Facebook
+                            </button>
                         </div>
                     </div>
 
@@ -89,24 +150,23 @@
             </div>
         </div>
         <div class="card-footer text-center py-3">
-            <p class="text-warning mb-0">Do not have an account? <a href="/register"> Sign Up here</a></p>
+            <p class="text-warning mb-0">Do not have an account? <a href="<c:url value="//register"/>"> Sign Up here</a></p>
         </div>
     </div>
-
 
 
 </div><!--wrapper-->
 
 <!-- Bootstrap core JavaScript-->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/popper.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
+<script src="<c:url value="/js/jquery.min.js"/>"></script>
+<script src="<c:url value="/js/popper.min.js"/>"></script>
+<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 
 <!-- sidebar-menu js -->
-<script src="assets/js/sidebar-menu.js"></script>
+<script src="<c:url value="/js/sidebar-menu.js"/>"></script>
 
 <!-- Custom scripts -->
-<script src="assets/js/app-script.js"></script>
+<script src="<c:url value="/js/app-script.js"/>"></script>
 
 
 </body>

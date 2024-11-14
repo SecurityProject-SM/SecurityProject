@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.sm.app.repository.BuildingLogRepository">
+
+
+    <select id="selectOne" parameterType="Integer" resultType="BuildingLogDto">
+        SELECT * FROM buildinglog WHERE log_id=#{logId}
+    </select>
+    <select id="select" resultType="BuildingLogDto">
+        SELECT * FROM buildinglog
+    </select>
+    <insert id="insert" parameterType="BuildingLogDto">
+        INSERT INTO buildinglog VALUES (#{logId},#{buildingId},#{buildingCat},#{buildingValue},#{buildingFloor},SYSDATE())
+    </insert>
+<!--    <update id="update" parameterType="BuildingLogDto">-->
+<!--        UPDATE buildinglog SET-->
+<!--    </update>-->
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM buildinglog WHERE log_id=#{logId}
+    </delete>
+
+</mapper>

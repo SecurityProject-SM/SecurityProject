@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.sm.app.repository.ParkLogRepository">
+
+
+    <select id="selectOne" parameterType="Integer" resultType="ParkLogDto">
+        SELECT * FROM parklog WHERE parklog_id=#{parkLogDto}
+    </select>
+    <select id="select" resultType="ParkLogDto">
+        SELECT * FROM parklog
+    </select>
+    <insert id="insert" parameterType="ParkLogDto">
+        INSERT INTO parklog VALUES (#{parkLogDto},#{parkId},#{carNum},SYSDATE(),#{carOut},#{carPay})
+    </insert>
+<!--    <update id="update" parameterType="BuildingLogDto">-->
+<!--        UPDATE buildinglog SET-->
+<!--    </update>-->
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM parklog WHERE parklog_id=#{parkLogId}
+    </delete>
+
+    <select id="findByCarNum" parameterType="string" resultType="ParkLogDto">
+        SELECT * FROM parklog
+        WHERE car_num LIKE CONCAT('%', #{carNum}, '%')
+          AND (car_pay IS NULL)
+    </select>
+
+
+</mapper>

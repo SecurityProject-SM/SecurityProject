@@ -29,32 +29,32 @@
     <ul class="sidebar-menu do-nicescrol">
         <li class="sidebar-header">MAIN NAVIGATION</li>
         <li>
-            <a href="<c:url value="/index.html"/>">
+            <a href="<c:url value="/"/>">
                 <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
             </a>
         </li>
 
         <li>
-            <a href="<c:url value="/icons.html"/>">
-                <i class="zmdi zmdi-invert-colors"></i> <span>UI Icons</span>
+            <a href="<c:url value="/users"/>">
+                <i class="zmdi zmdi-assignment-account"></i> <span>회원관리</span>
             </a>
         </li>
 
         <li>
-            <a href="<c:url value="/forms.html"/>">
-                <i class="zmdi zmdi-format-list-bulleted"></i> <span>Forms</span>
+            <a href="<c:url value="/energy"/>">
+                <i class="zmdi zmdi-format-list-bulleted"></i> <span>에너지 관리</span>
             </a>
         </li>
 
         <li>
-            <a href="<c:url value="/tables.html"/>">
-                <i class="zmdi zmdi-grid"></i> <span>Tables</span>
+            <a href="<c:url value="/park"/>">
+                <i class="zmdi zmdi-grid"></i> <span>주차 관리</span>
             </a>
         </li>
 
         <li>
-            <a href="<c:url value="/calendar.html"/>">
-                <i class="zmdi zmdi-calendar-check"></i> <span>Calendar</span>
+            <a href="<c:url value="/notice"/>">
+                <i class="zmdi zmdi-calendar-check"></i> <span>공지사항</span>
 <%-- 수정사항 생기거나 필요하다면 사용할것  <small class="badge float-right badge-light">New</small>--%>
             </a>
         </li>
