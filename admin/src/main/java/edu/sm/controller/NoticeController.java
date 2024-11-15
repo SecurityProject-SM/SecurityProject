@@ -56,8 +56,6 @@ public class NoticeController {
                             @RequestParam("noticeName") String title,
                             @RequestParam("noticeDetail") String content) throws Exception {
 
-        log.info("writeimpl 실행됨");
-
         AdminsDto adminsDto = (AdminsDto) session.getAttribute("loginid");
         if (adminsDto != null) {
             String adminId = adminsDto.getAdminId();
@@ -72,4 +70,39 @@ public class NoticeController {
         return "redirect:/notice";
     }
 
+    @RequestMapping("/detail")
+    public String detail(Model model, @RequestParam("id") int id) throws Exception {
+        NoticeDto noticeDto = null;
+        noticeDto = noticeService.get(id);
+
+        model.addAttribute("notice", noticeDto);
+        model.addAttribute("center", "notice/detail");
+
+        return "index";
+    }
+
+    @RequestMapping("/updateimpl")
+    public String updateimpl(Model model, NoticeDto noticeDto, HttpSession session,
+                             @RequestParam("noticeName") String title,
+                             @RequestParam("noticeDetail") String content) throws Exception {
+
+        AdminsDto adminsDto = (AdminsDto) session.getAttribute("loginid");
+        if (adminsDto != null) {
+            String adminId = adminsDto.getAdminId();
+            noticeDto.setAdminId(adminId);
+        }
+
+        noticeDto.setNoticeName(title);
+        noticeDto.setNoticeDetail(content);
+
+        noticeService.modify(noticeDto);
+
+        return "redirect:/notice";
+    }
+
+    @RequestMapping("/deleteimpl")
+    public String deleteimpl(Model model, @RequestParam("noticeId") int id) throws Exception {
+        noticeService.del(id);
+        return "redirect:/notice";
+    }
 }
