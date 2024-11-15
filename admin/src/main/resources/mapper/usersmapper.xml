@@ -38,4 +38,29 @@
         WHERE user_id = #{userId}
     </update>
 
+    <select id="getUsersPage" resultType="edu.sm.app.dto.UsersDto">
+        SELECT user_id AS userId,
+               user_pwd AS userPwd,
+               user_tel AS userTel,
+               user_mail AS userMail,
+               user_name AS userName,
+               user_power AS userPower,
+               user_flag AS userFlag
+        FROM users
+        ORDER BY user_id ASC
+    </select>
+
+    <select id="getFindPage" parameterType="edu.sm.app.dto.Search" resultType="edu.sm.app.dto.UsersDto">
+        SELECT user_id AS userId,
+               user_pwd AS userPwd,
+               user_tel AS userTel,
+               user_mail AS userMail,
+               user_name AS userName,
+               user_power AS userPower,
+               user_flag AS userFlag
+        FROM users
+        WHERE user_name LIKE CONCAT('%', #{search}, '%')
+        ORDER BY user_id ASC
+    </select>
+
 </mapper>
