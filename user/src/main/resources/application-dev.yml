@@ -69,7 +69,7 @@ app:
   #    server-url: http://172.16.21.91:81
   dir:
     imgdir: file:///c:/springsm/imgs/    # 위치가 springsm 하위가 아니어도 상관없음
-    uploaddir: c:/springsm/imgs/         # 파일을 저장할때는 아펭 file:/// 빠짐
+    uploaddir: c:/springsm/imgs/         # 파일을 저장할때는 앞에 file:/// 빠짐
     logdir: file:///c:/springsm/logs/
     readlogdir: c:/springsm/logs/
     uploadimgdir: c:/springsm/imgs/
@@ -90,3 +90,4 @@ app:
     api-key: "5476864681222488"
     api-secret: "xV6REJbttIbs9wvCNZj1xitzDyPsKNzfk4VahE2UYuBiNcd7BB4D9JqkqZuw85dbcyIqdOPMqaRiuuph"
     channel-key: "channel-key-0aa64efe-c9da-41ec-a022-03e0b5d90950"
+
