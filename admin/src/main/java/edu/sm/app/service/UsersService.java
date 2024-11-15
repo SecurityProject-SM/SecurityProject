@@ -70,7 +70,6 @@ public class UsersService implements SBService<String, UsersDto> {
     }
 
 
-
     public List<UsersDto> getUsersByPowerPage(int pageNo) {
         PageHelper.startPage(pageNo, 10);  // 페이지당 10개의 항목 표시
         return usersRepository.getUsersByPower();

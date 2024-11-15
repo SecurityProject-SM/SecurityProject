@@ -60,8 +60,8 @@
         </li>
 
         <li>
-            <a href="<c:url value="/profile.html"/>">
-                <i class="zmdi zmdi-face"></i> <span>Profile</span>
+            <a href="<c:url value="/repairs"/>">
+                <i class="zmdi zmdi-face"></i> <span>유지보수</span>
             </a>
         </li>
         <li class="sidebar-header">회원</li>

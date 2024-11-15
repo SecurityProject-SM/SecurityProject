@@ -21,4 +21,9 @@
         DELETE FROM repairs WHERE repair_id=#{repairId}
     </delete>
 
+    <!-- 페이징처리 -->
+    <select id="getRepairs" resultType="edu.sm.app.dto.RepairsDto">
+        SELECT * FROM repairs ORDER BY repair_id ASC
+    </select>
+
 </mapper>
