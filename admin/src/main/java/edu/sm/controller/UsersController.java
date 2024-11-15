@@ -1,7 +1,7 @@
 package edu.sm.controller;
 
 import com.github.pagehelper.PageInfo;
-import edu.sm.app.dto.NoticeDto;
+import edu.sm.app.dto.AdminsDto;
 import edu.sm.app.dto.Search;
 import edu.sm.app.dto.UsersDto;
 import edu.sm.app.service.UsersService;
@@ -41,6 +41,26 @@ public class UsersController {
         model.addAttribute("target", "users");
         model.addAttribute("center", "users/users");
         return "index";
+    }
+
+    @RequestMapping("/detail")
+    public String detail(Model model, @RequestParam("id") String id) throws Exception {
+        UsersDto usersDto = null;
+        usersDto = usersService.get(id);
+
+        model.addAttribute("users", usersDto);
+        model.addAttribute("center", "users/detail");
+
+        return "index";
+    }
+
+    @RequestMapping("/updateimpl")
+    public String updateimpl(Model model, UsersDto usersDto,
+                             @RequestParam("userPwd") String userPwd,
+                             @RequestParam("userTel") String userTel) throws Exception {
+
+
+        return "redirect:/notice";
     }
 
 

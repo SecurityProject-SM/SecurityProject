@@ -63,7 +63,7 @@
                                     <tbody>
                                     <c:forEach var="user" items="${cpage.list}">
                                         <tr>
-                                            <td>${user.userId}</td>
+                                            <td><a href="/users/detail?id=${user.userId}">${user.userId}</a></td>
                                             <td>${user.userMail}</td>
                                             <td>${user.userName}</td>
                                             <td>${user.userTel}</td>
