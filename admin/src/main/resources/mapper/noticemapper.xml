@@ -16,8 +16,8 @@
 
     <!-- 공지사항 추가 -->
     <insert id="insert" parameterType="edu.sm.app.dto.NoticeDto">
-        INSERT INTO notice (notice_id, admin_id, notice_name, notice_detail, notice_time)
-        VALUES (#{noticeId}, #{adminId}, #{noticeName}, #{noticeDetail}, SYSDATE())
+        INSERT INTO notice (admin_id, notice_name, notice_detail, notice_time)
+        VALUES (#{adminId}, #{noticeName}, #{noticeDetail}, SYSDATE())
     </insert>
 
     <!-- 공지사항 수정 -->

@@ -1,9 +1,11 @@
 package edu.sm.controller;
 
 import com.github.pagehelper.PageInfo;
+import edu.sm.app.dto.AdminsDto;
 import edu.sm.app.dto.NoticeDto;
 import edu.sm.app.dto.Search;
 import edu.sm.app.service.NoticeService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -42,4 +44,32 @@ public class NoticeController {
         model.addAttribute("center", "notice/notice");
         return "index";
     }
+
+    @RequestMapping("/write")
+    public String write(Model model, NoticeDto noticeDto) {
+        model.addAttribute("center", "notice/write");
+        return "index";
+    }
+
+    @RequestMapping("/writeimpl")
+    public String writeimpl(Model model, NoticeDto noticeDto, HttpSession session,
+                            @RequestParam("noticeName") String title,
+                            @RequestParam("noticeDetail") String content) throws Exception {
+
+        log.info("writeimpl 실행됨");
+
+        AdminsDto adminsDto = (AdminsDto) session.getAttribute("loginid");
+        if (adminsDto != null) {
+            String adminId = adminsDto.getAdminId();
+            noticeDto.setAdminId(adminId);
+        }
+
+        noticeDto.setNoticeName(title);
+        noticeDto.setNoticeDetail(content);
+
+        noticeService.add(noticeDto);
+
+        return "redirect:/notice";
+    }
+
 }
