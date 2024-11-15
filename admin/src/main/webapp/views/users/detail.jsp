@@ -37,7 +37,7 @@
                             <div class="card-title text-center">공지사항 수정</div>
                             <hr>
                             <form action="/users/updateimpl" method="post">
-                                <input type="hidden" name="noticeId" value="${users.userId}">
+                                <input type="hidden" name="usersId" value="${users.userId}">
 
                                 <div class="form-group">
                                     <label for="userPwd">password</label>
@@ -63,12 +63,14 @@
                                            value="${users.userName}">
                                 </div>
 
+                                <%--  회원 권한설정 하는 부분 select or checkbox 사용 추가 필  --%>
+
 
 
                                 <div class="form-group text-right">
                                     <button type="submit" class="btn btn-light btn-round px-5">수정</button>
-                                    <form action="/notice/deleteimpl" method="post" style="display:inline;">
-                                        <input type="hidden" name="noticeId" value="${notice.noticeId}">
+                                    <form action="/users/deleteimpl" method="post" style="display:inline;">
+                                        <input type="hidden" name="usersId" value="${users.userId}">
                                         <button type="submit" class="btn btn-danger btn-round px-5" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
                                     </form>
                                 </div>

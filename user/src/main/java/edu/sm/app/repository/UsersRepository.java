@@ -5,6 +5,8 @@ import edu.sm.app.frame.SBRepository;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface UsersRepository extends SBRepository<String, UsersDto> {
@@ -14,4 +16,7 @@ public interface UsersRepository extends SBRepository<String, UsersDto> {
     // 기본 사용자 정보만 삽입하는 메서드
     void insertKakaoUser(UsersDto usersDto);
     void updateAdditionalInfo(UsersDto usersDto);
+
+    List<UsersDto> getUsersByPower();
+
 }
