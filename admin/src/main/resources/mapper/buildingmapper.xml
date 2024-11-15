@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.sm.app.repository.BuildingRepository">
+
+
+    <select id="selectOne" parameterType="String" resultType="BuildingDto">
+        SELECT * FROM building WHERE building_id=#{buildingId}
+    </select>
+    <select id="select" resultType="BuildingDto">
+        SELECT * FROM building
+    </select>
+    <insert id="insert" parameterType="BuildingDto">
+        INSERT INTO building VALUES (#{buildingId},#{buildingLoc},#{totalFloor},#{totalUnits},#{lng},#{lat})
+    </insert>
+    <update id="update" parameterType="BuildingDto">
+        UPDATE building SET total_floor=#{totalFloor},total_units=#{totalUnits} WHERE building_Id=#{buildingId}
+    </update>
+    <delete id="delete" parameterType="String">
+        DELETE FROM building WHERE building_id=#{buildingId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,4 @@
+spring:
+  profiles:
+    active: dev
+#    dev와 promotion, real 설정을 다르게 해두고 바꿔가면서 사용 가능

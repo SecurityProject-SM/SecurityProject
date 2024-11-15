@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.sm.app.repository.ContractRepository">
+
+
+    <select id="selectOne" parameterType="Integer" resultType="ContractDto">
+        SELECT * FROM contract WHERE contract_id=#{contractId}
+    </select>
+    <select id="select" resultType="ContractDto">
+        SELECT * FROM contract
+    </select>
+    <insert id="insert" parameterType="ContractDto">
+        INSERT INTO contract VALUES (#{contractId},#{houseId},#{userId},SYSDATE(),#{contractEnd},#{contractPay},#{contractDeposit})
+    </insert>
+    <update id="update" parameterType="ContractDto">
+        UPDATE contract SET contract_end=#{contractEnd},contract_pay=#{contractPay},contract_deposit=#{contractDeposit} WHERE contract_id=#{contractId}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM contract WHERE contract_id=#{contractId}
+    </delete>
+
+    <select id="selectByUserId" parameterType="String" resultType="ContractDto">
+        SELECT * FROM contract WHERE user_id=#{userId}
+    </select>
+</mapper>

@@ -1,0 +1,88 @@
+# tomcat server setting
+server:
+  port: 82  # HTTPS를 사용할 포트 (기본 포트가 8443)
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12  # 인증서 파일 경로
+    key-store-password: "111111"  # 인증서 생성 시 사용한 비밀번호
+    key-store-type: PKCS12  # 인증서 유형
+
+# Spring boot environment settings
+spring:
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .jsp
+
+  datasource:
+    # SQL 로그를 찍기위해 위에것을 사용 실 서비스 시에는 아래 드라이버 사용
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/final_project?characterEncoding=utf8
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://127.0.0.1:3306/immersive?characterEncoding=utf8
+    username: root
+    password: 1234
+
+# Mybatis settings
+mybatis:
+  type-aliases-package: edu.sm.app.dto     # 이 경로 아래에있는 클래스들을 데이터베이스의 테이블들과의 1대1 매핑으로 사용하겠다
+  mapper-locations: classpath:/mapper/*.xml
+  # constructor 사용하기 위해 추가
+  configuration:
+    map-underscore-to-camel-case: true
+  # classpath = resources 를 의미함
+  # resources 아래 mapper 아래 xml로 sql문을 작성할거임
+
+
+
+
+#  db세팅
+#  datasource:
+#    #driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#    #url: jdbc:log4jdbc:mysql://127.0.0.1:3306/shopdb?characterEncoding=utf8
+#    #driver-class-name: com.mysql.cj.jdbc.Driver
+#    #url: jdbc:mysql://127.0.0.1:3306/shopdb?characterEncoding=utf8
+#    url: jdbc:mysql://127.0.0.1:3306/shopdb?serverTimezone=Asia/Seoul
+#    username: shop
+#    password: 1234
+
+#mybatis:
+#  type-aliases-package: com.example.web01.app.dto
+#  mapper-locations: classpath:/mapper/*.xml
+#  configuration:
+#    map-underscore-to-camel-case: true
+
+# log settings
+logging:
+  level:
+    root: info
+#    debug > info > error (정보 출력량) 중 선택하여 개발, 서비스에 맞춰 변경
+
+# 위까지는 spring꺼 아래부터는 팀, 개인의 변수들
+app:
+  url:
+  #    server-url: http://172.16.21.91:81
+  dir:
+    imgdir: file:///c:/springsm/imgs/    # 위치가 springsm 하위가 아니어도 상관없음
+    uploaddir: c:/springsm/imgs/         # 파일을 저장할때는 아펭 file:/// 빠짐
+    logdir: file:///c:/springsm/logs/
+    readlogdir: c:/springsm/logs/
+    uploadimgdir: c:/springsm/imgs/
+
+  key:
+    wkey: ENC(4PAWoDD5oYX4vQinseKwW+ga3MPEBm3s68OnAiWR1mfpdUbARblM1k4ued+xkw4ok4QfuDFSPfP2qc3IpN1np9T5cKv/PGilw2hR/lV33dRNMcwwheKLtejQwPXKTiXM+t/0opitWOGchB5p9ZtsZNHXx8/qT0pn)
+    # 기상청 키값
+    okey: d9bd21f2e39484f2a5b501bcd28825b3
+    # open weather 키값
+    algo: PBEWithMD5AndDES    # ENC변경 필 (보안사유)
+    skey: mykey
+
+  kakao:
+    client-id: "18bb7ea0e94b0d6aa04bf15517db1397"  # 카카오 개발자 콘솔에서 얻은 REST API 키
+    redirect-uri: "http://127.0.0.1/oauth/kakao/callback"  # Redirect URI 설정
+    token-uri: "https://kauth.kakao.com/oauth/token"  # 카카오에서 AccessToken 요청용 URI
+    user-info-uri: "https://kapi.kakao.com/v2/user/me"  # 사용자 정보 요청용 URI

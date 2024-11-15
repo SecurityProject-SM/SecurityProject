@@ -9,6 +9,8 @@
         </processorPath>
         <module name="user.main" />
         <module name="user.test" />
+        <module name="admin.test" />
+        <module name="admin.main" />
       </profile>
     </annotationProcessing>
   </component>
