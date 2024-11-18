@@ -146,29 +146,30 @@
                                     </tbody>
                                 </table>
 
-                                </table>
+                                <button onclick="location.href='/repairs/calender'"> 캘린더 이동버튼 (임시) <- 디자인 나중에 수정</button>
+
 
                                 <div style="margin-top: 15px">
                                     <c:if test="${cpage.getSize() != null}">
                                         <jsp:include page="../searchnav.jsp"/>
                                     </c:if>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div><!--End Row-->
+                </div><!--End Row-->
 
 
-        </div>
-        <!-- End container-fluid-->
+            </div>
+            <!-- End container-fluid-->
 
-    </div><!--End content-wrapper-->
-    <!--Start Back To Top Button-->
-    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
-    <!--End Back To Top Button-->
+        </div><!--End content-wrapper-->
+        <!--Start Back To Top Button-->
+        <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+        <!--End Back To Top Button-->
 
 
-</div><!--End wrapper-->
+    </div><!--End wrapper-->
 
 </body>
 

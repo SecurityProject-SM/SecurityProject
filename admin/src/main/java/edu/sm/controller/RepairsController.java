@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/repairs")
-public class ReapirsController {
+public class RepairsController {
 
     final RepairsService repairsService;
 
@@ -29,7 +29,7 @@ public class ReapirsController {
         return "index";
     }
 
-    @RequestMapping("/calander")
+    @RequestMapping("/calender")
     public String calander(Model model) {
 
         model.addAttribute("center", "repairs/calender");
