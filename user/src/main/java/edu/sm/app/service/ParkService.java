@@ -45,11 +45,11 @@ public class ParkService implements SBService<Integer, ParkDto> {
     }
 
 
-    // 차량 번호를 통해 차량 정보를 조회하는 메서드
-    public ParkDto findByCarNumber(String carNumber) {
-        return parkRepository.findByCarNumber(carNumber);
-    }
-
+//    // 차량 번호를 통해 차량 정보를 조회하는 메서드
+//    public ParkDto findByCarNumber(String carNumber) {
+//        return parkRepository.findByCarNumber(carNumber);
+//    }
+//
 //    public JSONObject parksetsum(String carNumber) {
 //        JSONObject feeResult = new JSONObject();
 //        ParkDto park = findByCarNumber(carNumber);

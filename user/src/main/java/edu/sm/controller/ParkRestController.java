@@ -1,12 +1,15 @@
 package edu.sm.controller;
 
 import edu.sm.app.dto.ParkDto;
+import edu.sm.app.dto.ParkLogDto;
+import edu.sm.app.service.ParkLogService;
 import edu.sm.app.service.ParkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -19,6 +22,7 @@ import java.util.List;
 public class ParkRestController {
 
     final ParkService parkService;
+    final ParkLogService parkLogService;
 
     @RequestMapping("/getctime")
     public Object getctime() {
@@ -53,11 +57,11 @@ public class ParkRestController {
         return result;
     }
 
-//    @RequestMapping("/parksetsum")
-//    public Object parksetsum(String carNumber) {
-//        // 요금 계산은 Service 계층에서 수행
-//        return parkService.parksetsum(carNumber);
-//    }
+    @RequestMapping("/parksetsum")
+    public Object parksetsum(String carNumber) {
+        // 요금 계산은 Service 계층에서 수행
+        return parkLogService.parksetsum(carNumber);
+    }
 
 //    @RequestMapping("/car_find")
 //    public JSONArray carfind(@RequestParam("carNum") String carNum) throws Exception {

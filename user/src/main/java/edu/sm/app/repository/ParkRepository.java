@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface ParkRepository extends SBRepository<Integer, ParkDto> {
-    ParkDto findByCarNumber(String carNumber);
+//    ParkDto findByCarNumber(String carNumber);
 }

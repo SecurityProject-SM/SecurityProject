@@ -18,4 +18,6 @@ public class ParkLogDto {
     private LocalDateTime carIn;
     private LocalDateTime carOut;
     private int carPay;
+
+    public boolean getParkStat(){return false;}
 }

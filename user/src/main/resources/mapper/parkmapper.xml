@@ -20,8 +20,8 @@
     <delete id="delete" parameterType="Integer">
         DELETE FROM park WHERE park_id=#{parkId}
     </delete>
-    <select id="findByCarNumber" parameterType="String" resultType="edu.sm.app.dto.ParkDto">
-        SELECT * FROM parklog WHERE car_num = #{carNumber}
-    </select>
+<!--    <select id="findByCarNumber" parameterType="String" resultType="edu.sm.app.dto.ParkDto">-->
+<!--        SELECT * FROM parklog WHERE car_num = #{carNumber}-->
+<!--    </select>-->
 
 </mapper>
