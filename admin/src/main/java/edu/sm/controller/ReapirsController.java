@@ -37,4 +37,9 @@ public class ReapirsController {
 
     // 유지보수 메인페이지 띄우는것부터 시작하셈 ---------------------------------------
 
+    @RequestMapping("/calender")
+    public String calender(Model model) {
+        model.addAttribute("center", "repairs/center");
+        return"index";
+    }
 }
