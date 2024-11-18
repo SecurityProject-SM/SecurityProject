@@ -15,5 +15,4 @@ public interface SBService<K,V>{
     V get(K k) throws Exception;
     List<V> get() throws Exception;
 
-//    List<ParkDto> findByCarNumber() throws Exception;
 }

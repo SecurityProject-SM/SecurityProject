@@ -40,9 +40,7 @@ public class BuildingLogService implements SBService<Integer, BuildingLogDto> {
         return buildingLogRepository.select();
     }
 
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
+
 
 
 }

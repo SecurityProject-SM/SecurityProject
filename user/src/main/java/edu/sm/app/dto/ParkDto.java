@@ -12,14 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ParkDto {
-    private int parklogId; // PK
-    private int parkId; // FK
-    private String carNum;
-    public LocalDateTime carIn; // 입차 시간
-    public LocalDateTime carOut; // 출차 시간
-    private int carPay; // 주차 요금
-
-    public boolean getParkStat() {
-        return false;
-    }
+    private int parkId; //PK
+    private String buildingId; //FK
+    private Boolean parkStat;
 }
