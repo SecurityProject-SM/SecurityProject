@@ -10,7 +10,7 @@ import java.util.Random;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        String url = "http://127.0.0.1/iot/data";
+        String url = "https://127.0.0.1:8443/iot/data";
         String buildingId = "B001";
         String floor = "3";
         String houseId = "H001";

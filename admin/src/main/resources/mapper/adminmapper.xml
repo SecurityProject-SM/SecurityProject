@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.sm.app.repository.AdminRepository">
+
+
+    <select id="selectOne" parameterType="String" resultType="AdminsDto">
+        SELECT * FROM admins WHERE admin_id=#{adminId}
+    </select>
+    <select id="select" resultType="AdminsDto">
+        SELECT * FROM admins
+    </select>
+    <insert id="insert" parameterType="AdminsDto">
+        INSERT INTO admins VALUES (#{adminId},null,#{adminPwd},#{adminTel},#{adminEmail},#{adminName},0)
+    </insert>
+    <update id="update" parameterType="AdminsDto">
+        UPDATE users SET building_id = #{buildingId},admin_pwd=#{adminPwd},admin_tel=#{adminTel},admin_email=#{adminEmail},admin_name=#{adminName},admin_power=#{adminPower} WHERE admin_id=#{adminId}
+    </update>
+    <delete id="delete" parameterType="String">
+        DELETE FROM users WHERE admin_id=#{adminId}
+    </delete>
+
+</mapper>

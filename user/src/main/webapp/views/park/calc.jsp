@@ -6,16 +6,54 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--결제 SDK--%>
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
 
 <html>
 <head>
-    <title>Title</title>
+    <title>주차 요금 정산</title>
 </head>
 
 <style>
 </style>
 
 <script>
+    // 포트원 결제 요청 함수
+    function requestPay() {
+        const IMP = window.IMP; // 포트원 결제 객체 초기화
+        IMP.init('imp84274542'); // 가맹점 식별 코드 (포트원에서 발급한 고객사 식별 코드)
+
+        // 결제 요청 정보
+        IMP.request_pay({
+            pg: 'tosspayments', // 사용할 PG사 (토스)
+            pay_method: 'card', // 결제수단 (카드, 계좌이체 등)
+            merchant_uid: 'order_' + new Date().getTime(), // 주문 번호 (유니크한 값)
+            name: '주차 정산 요금', // 주문명
+            amount: 5000 // 결제 금액 (원화 단위)
+        }, function (rsp) {
+            if (rsp.success) {
+                // 결제 성공 시 처리 로직
+                alert('결제가 완료되었습니다.\n결제 금액: ' + rsp.paid_amount + '원');
+
+                // 서버에 결제 검증 요청 (imp_uid 전송)
+                fetch('/park/payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ impUid: rsp.imp_uid }),
+                })
+                    .then(response => response.text())
+                    .then(data => alert(data))
+                    .catch(error => console.error('결제 검증 중 오류:', error));
+            } else {
+                // 결제 실패 시 처리 로직
+                alert('결제에 실패하였습니다.\n에러 내용: ' + rsp.error_msg);
+            }
+        });
+    }
 </script>
 
 <body>
@@ -28,8 +66,14 @@
             </div>
 
             <button type="button" id="update_btn" class="btn btn-primary">찾기</button>
+            <a class="btn btn-light" role="button" onclick="requestPay()" style="text-align: center">정산하기</a>
         </form>
     </div>
+
+</div>
+</body>
+
+<footer>
     <div class="row mt-4">
         <div class="col-lg-7 mb-lg-0 mb-4">
             <div class="card ">
@@ -70,6 +114,6 @@
             </div>
         </div>
     </div>
-</div>
-</body>
+</footer>
+
 </html>

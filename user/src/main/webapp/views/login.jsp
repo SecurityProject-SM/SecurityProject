@@ -32,7 +32,8 @@
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- jQuery CDN 추가 -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRkBsu0Ml5l4Klp2aKBu6pNFz9I7O07Ksr/6Ak3zx" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+<%--    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRkBsu0Ml5l4Klp2aKBu6pNFz9I7O07Ksr/6Ak3zx" crossorigin="anonymous"--%>
     <!-- CSS Files -->
     <link id="pagestyle" href="<c:url value='/css/argon-dashboard.css?v=2.1.0'/>" rel="stylesheet"/>
 
@@ -192,11 +193,11 @@
                     <!-- 오른쪽 이미지 (배경) -->
                     <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
                         <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
-                             style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
-                                    background-size: cover;">
+                             style="background-image: url('https://raw.githubusercontent.com/HosikKim/SmartBuilding-Management-System/refs/heads/cmlee/user/src/main/resources/static/img/photo-1478186014654-5a7e3898daa5.jpg?token=GHSAT0AAAAAAC2OQ7SK6V7QA3H3VYAZMXBKZZVTOSQ');
+                                    background-size: contain;">
                             <span class="mask bg-gradient-primary opacity-6"></span>
-                            <h4 class="mt-5 text-white font-weight-bolder position-relative">"Attention is the new currency"</h4>
-                            <p class="text-white position-relative">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
+                            <h4 class="mt-5 text-white font-weight-bolder position-relative" style="text-shadow:3px 3px #a8b8d8">"지능형 스마트 빌딩 관리, 지금 시작하세요."</h4>
+                            <p class="text-white position-relative">에너지 최적화, 유지보수, 자동화, 사용자 편의성 극대화</p>
                         </div>
                     </div>
 

@@ -41,6 +41,35 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
+<script>
+    let park = {
+        loadingShown: false,
+        init: function () {
+            setInterval(this.parkstat, 5000);
+        },
+
+        parkstat: function () {
+            $.ajax({
+                url: "/getparkstat",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var parkingCount = 24-data.availableCount;
+                    $("#availableCount").text(data.availableCount);
+                    $("#parkingCount").text(parkingCount);
+                },
+                error: function (error) {
+                    console.error("주차 상태를 불러오는 중 오류 발생:", error);
+                },
+            });
+        }
+    };
+
+    $(function(){
+        park.init();
+    });
+</script>
+
 <body class="g-sidenav-show bg-gray-100">
 <%--<div class="min-height-300 bg-dark position-absolute w-100" style="background-image: url('<c:url value="/img/bruce-mars.jpg"/>')"></div>--%>
 <div class="min-height-300 bg-dark position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
@@ -52,10 +81,7 @@
         <div class="container-fluid py-1 px-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
-                </ol>
-                <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+                    </ol>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">

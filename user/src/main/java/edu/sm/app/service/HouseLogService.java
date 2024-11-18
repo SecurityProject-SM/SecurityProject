@@ -1,6 +1,7 @@
 package edu.sm.app.service;
 
 import edu.sm.app.dto.HouseLogDto;
+import edu.sm.app.dto.ParkDto;
 import edu.sm.app.frame.SBService;
 import edu.sm.app.repository.HouseLogRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,10 @@ public class HouseLogService implements SBService<Integer, HouseLogDto> {
     @Override
     public List<HouseLogDto> get() throws Exception {
         return houseLogRepository.select();
+    }
+
+    @Override
+    public List<ParkDto> findByCarNumber() throws Exception {
+        return List.of();
     }
 }

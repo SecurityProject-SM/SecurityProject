@@ -3,7 +3,6 @@
   Date: 2024-11-01
   Time: 오후 1:57
 --%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -108,6 +107,14 @@
     let center = {
         init: function () {
             $.ajax({
+                url:'<c:url value="/wh"/>',
+                success : (result)=>{
+                    let wtext = result.response.body.items.item[0].wfSv;
+                    $('#dayweather').text(wtext);
+                }
+            });
+
+            $.ajax({
                 url: '<c:url value="/ow"/>',
                 success: (result) => {
                     $('#weatherContainer').empty();
@@ -138,11 +145,8 @@
         }
     };
 
-
-
     $(function () {
         center.init();
-
     });
 </script>
 
@@ -172,7 +176,8 @@
                     <h6 class="text-capitalize">날씨</h6>
                 </div>
                 <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
-                <h1 style="height: 150px">test</h1>
+                <div>test</div>
+                <p id="dayweather"></p>
             </div>
         </div>
         <div class="row mt-4">
@@ -180,7 +185,7 @@
                 <div class="card">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
-                            <h6 class="mb-2">공지사항</h6>
+                            <h4 class="mb-2">공지사항</h4>
                         </div>
                     </div>
                     <!-- 공지사항 내용 -->
@@ -222,74 +227,16 @@
             <div class="col-lg-5">
                 <div class="card">
                     <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">Categories</h6>
+                        <h6 class="mb-0">주차 현황</h6>
                     </div>
                     <div class="card-body p-3">
-                        <ul class="list-group">
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-mobile-button text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Devices</h6>
-                                        <span class="text-xs">250 in stock, <span
-                                                class="font-weight-bold">346+ sold</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                        <i class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-tag text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Tickets</h6>
-                                        <span class="text-xs">123 closed, <span
-                                                class="font-weight-bold">15 open</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                        <i class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-box-2 text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Error logs</h6>
-                                        <span class="text-xs">1 is active, <span
-                                                class="font-weight-bold">40 closed</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                        <i class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-satisfied text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Happy users</h6>
-                                        <span class="text-xs font-weight-bold">+ 430</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto">
-                                        <i class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                        </ul>
+                        <div class="status-box">
+                            <h5>총주차칸 : 24</h5>
+                            <h5 style="float:left">주차가능 : </h5>
+                            <h5 id="availableCount">...</h5>
+                            <h5 style="float:left">주차중 :</h5>
+                            <h5 id="parkingCount">...</h5>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -319,10 +266,7 @@
         </a>
         <div class="card shadow-lg">
             <div class="card-header pb-0 pt-3 ">
-                <div class="float-start">
-                    <h5 class="mt-3 mb-0">Argon Configurator</h5>
-                    <p>See our dashboard options.</p>
-                </div>
+
                 <div class="float-end mt-4">
                     <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
                         <i class="fa fa-close"></i>
@@ -334,7 +278,7 @@
             <div class="card-body pt-sm-3 pt-0 overflow-auto">
                 <!-- Sidebar Backgrounds -->
                 <div>
-                    <h6 class="mb-0">Sidebar Colors</h6>
+                    <h6 class="mb-0">사이드 바 색상</h6>
                 </div>
                 <a href="javascript:void(0)" class="switch-trigger background-color">
                     <div class="badge-colors my-2 text-start">
@@ -354,8 +298,7 @@
                 </a>
                 <!-- Sidenav Type -->
                 <div class="mt-3">
-                    <h6 class="mb-0">Sidenav Type</h6>
-                    <p class="text-sm">Choose between 2 different sidenav types.</p>
+                    <h6 class="mb-0">사이드 바 색상</h6>
                 </div>
                 <div class="d-flex">
                     <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white"
@@ -368,7 +311,7 @@
                 <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
                 <!-- Navbar Fixed -->
                 <div class="d-flex my-3">
-                    <h6 class="mb-0">Navbar Fixed</h6>
+                    <h6 class="mb-0">내비게이션 바 고정</h6>
                     <div class="form-check form-switch ps-0 ms-auto my-auto">
                         <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
                                onclick="navbarFixed(this)">
@@ -376,7 +319,7 @@
                 </div>
                 <hr class="horizontal dark my-sm-4">
                 <div class="mt-2 mb-5 d-flex">
-                    <h6 class="mb-0">Light / Dark</h6>
+                    <h6 class="mb-0">다크모드</h6>
                     <div class="form-check form-switch ps-0 ms-auto my-auto">
                         <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version"
                                onclick="darkMode(this)">

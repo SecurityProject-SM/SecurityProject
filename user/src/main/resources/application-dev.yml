@@ -1,4 +1,5 @@
-# tomcat server setting
+
+  # tomcat server setting
 server:
   port: 80
   servlet:
@@ -64,12 +65,14 @@ app:
     server-url: http://127.0.0.1:80
   dir:
     imgdir: file:///c:/springsm/imgs/    # 위치가 springsm 하위가 아니어도 상관없음
-    uploaddir: c:/springsm/imgs/         # 파일을 저장할때는 아펭 file:/// 빠짐
+    uploaddir: c:/springsm/imgs/         # 파일을 저장할때는 앞에 file:/// 빠짐
     logdir: file:///c:/springsm/logs/
     readlogdir: c:/springsm/logs/
     uploadimgdir: c:/springsm/imgs/
 
   key:
+    wkey: ENC(4PAWoDD5oYX4vQinseKwW+ga3MPEBm3s68OnAiWR1mfpdUbARblM1k4ued+xkw4ok4QfuDFSPfP2qc3IpN1np9T5cKv/PGilw2hR/lV33dRNMcwwheKLtejQwPXKTiXM+t/0opitWOGchB5p9ZtsZNHXx8/qT0pn)
+    # 기상청 키값
     okey: d9bd21f2e39484f2a5b501bcd28825b3
     # open weather 키값
     algo: PBEWithMD5AndDES    # ENC변경 필 (보안사유)
@@ -80,3 +83,9 @@ app:
     redirect-uri: "http://127.0.0.1/oauth/kakao/callback"  # Redirect URI 설정
     token-uri: "https://kauth.kakao.com/oauth/token"  # 카카오에서 AccessToken 요청용 URI
     user-info-uri: "https://kapi.kakao.com/v2/user/me"  # 사용자 정보 요청용 URI
+
+  portone:
+    api-key: "5476864681222488"
+    api-secret: "xV6REJbttIbs9wvCNZj1xitzDyPsKNzfk4VahE2UYuBiNcd7BB4D9JqkqZuw85dbcyIqdOPMqaRiuuph"
+    channel-key: "channel-key-0aa64efe-c9da-41ec-a022-03e0b5d90950"
+

@@ -1,5 +1,6 @@
 package edu.sm.app.service;
 
+import edu.sm.app.dto.ParkDto;
 import edu.sm.app.dto.ParkLogDto;
 import edu.sm.app.frame.SBService;
 import edu.sm.app.repository.ParkLogRepository;
@@ -38,4 +39,13 @@ public class ParkLogService implements SBService<Integer, ParkLogDto> {
     public List<ParkLogDto> get() throws Exception {
         return parkLogRepository.select();
     }
+
+    @Override
+    public List<ParkDto> findByCarNumber() throws Exception {
+        return List.of();
+    }
+
+//    public List<ParkLogDto> findByCarNum(String carNum) throws Exception {
+//        return parkLogRepository.findByCarNum(carNum);
+//    }
 }
