@@ -36,9 +36,6 @@ public class MainController {
     @RequestMapping("/")
     public String main(Model model) {
         log.info("Started Main");
-//        model.addAttribute("left", "left");
-//        model.addAttribute("center", "center");
-
         List<NoticeDto> recentNotices = noticeService.getTop3Notices();
         model.addAttribute("recentNotices", recentNotices);
 

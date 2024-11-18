@@ -230,7 +230,7 @@
                         <h6 class="mb-0">주차 현황</h6>
                     </div>
                     <div class="card-body p-3">
-                        <div class="status-box">
+                        <div class="status-box" id="park_stat">
                             <h5>총주차칸 : 24</h5>
                             <h5 style="float:left">주차가능 : </h5>
                             <h5 id="availableCount">...</h5>
@@ -311,7 +311,7 @@
                 <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
                 <!-- Navbar Fixed -->
                 <div class="d-flex my-3">
-                    <h6 class="mb-0">내비게이션 바 고정</h6>
+                    <h6 class="mb-0">상단바 고정</h6>
                     <div class="form-check form-switch ps-0 ms-auto my-auto">
                         <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
                                onclick="navbarFixed(this)">

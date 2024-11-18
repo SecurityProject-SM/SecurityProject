@@ -42,6 +42,12 @@
 </head>
 
 <script>
+    $(document).ready(function () {
+        <% if (session.getAttribute("loginid") == null) { %>
+        window.location.href = "/login";
+        <% } %>
+    });
+
     let park = {
         loadingShown: false,
         init: function () {
