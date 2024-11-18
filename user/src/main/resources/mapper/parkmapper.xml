@@ -15,10 +15,13 @@
         INSERT INTO park VALUES (#{parkId},#{buildingId},#{parkStat})
     </insert>
     <update id="update" parameterType="ParkDto">
-        UPDATE park SET park_stat=#{parkStat} WHERE park_id=#{parId}
+        UPDATE park SET park_stat=#{parkStat} WHERE park_id=#{parkId}
     </update>
     <delete id="delete" parameterType="Integer">
         DELETE FROM park WHERE park_id=#{parkId}
     </delete>
+<!--    <select id="findByCarNumber" parameterType="String" resultType="edu.sm.app.dto.ParkDto">-->
+<!--        SELECT * FROM parklog WHERE car_num = #{carNumber}-->
+<!--    </select>-->
 
 </mapper>

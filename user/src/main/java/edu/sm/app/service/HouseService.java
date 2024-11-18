@@ -1,6 +1,7 @@
 package edu.sm.app.service;
 
 import edu.sm.app.dto.HouseDto;
+import edu.sm.app.dto.ParkDto;
 import edu.sm.app.frame.SBService;
 import edu.sm.app.repository.HouseRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,4 +39,6 @@ public class HouseService implements SBService<String, HouseDto> {
     public List<HouseDto> get() throws Exception {
         return houseRepository.select();
     }
+
+
 }

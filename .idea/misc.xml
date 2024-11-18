@@ -5,6 +5,10 @@
     <file type="web" url="file://$PROJECT_DIR$/admin" />
     <file type="web" url="file://$PROJECT_DIR$/iot1" />
     <file type="web" url="file://$PROJECT_DIR$/iot_1" />
+    <file type="web" url="file://$PROJECT_DIR$/iot_2" />
+    <file type="web" url="file://$PROJECT_DIR$/iot_aircon" />
+    <file type="web" url="file://$PROJECT_DIR$/iotaircon" />
+    <file type="web" url="file://$PROJECT_DIR$/iottemp1" />
     <file type="web" url="file://$PROJECT_DIR$/user" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="17" project-jdk-type="JavaSDK">
