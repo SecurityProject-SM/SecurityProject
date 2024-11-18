@@ -42,10 +42,6 @@ public class NoticeService implements SBService<Integer, NoticeDto> {
         return noticeRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
 
     // 공지사항 기본 목록 가져오기 (페이징)
     public List<NoticeDto> getNoticePage(int pageNo) {

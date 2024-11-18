@@ -40,8 +40,4 @@ public class HouseLogService implements SBService<Integer, HouseLogDto> {
         return houseLogRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
 }

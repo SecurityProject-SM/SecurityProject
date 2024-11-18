@@ -44,10 +44,6 @@ public class ParkService implements SBService<Integer, ParkDto> {
         return parkRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
 
     // 차량 번호를 통해 차량 정보를 조회하는 메서드
     public ParkDto findByCarNumber(String carNumber) {
