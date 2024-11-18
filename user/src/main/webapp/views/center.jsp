@@ -104,11 +104,31 @@
 </style>
 
 <script>
+    let map = {
+        init: function () {
+            var mapContainer = document.getElementById('map'),
+                mapOption = {
+                    center: new kakao.maps.LatLng(37.511167, 127.098328),
+                    level: 5
+                };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            var markerPosition  = new kakao.maps.LatLng(37.511167, 127.098328);
+
+            var marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+
+            marker.setMap(map);
+        }
+    }
+
     let center = {
         init: function () {
             $.ajax({
-                url:'<c:url value="/wh"/>',
-                success : (result)=>{
+                url: '<c:url value="/wh"/>',
+                success: (result) => {
                     let wtext = result.response.body.items.item[0].wfSv;
                     $('#dayweather').text(wtext);
                 }
@@ -146,13 +166,74 @@
     };
 
     $(function () {
-        center.init();
-    });
+            center.init();
+            map.init();
+        });
 </script>
 
 
 <body>
 <div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <p>데이터 값 들어갈 자리</p>
+                        </div>
+                        <div class="col-4">
+                            <p>아이콘 들어갈 자리</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <p>데이터 값 들어갈 자리</p>
+                        </div>
+                        <div class="col-4">
+                            <p>아이콘 들어갈 자리</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <p>데이터 값 들어갈 자리</p>
+                        </div>
+                        <div class="col-4">
+                            <p>아이콘 들어갈 자리</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <p>데이터 값 들어갈 자리</p>
+                        </div>
+                        <div class="col-4">
+                            <p>아이콘 들어갈 자리</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     <div class="row mt-4">
         <div class="col-lg-7 mb-lg-0 mb-4">
             <div class="card z-index-2 h-100">
@@ -240,6 +321,18 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-header pb-0 p-3">
+                        <h6 class="mb-0">찾아오시는 길</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div id="map" style="width:100%;height:350px;"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <footer class="footer pt-3  ">
             <div class="container-fluid">
