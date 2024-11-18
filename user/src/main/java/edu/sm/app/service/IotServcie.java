@@ -41,10 +41,6 @@ public class IotServcie implements SBService<String, IotDto> {
         return iotRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
 
     public boolean getIotStatusById(String iotId) throws Exception{
 //        Boolean status = iotRepository.getIotStatusById(iotId);

@@ -40,8 +40,5 @@ public class IotHistoryService implements SBService<Integer, IotHistoryDto> {
         return iotHistoryRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
+
 }

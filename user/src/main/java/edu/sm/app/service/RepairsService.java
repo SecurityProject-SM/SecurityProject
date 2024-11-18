@@ -41,8 +41,4 @@ public class RepairsService  implements SBService<Integer, RepairsDto> {
         return repairsRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
 }

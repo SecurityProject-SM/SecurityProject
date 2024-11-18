@@ -40,8 +40,5 @@ public class HouseService implements SBService<String, HouseDto> {
         return houseRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
+
 }

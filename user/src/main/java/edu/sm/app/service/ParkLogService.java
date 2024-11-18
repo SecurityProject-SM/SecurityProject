@@ -40,11 +40,6 @@ public class ParkLogService implements SBService<Integer, ParkLogDto> {
         return parkLogRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
-
 //    public List<ParkLogDto> findByCarNum(String carNum) throws Exception {
 //        return parkLogRepository.findByCarNum(carNum);
 //    }

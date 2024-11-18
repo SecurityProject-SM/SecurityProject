@@ -49,14 +49,15 @@ public class ParkRestController {
         JSONObject result = new JSONObject();
         result.put("parkingData", arr);
         result.put("availableCount", availableCount);
+
         return result;
     }
 
-    @RequestMapping("/parksetsum")
-    public Object parksetsum(String carNumber) {
-        // 요금 계산은 Service 계층에서 수행
-        return parkService.parksetsum(carNumber);
-    }
+//    @RequestMapping("/parksetsum")
+//    public Object parksetsum(String carNumber) {
+//        // 요금 계산은 Service 계층에서 수행
+//        return parkService.parksetsum(carNumber);
+//    }
 
 //    @RequestMapping("/car_find")
 //    public JSONArray carfind(@RequestParam("carNum") String carNum) throws Exception {

@@ -42,11 +42,6 @@ public class UsersService implements SBService<String, UsersDto> {
         return usersRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
-    }
-
 
     // 카카오
     public void addKakaoUser(UsersDto usersDto) throws Exception {
