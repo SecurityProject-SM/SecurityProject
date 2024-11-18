@@ -1,13 +1,8 @@
 package edu.sm.controller;
 
 import com.github.pagehelper.PageInfo;
-import edu.sm.app.dto.AdminsDto;
-import edu.sm.app.dto.NoticeDto;
 import edu.sm.app.dto.RepairsDto;
-import edu.sm.app.dto.Search;
-import edu.sm.app.service.NoticeService;
 import edu.sm.app.service.RepairsService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -34,7 +29,19 @@ public class ReapirsController {
         return "index";
     }
 
+    @RequestMapping("/calander")
+    public String calander(Model model) {
 
-    // 유지보수 메인페이지 띄우는것부터 시작하셈 ---------------------------------------
+        model.addAttribute("center", "repairs/calender");
+        return "index";
+    }
+
+    @RequestMapping("/success")
+    public String success(@RequestParam("id") int id) {
+
+        repairsService.suc(id);
+        return "redirect:/repairs";
+    }
+
 
 }

@@ -42,38 +42,42 @@
 </head>
 
 <script>
-    $(document).ready(function () {
-        <% if (session.getAttribute("loginid") == null) { %>
-        window.location.href = "/login";
-        <% } %>
-    });
+    <%--let main = {--%>
+    <%--    check: function () {--%>
+    <%--        if (!${sessionScope.loginid ? true : false}) {--%>
+    <%--            window.location.href = "/login";--%>
+    <%--        }--%>
+    <%--    },--%>
+    <%--};--%>
 
-    let park = {
-        loadingShown: false,
-        init: function () {
-            setInterval(this.parkstat, 5000);
-        },
+let park = {
+    loadingShown: false,
+    init: function () {
+        setInterval(this.parkstat, 5000);
+    },
 
-        parkstat: function () {
-            $.ajax({
-                url: "/getparkstat",
-                method: "GET",
-                dataType: "json",
-                success: function (data) {
-                    var parkingCount = 24-data.availableCount;
-                    $("#availableCount").text(data.availableCount);
-                    $("#parkingCount").text(parkingCount);
-                },
-                error: function (error) {
-                    console.error("주차 상태를 불러오는 중 오류 발생:", error);
-                },
-            });
-        }
-    };
+    parkstat: function () {
+        $.ajax({
+            url: "/getparkstat",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                var parkingCount = 24 - data.availableCount;
+                $("#availableCount").text(data.availableCount);
+                $("#parkingCount").text(parkingCount);
+            },
+            error: function () {
+                console.error("Error fetching parking status.");
+            },
+        });
+    },
+};
 
-    $(function(){
-        park.init();
-    });
+$(function () {
+    park.init();
+    // main.check();
+});
+
 </script>
 
 <body class="g-sidenav-show bg-gray-100">

@@ -26,4 +26,8 @@
         SELECT * FROM repairs ORDER BY repair_id ASC
     </select>
 
+    <update id="suc" parameterType="RepairsDto">
+        UPDATE repairs SET repair_stat='A' WHERE repair_id=#{repairId}
+    </update>
+
 </mapper>

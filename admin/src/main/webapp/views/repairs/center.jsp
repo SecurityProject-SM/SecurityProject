@@ -14,44 +14,59 @@
 </head>
 
 <style>
-    .btn-14 {
+    button.svg-wrapper {
         position: relative;
-        padding: 10px 20px;
-        font-size: 16px;
-        color: #fff;
-        background: rgb(0, 128, 255);
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        z-index: 1;
-        overflow: hidden;
+        display: inline-flex; /* 텍스트와 선의 정렬을 위한 플렉스 사용 */
+        justify-content: center; /* 가로 가운데 정렬 */
+        align-items: center; /* 세로 가운데 정렬 */
+        width: 100px; /* 버튼 너비 */
+        height: 30px; /* 버튼 높이 */
+        background: transparent; /* 버튼 배경 투명 */
+        border: none; /* 기본 테두리 제거 */
+        padding: 0; /* 여백 제거 */
+        cursor: pointer; /* 클릭 가능 */
+        overflow: hidden; /* 내부 요소가 버튼을 벗어나지 않도록 */
+        border-radius: 5px; /* 모서리 둥글게 */
+        text-align: center; /* 텍스트 가운데 정렬 */
+        transition: transform 0.3s ease; /* 호버 시 살짝 확대 */
     }
-    .btn-14:after {
+
+    button.svg-wrapper:hover {
+        transform: scale(1.05); /* 호버 시 확대 효과 */
+    }
+
+    button.svg-wrapper svg {
         position: absolute;
-        content: "";
-        width: 100%;
-        height: 0;
         top: 0;
         left: 0;
-        z-index: -1;
-        border-radius: 5px;
-        background-color: #eaf818;
-        background-image: linear-gradient(315deg, #eaf818 0%, #f6fc9c 74%);
-        box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
-        7px 7px 20px 0px rgba(0,0,0,.1),
-        4px 4px 5px 0px rgba(0,0,0,.1);
-        transition: all 0.3s ease;
+        width: 100%; /* SVG가 버튼 너비를 채우도록 */
+        height: 100%; /* SVG가 버튼 높이를 채우도록 */
+        z-index: 0; /* SVG를 배경으로 이동 */
     }
-    .btn-14:hover {
-        color: #000;
+
+    button.svg-wrapper rect {
+        stroke-width: 3px; /* 기본 선 두께 */
+        fill: transparent;
+        stroke: #009FFD; /* 기본 선 색상 */
+        stroke-dasharray: 85 400; /* 기본 대시 효과 */
+        stroke-dashoffset: -220; /* 기본 대시 위치 */
+        transition: 1s all ease; /* 애니메이션 속도 */
     }
-    .btn-14:hover:after {
-        top: auto;
-        bottom: 0;
-        height: 100%;
+
+    button.svg-wrapper:hover rect {
+        stroke-dasharray: 50 0; /* 호버 시 대시 효과 제거 */
+        stroke-width: 3px; /* 선 두께 유지 */
+        stroke-dashoffset: 0; /* 대시 위치 조정 */
+        stroke: #06D6A0; /* 선 색상 변경 */
     }
-    .btn-14:active {
-        top: 2px;
+
+    button.svg-wrapper span {
+        position: relative; /* 텍스트 위치 설정 */
+        z-index: 1; /* 텍스트가 SVG 위에 표시되도록 */
+        color: white; /* 텍스트 색상 */
+        font-weight: 600; /* 텍스트 굵기 */
+        font-size: 1em; /* 텍스트 크기 */
+        pointer-events: none; /* 텍스트 클릭 방지 */
     }
 
 </style>
@@ -89,31 +104,55 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">번호</th>
-                                        <th scope="col">제목</th>
-                                        <th scope="col">작성일자</th>
-                                        <th scope="col">작성자</th>
+                                        <th scope="col">건물 ID</th>
+                                        <th scope="col">담당자</th>
+                                        <th scope="col">상태</th>
+                                        <th scope="col">고장 감지일</th>
+                                        <th scope="col">고장 품목</th>
+                                        <th scope="col">위치</th>
+                                        <th scope="col">완료</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="n" items="${cpage.list}">
+                                    <c:forEach var="repair" items="${cpage.list}">
                                         <tr>
-                                            <td><a href="/notice/detail?id=${n.noticeId}">${n.noticeId}</a>
-                                            <td>${n.noticeName}</td>
-                                            <td>${n.noticeTime}</td>
-                                            <td>${n.adminId}</td>
+                                            <td><a href="/repairs/detail?id=${repair.repairId}">${repair.repairId}</a></td>
+                                            <td>${repair.buildingId}</td>
+                                            <td>${repair.adminId}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${repair.repairStat == 'A'}">완료</c:when>
+                                                    <c:when test="${repair.repairStat == 'B'}">진행 중</c:when>
+                                                    <c:when test="${repair.repairStat == 'C'}">대기 중</c:when>
+                                                    <c:otherwise>알 수 없음</c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td>${repair.repairStart}</td>
+                                            <td>${repair.repairSen}</td>
+                                            <td>${repair.repairLoc}</td>
+                                            <td>
+                                                <button class="svg-wrapper"
+                                                        onclick="if(confirm('이 작업을 완료 처리하시겠습니까?')) location.href='/repairs/success?id=${repair.repairId}';">
+                                                    <svg height="30" width="100">
+                                                        <rect height="30" width="100"></rect>
+                                                    </svg>
+                                                    <span>완료 확인</span>
+                                                </button>
+
+                                            </td>
+
                                         </tr>
                                     </c:forEach>
                                     </tbody>
                                 </table>
+
+                                </table>
+
                                 <div style="margin-top: 15px">
                                     <c:if test="${cpage.getSize() != null}">
                                         <jsp:include page="../searchnav.jsp"/>
                                     </c:if>
                                 </div>
-                                <div style="text-align: right; margin-top: 15px;">
-                                    <button class="btn-14" onclick="location.href='notice/write'">공지사항 작성</button>
-                                </div>
-
                         </div>
                     </div>
                 </div>
