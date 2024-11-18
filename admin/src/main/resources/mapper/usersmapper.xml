@@ -63,4 +63,11 @@
         ORDER BY user_id ASC
     </select>
 
+    <select id="getUsersByPower" resultType="edu.sm.app.dto.UsersDto">
+        SELECT *
+        FROM users
+        WHERE user_power = 0
+        ORDER BY user_id ASC
+    </select>
+
 </mapper>

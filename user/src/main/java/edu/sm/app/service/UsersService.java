@@ -1,6 +1,6 @@
 package edu.sm.app.service;
 
-import edu.sm.app.dto.ParkDto;
+import com.github.pagehelper.PageHelper;
 import edu.sm.app.dto.UsersDto;
 import edu.sm.app.frame.SBService;
 import edu.sm.app.repository.UsersRepository;
@@ -42,9 +42,9 @@ public class UsersService implements SBService<String, UsersDto> {
         return usersRepository.select();
     }
 
-    @Override
-    public List<ParkDto> findByCarNumber() throws Exception {
-        return List.of();
+    public List<UsersDto> getUsersByPower(int pageNo) {
+        PageHelper.startPage(pageNo, 10);  // 페이지당 10개의 항목 표시
+        return usersRepository.getUsersByPower();
     }
 
 

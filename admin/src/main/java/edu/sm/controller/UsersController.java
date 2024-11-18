@@ -22,18 +22,21 @@ public class UsersController {
 
     @RequestMapping("")
     public String notice(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
-        log.info("Loading notice list - page {}", pageNo);
-        PageInfo<UsersDto> pageInfo = new PageInfo<>(usersService.getUsersPage(pageNo), 5); // 페이지네이션 설정
+        log.info("Loading notice list with user_power = 0 - page {}", pageNo);
+
+        PageInfo<UsersDto> pageInfo = new PageInfo<>(usersService.getUsersByPowerPage(pageNo), 5);  // 페이지네이션 설정
         model.addAttribute("cpage", pageInfo);
         model.addAttribute("center", "users/users");
         model.addAttribute("target", "users");
         return "index";
     }
 
+
+
     @RequestMapping("/findimpl")
     public String findimpl(Model model, Search search,
                            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
-        log.info("Searching users by name with search term: {}", search.getSearch());
+        log.info("Searching users by name with search term: {}", search);
         PageInfo<UsersDto> pageInfo = new PageInfo<>(usersService.getFindPage(pageNo, search), 10);
 
         model.addAttribute("cpage", pageInfo);
@@ -57,11 +60,38 @@ public class UsersController {
     @RequestMapping("/updateimpl")
     public String updateimpl(Model model, UsersDto usersDto,
                              @RequestParam("userPwd") String userPwd,
-                             @RequestParam("userTel") String userTel) throws Exception {
+                             @RequestParam("userTel") String userTel,
+                             @RequestParam("userMail") String userMaiil,
+                             @RequestParam("userName") String userName) throws Exception {
 
+        usersDto.setUserPwd(userPwd);
+        usersDto.setUserTel(userTel);
+        usersDto.setUserMail(userMaiil);
+        usersDto.setUserName(userName);
 
-        return "redirect:/notice";
+        usersService.modify(usersDto);
+
+        return "redirect:/users";
     }
+
+    @RequestMapping("/deleteimpl")
+    public String deleteimpl(Model model, UsersDto usersDto,
+                             @RequestParam("userPwd") String userPwd,
+                             @RequestParam("userTel") String userTel,
+                             @RequestParam("userMail") String userMaiil,
+                             @RequestParam("userName") String userName) throws Exception {
+
+        usersDto.setUserPwd(userPwd);
+        usersDto.setUserTel(userTel);
+        usersDto.setUserMail(userMaiil);
+        usersDto.setUserName(userName);
+
+        usersService.modify(usersDto);
+
+        return "redirect:/users";
+    }
+
+
 
 
 

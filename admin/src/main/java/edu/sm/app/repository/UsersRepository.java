@@ -22,4 +22,7 @@ public interface UsersRepository extends SBRepository<String, UsersDto> {
     List<UsersDto> getUsersPage();
     List<UsersDto> getFindPage(Search search);
 
+    List<UsersDto> getUsersByPower();
+
+
 }

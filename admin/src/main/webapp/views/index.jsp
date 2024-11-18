@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
+    <title>건어물 - 건물을 효율적으로!</title>
     <!-- loader-->
     <link href="<c:url value='/css/pace.min.css'/>" rel="stylesheet"/>
     <script src="<c:url value='/js/pace.min.js'/>"></script>
     <!-- favicon -->
-    <link rel="icon" href="<c:url value='/images/favicon.ico'/>" type="image/x-icon">
+    <link rel="icon" href="<c:url value='/img/gunamul_icon.ico'/>" type="image/x-icon">
     <!-- Vector CSS -->
     <link href="<c:url value='/plugins/vectormap/jquery-jvectormap-2.0.2.css'/>" rel="stylesheet"/>
     <!-- simplebar CSS-->

@@ -1,7 +1,10 @@
 package edu.sm.app.service;
 
 
+import com.github.pagehelper.PageHelper;
+import edu.sm.app.dto.NoticeDto;
 import edu.sm.app.dto.RepairsDto;
+import edu.sm.app.dto.Search;
 import edu.sm.app.frame.SBService;
 import edu.sm.app.repository.RepairsRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +41,11 @@ public class RepairsService  implements SBService<Integer, RepairsDto> {
     @Override
     public List<RepairsDto> get() throws Exception {
         return repairsRepository.select();
+    }
+
+
+    public List<RepairsDto> getRepairsPage(int pageNo) {
+        PageHelper.startPage(pageNo, 10); // 페이지당 10개의 항목 표시
+        return repairsRepository.getRepairs();
     }
 }
