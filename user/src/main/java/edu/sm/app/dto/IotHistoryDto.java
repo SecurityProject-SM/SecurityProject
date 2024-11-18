@@ -5,11 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class IotDto {
+public class IotHistoryDto {
+    private int historyId;
     private String iotId;
-    private Boolean iotStatus;
+    private String valueCategory;
+    private double iotValue;
+    private LocalDateTime logDate;
 }

@@ -40,6 +40,11 @@ public class ContractService implements SBService<Integer, ContractDto> {
         return contractRepository.select();
     }
 
+    @Override
+    public List<ParkDto> findByCarNumber() throws Exception {
+        return List.of();
+    }
+
     public ContractDto getContractByUserId(String userId) throws Exception {
         return contractRepository.selectByUserId(userId);
     }

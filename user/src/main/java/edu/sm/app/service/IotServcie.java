@@ -2,6 +2,7 @@ package edu.sm.app.service;
 
 
 import edu.sm.app.dto.IotDto;
+import edu.sm.app.dto.ParkDto;
 import edu.sm.app.frame.SBService;
 import edu.sm.app.repository.IotRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,16 @@ public class IotServcie implements SBService<String, IotDto> {
         return iotRepository.select();
     }
 
+    @Override
+    public List<ParkDto> findByCarNumber() throws Exception {
+        return List.of();
+    }
+
+    public boolean getIotStatusById(String iotId) throws Exception{
+//        Boolean status = iotRepository.getIotStatusById(iotId);
+//        return status!= null && status;
+        return iotRepository.getIotStatusById(iotId);
+    }
 //    public List<IotDto> getIotStatusList() throws Exception {
 //        return iotRepository.select();
 //    }
