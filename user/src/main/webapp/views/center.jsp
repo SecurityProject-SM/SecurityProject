@@ -40,27 +40,34 @@
     });
 </script>
 <style>
-    .weather-item {
-        display: inline-block;
-        padding: 10px;
-        white-space: nowrap;
-        text-align: center;
-        min-width: 120px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        margin-right: 8px;
+    <%-- progress 바 --%>
+    .progress {
+        background: rgba(255, 255, 255, 0.1);
+        justify-content: flex-start;
+        border-radius: 100px;
+        align-items: center;
         position: relative;
+        padding: 0 5px;
+        display: flex;
+        height: 25px;
+        width: 100%;
+        max-width: 600px;
+        margin-top: 15px;
     }
 
-    .weather-item:not(:last-child)::after {
-        content: "";
-        position: absolute;
-        top: 10px;
-        right: -4px;
-        width: 1px;
-        height: calc(100% - 20px); /* 위, 아래에 여백 */
-        background-color: #ddd; /* 수직선 색상 */
+    .progress-value {
+        animation: load 3s normal forwards;
+        box-shadow: 0 10px 40px -10px rgba(0, 149, 255, 0.75);
+        border-radius: 100px;
+        background: linear-gradient(90deg, #ff4d4d, #ffcc00, #00ff00);
+        height: 20px;
+        width: 0;
+        transition: width 0.5s ease;
     }
+
+
+    /* 날씨 */
+
 
     .weather-icon {
         width: 30px;
@@ -71,10 +78,27 @@
 
     #weatherContainer {
         display: flex;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding: 5px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        overflow: hidden;
+        white-space: normal;
+        font-size: 1rem;
+        padding: 10px;
     }
+
+    #imgContainer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .weather-icon {
+        width: 70px; /* 아이콘 크기 */
+        height: 70px; /* 아이콘 크기 */
+    }
+
 
     .additional-text {
         padding-top: 10px;
@@ -132,11 +156,68 @@
 </style>
 <%-- 날씨 불러오기 --%>
 <script>
+    let park = {
+        init: function () {
+            setInterval(this.parkstat, 100000);
+        },
+
+        parkstat: function () {
+            $.ajax({
+                url: "/getparkstat",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    let totalParking = 24;
+                    let availableCount = data.availableCount;
+                    let parkingCount = totalParking - availableCount;
+                    let usagePercent = (parkingCount / totalParking) * 100;
+
+                    $("#availableCount").text(availableCount);
+                    $("#parkingCount").text(parkingCount);
+
+                    $(".progress-value").css("width", usagePercent + "%");
+
+                    if (usagePercent <= 50) {
+                        $(".progress-value").css("background", "#00ff00");
+                    } else if (usagePercent <= 75) {
+                        $(".progress-value").css("background", "#ffcc00");
+                    } else {
+                        $(".progress-value").css("background", "#ff4d4d");
+                    }
+                },
+                error: function (error) {
+                    console.error("주차 상태를 불러오는 중 오류 발생:", error);
+                }
+            });
+        }
+    };
+
+
+    let map = {
+        init: function () {
+            var mapContainer = document.getElementById('map'),
+                mapOption = {
+                    center: new kakao.maps.LatLng(37.511167, 127.098328),
+                    level: 5
+                };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            var markerPosition = new kakao.maps.LatLng(37.511167, 127.098328);
+
+            var marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+
+            marker.setMap(map);
+        }
+    }
+
     let center = {
         init: function () {
             $.ajax({
-                url:'<c:url value="/wh"/>',
-                success : (result)=>{
+                url: '<c:url value="/wh"/>',
+                success: (result) => {
                     let wtext = result.response.body.items.item[0].wfSv;
                     $('#dayweather').text(wtext);
                 }
@@ -146,41 +227,126 @@
                 url: '<c:url value="/ow"/>',
                 success: (result) => {
                     $('#weatherContainer').empty();
-                    result.list.forEach((item) => {
-                        let temp = item.main.temp;
-                        let des = item.weather[0].description;
-                        let icon = item.weather[0].icon;
-                        let time = item.dt_txt;
-                        console.log(temp, des, icon, time)
+                    $('#imgContainer').empty();
 
-                        center.display(temp, des, icon, time);
-                    });
+                    let closestWeather = center.getClosestWeather(result.list);
+
+                    let temp = closestWeather.main.temp;
+                    let des = closestWeather.weather[0].description;
+                    let icon = closestWeather.weather[0].icon;
+                    let time = closestWeather.dt_txt;
+
+                    center.display(temp, des, icon, time);
                 }
             });
         },
+        getClosestWeather: function (weatherList) {
+            let now = new Date().getTime();
+            let closest = weatherList.reduce((prev, curr) => {
+                let prevTime = new Date(prev.dt_txt).getTime();
+                let currTime = new Date(curr.dt_txt).getTime();
+                return Math.abs(currTime - now) < Math.abs(prevTime - now) ? curr : prev;
+            });
+            return closest;
+        },
         display: function (temp, des, icon, time) {
-            let formattedTime = time.substring(5, 16);
+            let formattedTime = time.substring(11, 16); // 시간만 잘라내기 (HH:mm)
 
-            const weatherHTML =
-                '<div class="weather-item">' +
-                '<img src="https://openweathermap.org/img/wn/' + icon + '.png" alt="' + des + '" class="weather-icon">' +
-                '' + formattedTime + '<br>' +
-                '<strong>기온:</strong> ' + temp + '°C<br>' +
-                '<strong>' + des + '</strong><br>' +
-                '</div>';
+            let weatherHTML =
+                '<strong>' + '현재 온도' + '</strong><br>' +
+                '<strong>기온:</strong> ' + temp + '°C<br>';
+
+            let weatherImg =
+                '<img src="https://openweathermap.org/img/wn/' + icon + '.png" alt="' + des + '" class="weather-icon">';
 
             $('#weatherContainer').append(weatherHTML);
+            $('#imgContainer').append(weatherImg);
         }
     };
 
     $(function () {
         center.init();
+        map.init();
+        park.init();
     });
+
+
 </script>
 
 
 <body>
 <div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <p>데이터 값 들어갈 자리</p>
+                        </div>
+                        <div class="col-4">
+                            <img src="img/electric.png" style="width: 50px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%-- 주차 --%>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="status-box" id="park_stat">
+                                <h6>총주차칸 : 24</h6>
+                                <h6 style="float:left">주차가능 : </h6>
+                                <h6 id="availableCount">...</h6>
+                                <h6 style="float:left">주차중 :</h6>
+                                <h6 id="parkingCount">...</h6>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <img src="img/park.png" style="width: 50px">
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-value"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
+                        </div>
+                        <div class="col-4">
+                            <div id="imgContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <p>데이터 값 들어갈 자리</p>
+                        </div>
+                        <div class="col-4">
+                            <p>아이콘 들어갈 자리</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     <div class="row mt-4">
         <div class="col-lg-7 mb-lg-0 mb-4">
             <div class="card z-index-2 h-100">
@@ -203,9 +369,19 @@
                 <div class="card-header pb-0 pt-3 bg-transparent">
                     <h6 class="text-capitalize">날씨</h6>
                 </div>
-                <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
-                <div>test</div>
-                <p id="dayweather"></p>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <jsp:include page="webcam.jsp" />
+                        </div>
+                        <div class="col-sm-6">동영상1</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">동영상2</div>
+                        <div class="col-sm-6">동영상3</div>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="row mt-4">
@@ -255,19 +431,14 @@
             <div class="col-lg-5">
                 <div class="card">
                     <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">주차 현황</h6>
+                        <h6 class="mb-0">찾아오시는 길</h6>
                     </div>
                     <div class="card-body p-3">
-                        <div class="status-box" id="park_stat">
-                            <h5>총주차칸 : 24</h5>
-                            <h5 style="float:left">주차가능 : </h5>
-                            <h5 id="availableCount">...</h5>
-                            <h5 style="float:left">주차중 :</h5>
-                            <h5 id="parkingCount">...</h5>
-                        </div>
+                        <div id="map" style="width:100%;height:350px;"></div>
                     </div>
                 </div>
             </div>
+
         </div>
         <footer class="footer pt-3  ">
             <div class="container-fluid">
@@ -353,113 +524,112 @@
                                onclick="darkMode(this)">
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-    <!--   Core JS Files   -->
-    <script src="<c:url value="/js/core/popper.min.js"/>"></script>
-    <script src="<c:url value="/js/core/bootstrap.min.js"/>"></script>
-    <script src="<c:url value="/js/plugins/perfect-scrollbar.min.js"/>"></script>
-    <script src="<c:url value="/js/plugins/smooth-scrollbar.min.js"/>"></script>
-    <script src="<c:url value="/js/plugins/chartjs.min.js"/>"></script>
-    <script>
-        var ctx1 = document.getElementById("chart-line").getContext("2d");
+</div>
+<!--   Core JS Files   -->
+<script src="<c:url value="/js/core/popper.min.js"/>"></script>
+<script src="<c:url value="/js/core/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/js/plugins/perfect-scrollbar.min.js"/>"></script>
+<script src="<c:url value="/js/plugins/smooth-scrollbar.min.js"/>"></script>
+<script src="<c:url value="/js/plugins/chartjs.min.js"/>"></script>
+<script>
+    var ctx1 = document.getElementById("chart-line").getContext("2d");
 
-        var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+    var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
 
-        gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
-        gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
-        gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
-        new Chart(ctx1, {
-            type: "line",
-            data: {
-                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                datasets: [{
-                    label: "Mobile apps",
-                    tension: 0.4,
-                    borderWidth: 0,
-                    pointRadius: 0,
-                    borderColor: "#5e72e4",
-                    backgroundColor: gradientStroke1,
-                    borderWidth: 3,
-                    fill: true,
-                    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-                    maxBarThickness: 6
+    gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
+    gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
+    gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
+    new Chart(ctx1, {
+        type: "line",
+        data: {
+            labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Mobile apps",
+                tension: 0.4,
+                borderWidth: 0,
+                pointRadius: 0,
+                borderColor: "#5e72e4",
+                backgroundColor: gradientStroke1,
+                borderWidth: 3,
+                fill: true,
+                data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                maxBarThickness: 6
 
-                }],
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false,
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        padding: 10,
+                        color: '#fbfbfb',
+                        font: {
+                            size: 11,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
                     }
                 },
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                },
-                scales: {
-                    y: {
-                        grid: {
-                            drawBorder: false,
-                            display: true,
-                            drawOnChartArea: true,
-                            drawTicks: false,
-                            borderDash: [5, 5]
-                        },
-                        ticks: {
-                            display: true,
-                            padding: 10,
-                            color: '#fbfbfb',
-                            font: {
-                                size: 11,
-                                family: "Open Sans",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
-                        }
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
                     },
-                    x: {
-                        grid: {
-                            drawBorder: false,
-                            display: false,
-                            drawOnChartArea: false,
-                            drawTicks: false,
-                            borderDash: [5, 5]
+                    ticks: {
+                        display: true,
+                        color: '#ccc',
+                        padding: 20,
+                        font: {
+                            size: 11,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
                         },
-                        ticks: {
-                            display: true,
-                            color: '#ccc',
-                            padding: 20,
-                            font: {
-                                size: 11,
-                                family: "Open Sans",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
-                        }
-                    },
+                    }
                 },
             },
-        });
-    </script>
-    <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        },
+    });
+</script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
         }
-    </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="<c:url value="/js/argon-dashboard.min.js?v=2.1.0"/>"></script>
-
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="<c:url value="/js/argon-dashboard.min.js?v=2.1.0"/>"></script>
 
 </body>
 </html>

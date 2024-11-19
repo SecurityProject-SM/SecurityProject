@@ -22,8 +22,7 @@
     <link id="pagestyle" href="<c:url value="/css/argon-dashboard.css?v=2.1.0"/> " rel="stylesheet"/>
 
     <%-- 카카오맵 api --%>
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0601f2c8782b31d6ed7ddf38b80dfbe8"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0601f2c8782b31d6ed7ddf38b80dfbe8"></script>
 
     <%-- 웹소켓 라이브러리    --%>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
@@ -41,7 +40,34 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
+<%--<script>--%>
+<%--    let park = {--%>
+<%--        // loadingShown: false,--%>
+<%--        init: function () {--%>
+<%--            setInterval(this.parkstat, 5000);--%>
+<%--        },--%>
 
+<%--        parkstat: function () {--%>
+<%--            $.ajax({--%>
+<%--                url: "/getparkstat",--%>
+<%--                method: "GET",--%>
+<%--                dataType: "json",--%>
+<%--                success: function (data) {--%>
+<%--                    var parkingCount = 24-data.availableCount;--%>
+<%--                    $("#availableCount").text(data.availableCount);--%>
+<%--                    $("#parkingCount").text(parkingCount);--%>
+<%--                },--%>
+<%--                error: function (error) {--%>
+<%--                    console.error("주차 상태를 불러오는 중 오류 발생:", error);--%>
+<%--                },--%>
+<%--            });--%>
+<%--        }--%>
+<%--    };--%>
+
+<%--    $(function(){--%>
+<%--        park.init();--%>
+<%--    });--%>
+<%--</script>--%>
 
 <body class="g-sidenav-show bg-gray-100">
 <%--<div class="min-height-300 bg-dark position-absolute w-100" style="background-image: url('<c:url value="/img/bruce-mars.jpg"/>')"></div>--%>
