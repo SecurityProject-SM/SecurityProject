@@ -11,4 +11,7 @@ import java.util.List;
 @Mapper
 public interface IotHistoryRepository extends SBRepository<Integer, IotHistoryDto> {
     List<IotHistoryDto> selectLatestIotHistory();
+
+    Double getElec();
+
 }

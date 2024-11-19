@@ -127,37 +127,30 @@
 
 </style>
 
-<%--메인페이지 주차 현황 보여줌--%>
 <script>
-    let park = {
-        // loadingShown: false,
+    let elec = {
         init: function () {
-            setInterval(this.parkstat, 5000);
+            this.getelec();
+            setInterval(this.getelec, 5000);
         },
 
-        parkstat: function () {
+        getelec: function () {
             $.ajax({
-                url: "/getparkstat",
-                method: "GET",
-                dataType: "json",
+                url: '/iot/mainpage',
+                method: 'GET',
+                dataType: 'json',
                 success: function (data) {
-                    var parkingCount = 24-data.availableCount;
-                    $("#availableCount").text(data.availableCount);
-                    $("#parkingCount").text(parkingCount);
+                    $('#elec').text(data.toFixed(2) + ' W');
                 },
+
                 error: function (error) {
-                    console.error("주차 상태를 불러오는 중 오류 발생:", error);
-                },
+                    console.error('Error fetching electricity data:', error);
+                }
             });
         }
-    };
+    }
 
-    $(function(){
-        park.init();
-    });
-</script>
-<%--날씨 보여주는 스크립트--%>
-<script>
+    <%--메인페이지 주차 현황 보여줌--%>
     let park = {
         init: function () {
             this.parkstat()
@@ -271,11 +264,10 @@
         center.init();
         map.init();
         park.init();
+        elec.init();
     });
 
-
 </script>
-
 
 <body>
 <div class="container-fluid py-4">
@@ -285,7 +277,7 @@
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
-                            <p>데이터 값 들어갈 자리</p>
+                            <h3 id="elec"></h3>
                         </div>
                         <div class="col-4">
                             <img src="img/electric.png" style="width: 50px">

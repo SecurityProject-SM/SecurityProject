@@ -43,4 +43,9 @@ public class IotHistoryService implements SBService<Integer, IotHistoryDto> {
     public List<IotHistoryDto> selectLatestIotHistory() throws Exception {
         return iotHistoryRepository.selectLatestIotHistory();
     }
+
+    public Double getElec() throws Exception {
+        return iotHistoryRepository.getElec();
+    }
+
 }
