@@ -31,22 +31,14 @@ public class RepairsController {
 
     @RequestMapping("/calender")
     public String calander(Model model) {
-
         model.addAttribute("center", "repairs/calender");
         return "index";
     }
 
     @RequestMapping("/success")
     public String success(@RequestParam("id") int id) {
-
         repairsService.suc(id);
         return "redirect:/repairs";
     }
 
-
-    @RequestMapping("/calender")
-    public String calender(Model model) {
-        model.addAttribute("center", "repairs/center");
-        return"index";
-    }
 }
