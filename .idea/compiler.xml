@@ -19,8 +19,17 @@
       <module name="iot_2" target="17" />
       <module name="iot_2.main" target="17" />
       <module name="iot_2.test" target="17" />
+      <module name="iotaircon" target="17" />
       <module name="iotaircon.main" target="17" />
       <module name="iotaircon.test" target="17" />
+      <module name="iotaircon_main" target="17" />
+      <module name="iotaircon_test" target="17" />
+      <module name="iotlamp" target="17" />
+      <module name="iotlamp.main" target="17" />
+      <module name="iotlamp.test" target="17" />
+      <module name="iottemp1" target="17" />
+      <module name="iottemp1.main" target="17" />
+      <module name="iottemp1.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
