@@ -11,5 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class IotDto {
     private String iotId;
-    private Boolean iotStatus;
+//    private Boolean iotStatus;
+    private String iotCategory;
+    private String iotStatus;
 }

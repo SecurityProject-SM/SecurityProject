@@ -27,14 +27,13 @@ public class Main {
                 "건어물학원 강의실7"
         };
         Random r = new Random();
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat( "#.##");
 
         for (int i = 0; i < 100; i++) {
 
             for (int j = 0; j < iotIds.length; j++) {
                 float value = 25.00f + r.nextFloat() * (32.00f - 25.00f); // 랜덤 값 생성
                 String formattedValue = df.format(value);
-
                 // JSON 데이터 생성
                 JSONObject jsonData = new JSONObject();
                 jsonData.put("buildingId", buildingId);
@@ -51,7 +50,7 @@ public class Main {
             }
 
             try {
-                Thread.sleep(300);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
