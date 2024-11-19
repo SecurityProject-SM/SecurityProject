@@ -277,10 +277,11 @@
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
+                            <h4>금일 사용 전력</h4>
                             <h3 id="elec"></h3>
                         </div>
                         <div class="col-4">
-                            <img src="img/electric.png" style="width: 50px">
+                            <img src="img/electric.png" style="width: 90%">
                         </div>
                     </div>
                 </div>
@@ -301,7 +302,7 @@
                             </div>
                         </div>
                         <div class="col-4">
-                            <img src="img/park.png" style="width: 50px">
+                            <img src="img/park.png" style="width: 90%">
                         </div>
                     </div>
                     <div class="progress">
@@ -318,7 +319,7 @@
                             <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
                         </div>
                         <div class="col-4">
-                            <div id="imgContainer"></div>
+                            <div id="imgContainer" style="width: 90%"></div>
                         </div>
                     </div>
                 </div>
