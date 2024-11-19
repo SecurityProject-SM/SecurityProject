@@ -29,4 +29,13 @@
         ON h.iot_id = latest.iot_id AND h.log_date = latest.latest_log_date
         ORDER BY h.iot_id;
     </select>
+
+    <select id="getElec" resultType="Double">
+        SELECT SUM(iot_value) AS total_value
+        FROM iothistory
+        WHERE DATE(log_date) = CURDATE();
+    </select>
+
+
+
 </mapper>

@@ -43,6 +43,11 @@ public class RepairsService  implements SBService<Integer, RepairsDto> {
         return repairsRepository.select();
     }
 
+    public boolean suc(Integer repairId) {
+        int rowsAffected = repairsRepository.suc(repairId);
+        return rowsAffected > 0;
+    }
+
 
     public List<RepairsDto> getRepairsPage(int pageNo) {
         PageHelper.startPage(pageNo, 10); // 페이지당 10개의 항목 표시

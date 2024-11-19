@@ -196,4 +196,11 @@ public class IotRestController {
 //
 //        return result;
 //    }
+
+    @RequestMapping("/mainpage")
+    public ResponseEntity<Double> getElec() throws Exception {
+        double totalPower = iotHistoryService.getElec();
+        return ResponseEntity.ok(totalPower);
+    }
+
 }

@@ -119,7 +119,7 @@
       // $("#totalPowerBox").click(this.togglePowerData.bind(this)); // 총 전력량 박스 클릭 이벤트
     },
     startTotalPowerUpdate: function() {
-      this.intervalIdForPower = setInterval(this.fetchTotalPower.bind(this), 30000);
+      this.intervalIdForPower = setInterval(this.fetchTotalPower.bind(this), 300);
     },
 
 
