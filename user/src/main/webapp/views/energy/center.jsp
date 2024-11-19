@@ -190,6 +190,7 @@
                 <td>\${iotData.name}</td>
                 <td>\${iotData.value} kWh</td>
                 <td><button onclick='showControlBox("\${iotId}")'>제어</button></td>
+                <td></td>
                 <td>-</td>
             </tr>`;
         tableBody.append(row);

@@ -53,11 +53,19 @@ public class IotRestController {
             String valueCategory = jsonNode.get("category").asText();
             double iotValue = jsonNode.get("value").asDouble();
 
-            log.info("불러온 밸류값 : " + iotValue);
 
+            String iotStatus = iotService.getIotStatusById(iotId);
+            if(iotStatus.equals("1")) {
+                if (iotValue >= 50) {
+                    IotDto BreakIot = new IotDto();
+                    BreakIot.setIotId(iotId);
+                    BreakIot.setIotCategory(valueCategory);
+                    BreakIot.setIotStatus("3");
+                    iotService.modify(BreakIot);
+                }
+            }
             // IOT 상태에 따라 DB에 들어갈 value값 지정
             // iot가 꺼져있으면 사용전력이 0이들어감
-            String iotStatus = iotService.getIotStatusById(iotId);
             if (!iotStatus.equals("1")) {
                 iotValue = 0.0;
             }
@@ -89,7 +97,7 @@ public class IotRestController {
         for (IotDto iot : iotList) {
             Map<String,Object> obj = new HashMap<>();
             obj.put("iotId", iot.getIotId());
-            obj.put("iotStatus", iot.getIotStatus()); // true: on, false: off
+            obj.put("iotStatus", iot.getIotStatus()); // 1:on 2:off 3:break
             result.add(obj);
         }
         return result;
