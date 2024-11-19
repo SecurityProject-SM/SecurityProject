@@ -42,7 +42,7 @@ public class IotServcie implements SBService<String, IotDto> {
     }
 
 
-    public boolean getIotStatusById(String iotId) throws Exception{
+    public String getIotStatusById(String iotId) throws Exception{
 //        Boolean status = iotRepository.getIotStatusById(iotId);
 //        return status!= null && status;
         return iotRepository.getIotStatusById(iotId);

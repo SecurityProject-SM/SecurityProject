@@ -103,6 +103,36 @@
 
 </style>
 
+<%--메인페이지 주차 현황 보여줌--%>
+<script>
+    let park = {
+        // loadingShown: false,
+        init: function () {
+            setInterval(this.parkstat, 5000);
+        },
+
+        parkstat: function () {
+            $.ajax({
+                url: "/getparkstat",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var parkingCount = 24-data.availableCount;
+                    $("#availableCount").text(data.availableCount);
+                    $("#parkingCount").text(parkingCount);
+                },
+                error: function (error) {
+                    console.error("주차 상태를 불러오는 중 오류 발생:", error);
+                },
+            });
+        }
+    };
+
+    $(function(){
+        park.init();
+    });
+</script>
+<%--날씨 보여주는 스크립트--%>
 <script>
     let center = {
         init: function () {

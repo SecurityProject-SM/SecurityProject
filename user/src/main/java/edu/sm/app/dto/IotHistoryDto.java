@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 public class IotHistoryDto {
     private int historyId;
     private String iotId;
+    private String iotName;
     private String valueCategory;
     private double iotValue;
+    private String iotStatus;
     private LocalDateTime logDate;
 }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <style>
     .bg-gray-100{
         --bd-pink-rgb: 214, 51, 132;
@@ -17,6 +18,8 @@
     }
     .card.card-plain{
         box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    }
+
     }
 </style>
 <html lang="en">

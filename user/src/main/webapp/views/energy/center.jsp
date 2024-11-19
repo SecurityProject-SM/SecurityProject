@@ -95,8 +95,10 @@
   const imagePath = {
     airconOn: "<c:url value="/img/iot/aircon-on.png"/>",
     airconOff: "<c:url value="/img/iot/aircon-off.png"/>",
+    airconBreak: "<c:url value="/img/iot/aircon-break.png"/>",
     lampOn: "<c:url value="/img/iot/lamp-on.png"/>",
-    lampOff: "<c:url value="/img/iot/lamp-off.png"/>"
+    lampOff: "<c:url value="/img/iot/lamp-off.png"/>",
+    lampBreak: "<c:url value="/img/iot/lamp-break.png"/>"
   };
   console.log("imagePath 객체:", imagePath);
   let energy = {
@@ -109,7 +111,9 @@
       console.log("energy.init 호출됨"); // init 함수 호출 확인
       // this.renderLatestData();
       this.fetchTotalPower();
-      this.startTotalPowerUpdate();
+      setInterval(this.fetchTotalPower,5000);
+      // this.fetchTotalPower();
+      // this.startTotalPowerUpdate();
       // this.fetchIotStatus();
       setInterval(this.fetchIotStatus, 5000);
       // $("#totalPowerBox").click(this.togglePowerData.bind(this)); // 총 전력량 박스 클릭 이벤트
@@ -130,14 +134,20 @@
             let element = document.getElementById(iot.iotId);
 
             if (element) {
-              // 아이콘의 타입을 확인하여 상태에 맞는 URL로 이미지 설정
-              // let deviceType = element.classList.contains('iot-aircon') ? 'aircon' : 'lamp';
 
               let deviceType = element.classList.contains('iot-aircon') ? 'aircon'
                       : element.classList.contains('iot-lamp') ? 'lamp' : 'gita';
 
               // imagePath에서 URL 가져오기
-              let imageUrl = iot.iotStatus ? imagePath[deviceType + "On"] : imagePath[deviceType + "Off"];
+              // let imageUrl = iot.iotStatus ? imagePath[deviceType + "On"] : imagePath[deviceType + "Off"];
+              let imageUrl;
+              if(iot.iotStatus == "1"){
+                imageUrl = imagePath[deviceType + "On"]
+              }else if(iot.iotStatus == "2"){
+                imageUrl = imagePath[deviceType + "Off"]
+              }else if(iot.iotStatus == "3"){
+                imageUrl = imagePath[deviceType + "Break"]
+              }
 
               // 아이콘의 배경 이미지 업데이트
               element.style.backgroundImage = `url(\${imageUrl})`;
@@ -151,18 +161,6 @@
         }
       });
     },
-    // togglePowerData: function() {
-    //   // 클릭할 때마다 전력량 표시 시작/정지 전환
-    //   if (this.isPowerBoxActive) {
-    //     clearInterval(this.intervalId);
-    //     this.isPowerBoxActive = false;
-    //     $("#iotTableBody").empty(); // 테이블 비우기
-    //   } else {
-    //     this.isPowerBoxActive = true;
-    //     this.intervalId = setInterval(this.fetchLatestData.bind(this), 2000);
-    //   }
-    // },
-
 
     //전력량은 항상 표시
     fetchTotalPower: function() {
@@ -170,6 +168,7 @@
         url: "<c:url value='/iot/latestData2'/>",
         type: "GET",
         success: function(data) {
+          console.log(data);
           $("#totalPower").text(data.totalPower);
           // 최신 데이터 렌더링
           energy.renderLatestData(data.latestData);
@@ -187,10 +186,10 @@
       Object.keys(latestData.E).forEach(iotId => {
         let iotData = latestData.E[iotId];
         let row = `<tr>
-                <td>${iotId}</td>
-                <td>${iotData.id}</td>
-                <td>${iotData.value} kWh</td>
-                <td><button onclick='showControlBox("${iotId}")'>제어</button></td>
+                <td>\${iotId}</td>
+                <td>\${iotData.name}</td>
+                <td>\${iotData.value} kWh</td>
+                <td><button onclick='showControlBox("\${iotId}")'>제어</button></td>
                 <td>-</td>
             </tr>`;
         tableBody.append(row);
