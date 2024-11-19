@@ -51,7 +51,7 @@ public class Main {
             }
 
             try {
-                Thread.sleep(30000);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
