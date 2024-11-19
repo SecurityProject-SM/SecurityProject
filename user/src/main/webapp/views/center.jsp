@@ -130,7 +130,7 @@
 <script>
     let park = {
         init: function () {
-            setInterval(this.parkstat, 1000);
+            setInterval(this.parkstat, 100000);
         },
 
         parkstat: function () {
@@ -226,7 +226,7 @@
 
             let weatherHTML =
                 '<strong>' + '현재 온도' + '</strong><br>' +
-                '<strong>기온:</strong> ' + temp + '°C<br>' ;
+                '<strong>기온:</strong> ' + temp + '°C<br>';
 
             let weatherImg =
                 '<img src="https://openweathermap.org/img/wn/' + icon + '.png" alt="' + des + '" class="weather-icon">';
@@ -241,7 +241,6 @@
         map.init();
         park.init();
     });
-
 
 
 </script>
@@ -341,6 +340,18 @@
             <div class="card card-carousel overflow-hidden h-100 p-0">
                 <div class="card-header pb-0 pt-3 bg-transparent">
                     <h6 class="text-capitalize">날씨</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <jsp:include page="webcam.jsp" />
+                        </div>
+                        <div class="col-sm-6">동영상1</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">동영상2</div>
+                        <div class="col-sm-6">동영상3</div>
+                    </div>
                 </div>
 
             </div>
