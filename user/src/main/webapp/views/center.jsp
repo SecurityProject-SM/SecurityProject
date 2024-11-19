@@ -10,35 +10,7 @@
 <head>
     <title>Title</title>
 </head>
-<%--주차 불러오기--%>
-<script>
-    let park = {
-        // loadingShown: false,
-        init: function () {
-            setInterval(this.parkstat, 5000);
-        },
 
-        parkstat: function () {
-            $.ajax({
-                url: "/getparkstat",
-                method: "GET",
-                dataType: "json",
-                success: function (data) {
-                    var parkingCount = 24-data.availableCount;
-                    $("#availableCount").text(data.availableCount);
-                    $("#parkingCount").text(parkingCount);
-                },
-                error: function (error) {
-                    console.error("주차 상태를 불러오는 중 오류 발생:", error);
-                },
-            });
-        }
-    };
-
-    $(function(){
-        park.init();
-    });
-</script>
 <style>
     <%-- progress 바 --%>
     .progress {
@@ -49,7 +21,7 @@
         position: relative;
         padding: 0 5px;
         display: flex;
-        height: 25px;
+        height: 20px;
         width: 100%;
         max-width: 600px;
         margin-top: 15px;
@@ -60,7 +32,7 @@
         box-shadow: 0 10px 40px -10px rgba(0, 149, 255, 0.75);
         border-radius: 100px;
         background: linear-gradient(90deg, #ff4d4d, #ffcc00, #00ff00);
-        height: 20px;
+        height: 15px;
         width: 0;
         transition: width 0.5s ease;
     }
@@ -154,10 +126,34 @@
     }
 
 </style>
-<%-- 날씨 불러오기 --%>
+
 <script>
+    let elec = {
+        init: function () {
+            this.getelec();
+            setInterval(this.getelec, 5000);
+        },
+
+        getelec: function () {
+            $.ajax({
+                url: '/iot/mainpage',
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#elec').text(data.toFixed(2) + ' W');
+                },
+
+                error: function (error) {
+                    console.error('Error fetching electricity data:', error);
+                }
+            });
+        }
+    }
+
+    <%--메인페이지 주차 현황 보여줌--%>
     let park = {
         init: function () {
+            this.parkstat()
             setInterval(this.parkstat, 100000);
         },
 
@@ -268,11 +264,10 @@
         center.init();
         map.init();
         park.init();
+        elec.init();
     });
 
-
 </script>
-
 
 <body>
 <div class="container-fluid py-4">
@@ -282,10 +277,11 @@
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
-                            <p>데이터 값 들어갈 자리</p>
+                            <h4>금일 사용 전력</h4>
+                            <h3 id="elec"></h3>
                         </div>
                         <div class="col-4">
-                            <img src="img/electric.png" style="width: 50px">
+                            <img src="img/electric.png" style="width: 90%">
                         </div>
                     </div>
                 </div>
@@ -306,7 +302,7 @@
                             </div>
                         </div>
                         <div class="col-4">
-                            <img src="img/park.png" style="width: 50px">
+                            <img src="img/park.png" style="width: 90%">
                         </div>
                     </div>
                     <div class="progress">
@@ -323,7 +319,7 @@
                             <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
                         </div>
                         <div class="col-4">
-                            <div id="imgContainer"></div>
+                            <div id="imgContainer" style="width: 90%"></div>
                         </div>
                     </div>
                 </div>
@@ -367,7 +363,7 @@
         <div class="col-lg-5">
             <div class="card card-carousel overflow-hidden h-100 p-0">
                 <div class="card-header pb-0 pt-3 bg-transparent">
-                    <h6 class="text-capitalize">날씨</h6>
+                    <h6 class="text-capitalize">(여기 뭐라그래야 하냐)</h6>
                 </div>
                 <div class="card-body p-3">
                     <div class="row">
