@@ -10,7 +10,7 @@
         SELECT * FROM iot
     </select>
     <insert id="insert" parameterType="IotDto">
-        INSERT INTO iot VALUES (#{iotId}, #{iotStatus})
+        INSERT INTO iot VALUES (#{iotId}, #{iotCategory},#{iotStatus})
     </insert>
     <update id="update" parameterType="IotDto">
         UPDATE iot SET iot_status=#{iotStatus} WHERE iot_id=#{iotId}
@@ -19,8 +19,14 @@
         DELETE FROM iot WHERE iot_id=#{iotId}
     </delete>
 
-    <select id="getIotStatusById" parameterType="String" resultType="boolean">
-        SELECT COALESCE(iot_status, false) AS iot_status
+<!--    <select id="getIotStatusById" parameterType="String" resultType="boolean">-->
+<!--        SELECT COALESCE(iot_status, false) AS iot_status-->
+<!--        FROM iot-->
+<!--        WHERE iot_id = #{iotId};-->
+<!--    </select>-->
+
+    <select id="getIotStatusById" parameterType="String" resultType="String">
+        SELECT iot_status
         FROM iot
         WHERE iot_id = #{iotId};
     </select>

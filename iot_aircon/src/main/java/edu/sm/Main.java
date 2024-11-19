@@ -27,7 +27,7 @@ public class Main {
                 "건어물학원 강의실7"
         };
         Random r = new Random();
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat( "#.##");
 
         for (int i = 0; i < 100; i++) {
 
@@ -51,7 +51,7 @@ public class Main {
             }
 
             try {
-                Thread.sleep(300);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

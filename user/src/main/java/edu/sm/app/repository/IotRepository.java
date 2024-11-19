@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface IotRepository extends SBRepository<String, IotDto> {
-    boolean getIotStatusById(String iotId);
+    String getIotStatusById(String iotId);
 }

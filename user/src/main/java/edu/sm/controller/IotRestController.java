@@ -49,20 +49,25 @@ public class IotRestController {
             JsonNode jsonNode = objectMapper.readTree(data);
 
             String iotId = jsonNode.get("iot_id").asText();
+            String iotName = jsonNode.get("iot_name").asText();
             String valueCategory = jsonNode.get("category").asText();
             double iotValue = jsonNode.get("value").asDouble();
 
+            log.info("불러온 밸류값 : " + iotValue);
+
             // IOT 상태에 따라 DB에 들어갈 value값 지정
             // iot가 꺼져있으면 사용전력이 0이들어감
-            boolean iotStatus = iotService.getIotStatusById(iotId);
-            if (!iotStatus) {
+            String iotStatus = iotService.getIotStatusById(iotId);
+            if (!iotStatus.equals("1")) {
                 iotValue = 0.0;
             }
 
             IotHistoryDto historyDto = IotHistoryDto.builder()
                     .iotId(iotId)
+                    .iotName(iotName)
                     .valueCategory(valueCategory)
                     .iotValue(iotValue)
+                    .iotStatus(iotStatus)
                     .logDate(LocalDateTime.now())
                     .build();
             iotHistoryService.add(historyDto);
@@ -90,131 +95,97 @@ public class IotRestController {
         return result;
     }
 
-//    @RequestMapping("/latestData2")
-//    public Map<String,Object> getLatestData2() throws Exception {
-//        Map<String,Map<String,Map<String,Object>>> latestPowerData = new HashMap<>();
-//        latestPowerData.put("T", new HashMap<>());
-//        latestPowerData.put("H", new HashMap<>());
-//        latestPowerData.put("E", new HashMap<>());
-//
-//        List<IotHistoryDto> historyData = iotHistoryService.get();
-//
-//        for(IotHistoryDto data : historyData){
-//            String category = data.getValueCategory();
-//            if(!latestPowerData.containsKey(category)) continue;
-//
-//            String iotId = data.getIotId();
-//            if(latestPowerData.get(category).containsKey(iotId)) continue;
-//
-//            Map<String, Object> iotData = new HashMap<>();
-//            iotData.put("value", data.getIotValue());
-//            iotData.put("id", iotId);
-//
-//            latestPowerData.get(category).put(iotId, iotData);
-//        }
-//
-//        Float totalPower = latestPowerData.get("E").values().stream()
-//                .map(data -> (Float) ((Double) data.get("value")).floatValue())
-//                .reduce(0.0f,Float::sum);
-//
-//        DecimalFormat df = new DecimalFormat("#.##");
-//        Float formattedTotalPower = Float.parseFloat(df.format(totalPower));
-//
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("latestData",latestPowerData);
-//        result.put("totalPower",formattedTotalPower);
-//
-//        return result;
-//    }
-@RequestMapping("/latestData2")
-public Map<String,Object> getLatestData2() throws Exception {
-    Map<String,Map<String,Map<String,Object>>> latestPowerData = new HashMap<>();
-    latestPowerData.put("T", new HashMap<>());
-    latestPowerData.put("H", new HashMap<>());
-    latestPowerData.put("E", new HashMap<>());
-
-    List<IotHistoryDto> historyData = iotHistoryService.get();
-
-    for(IotHistoryDto data : historyData){
-        String category = data.getValueCategory();
-        if(!latestPowerData.containsKey(category)) continue;
-
-        String iotId = data.getIotId();
-        if(latestPowerData.get(category).containsKey(iotId)) continue;
-
-        Map<String, Object> iotData = new HashMap<>();
-        iotData.put("value", data.getIotValue());
-        iotData.put("id", iotId);
-
-        latestPowerData.get(category).put(iotId, iotData);
-    }
-
-    Float totalPower = latestPowerData.get("E").values().stream()
-            .map(data -> (Float) ((Double) data.get("value")).floatValue())
-            .reduce(0.0f,Float::sum);
-
-    DecimalFormat df = new DecimalFormat("#.##");
-    Float formattedTotalPower = Float.parseFloat(df.format(totalPower));
-
-    Map<String, Object> result = new HashMap<>();
-    result.put("latestData",latestPowerData);
-    result.put("totalPower",formattedTotalPower);
-
-    return result;
-}
-
-    //테이블에 뿌리는 코드 (로그에서 읽는 코드)
-    @RequestMapping("/latestData")
-    public Map<String, Object> getLatestData() {
-        Map<String,Map<String, Map<String,Object>>> latestPowerData = new HashMap<>();
+    @RequestMapping("/latestData2")
+    public Map<String,Object> getLatestData2() throws Exception {
+        Map<String,Map<String,Map<String,Object>>> latestPowerData = new HashMap<>();
         latestPowerData.put("T", new HashMap<>());
         latestPowerData.put("H", new HashMap<>());
         latestPowerData.put("E", new HashMap<>());
 
-        File file = new File(LOG_FILE_PATH);
-        try (ReversedLinesFileReader br = new ReversedLinesFileReader(file)) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(", ", 2);
-                if (parts.length < 2) continue;
+        List<IotHistoryDto> historyLatestData = iotHistoryService.selectLatestIotHistory();
 
-                // JSON 형식 데이터 파싱
-                String jsonString = parts[1];
-                JSONObject json = new JSONObject(jsonString);
+        for(IotHistoryDto data : historyLatestData){
+            String category = data.getValueCategory();
+            if(!latestPowerData.containsKey(category)) continue;
 
-                String category = json.getString("category");
-                if(!latestPowerData.containsKey(category)) continue;
+            String iotId = data.getIotId();
+    //        if(latestPowerData.get(category).containsKey(iotId)) continue;
 
-                String iotId = json.getString("iot_id");
-                if(latestPowerData.get(category).containsKey(iotId)) continue;
+            Map<String, Object> iotData = new HashMap<>();
+            iotData.put("value", data.getIotValue());
+            iotData.put("name",data.getIotName());
+            iotData.put("id", iotId);
 
-                Map<String, Object> iotData = new HashMap<>();
-                iotData.put("name", json.getString("iot_name"));
-                iotData.put("value", Float.parseFloat(json.getString("value")));
 
-                latestPowerData.get(category).put(iotId, iotData);
-
-            }
-        } catch (Exception e) {
-            log.error("Error reading log file", e);
-            throw new RuntimeException(e);
+            latestPowerData.get(category).put(iotId, iotData);
         }
 
-        // 각 기기의 최신 전력량 합산
         Float totalPower = latestPowerData.get("E").values().stream()
-                .map(data -> (Float) data.get("value"))
-                .reduce(0.0f, Float::sum);
+                .map(data -> (Float) ((Double) data.get("value")).floatValue())
+                .reduce(0.0f,Float::sum);
 
-
-        // 소수점 둘째 자리까지 포맷팅
         DecimalFormat df = new DecimalFormat("#.##");
         Float formattedTotalPower = Float.parseFloat(df.format(totalPower));
 
-        // 결과 데이터를 반환 형식에 맞게 정리
         Map<String, Object> result = new HashMap<>();
-        result.put("latestData", latestPowerData);
-        result.put("totalPower", formattedTotalPower);
+        result.put("latestData",latestPowerData);
+        result.put("totalPower",formattedTotalPower);
 
         return result;
     }
+
+    //테이블에 뿌리는 코드 (로그에서 읽는 코드)
+//    @RequestMapping("/latestData")
+//    public Map<String, Object> getLatestData() {
+//        Map<String,Map<String, Map<String,Object>>> latestPowerData = new HashMap<>();
+//        latestPowerData.put("T", new HashMap<>());
+//        latestPowerData.put("H", new HashMap<>());
+//        latestPowerData.put("E", new HashMap<>());
+//
+//        File file = new File(LOG_FILE_PATH);
+//        try (ReversedLinesFileReader br = new ReversedLinesFileReader(file)) {
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                String[] parts = line.split(", ", 2);
+//                if (parts.length < 2) continue;
+//
+//                // JSON 형식 데이터 파싱
+//                String jsonString = parts[1];
+//                JSONObject json = new JSONObject(jsonString);
+//
+//                String category = json.getString("category");
+//                if(!latestPowerData.containsKey(category)) continue;
+//
+//                String iotId = json.getString("iot_id");
+//                if(latestPowerData.get(category).containsKey(iotId)) continue;
+//
+//                Map<String, Object> iotData = new HashMap<>();
+//                iotData.put("name", json.getString("iot_name"));
+//                iotData.put("value", Float.parseFloat(json.getString("value")));
+//
+//                latestPowerData.get(category).put(iotId, iotData);
+//
+//            }
+//        } catch (Exception e) {
+//            log.error("Error reading log file", e);
+//            throw new RuntimeException(e);
+//        }
+//
+//        // 각 기기의 최신 전력량 합산
+//        Float totalPower = latestPowerData.get("E").values().stream()
+//                .map(data -> (Float) data.get("value"))
+//                .reduce(0.0f, Float::sum);
+//
+//
+//        // 소수점 둘째 자리까지 포맷팅
+//        DecimalFormat df = new DecimalFormat("#.##");
+//        Float formattedTotalPower = Float.parseFloat(df.format(totalPower));
+//
+//        // 결과 데이터를 반환 형식에 맞게 정리
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("latestData", latestPowerData);
+//        result.put("totalPower", formattedTotalPower);
+//
+//        return result;
+//    }
 }
