@@ -21,7 +21,7 @@
         position: relative;
         padding: 0 5px;
         display: flex;
-        height: 25px;
+        height: 20px;
         width: 100%;
         max-width: 600px;
         margin-top: 15px;
@@ -32,7 +32,7 @@
         box-shadow: 0 10px 40px -10px rgba(0, 149, 255, 0.75);
         border-radius: 100px;
         background: linear-gradient(90deg, #ff4d4d, #ffcc00, #00ff00);
-        height: 20px;
+        height: 15px;
         width: 0;
         transition: width 0.5s ease;
     }
@@ -130,6 +130,7 @@
 <script>
     let park = {
         init: function () {
+            this.parkstat()
             setInterval(this.parkstat, 100000);
         },
 
@@ -339,7 +340,7 @@
         <div class="col-lg-5">
             <div class="card card-carousel overflow-hidden h-100 p-0">
                 <div class="card-header pb-0 pt-3 bg-transparent">
-                    <h6 class="text-capitalize">날씨</h6>
+                    <h6 class="text-capitalize">(여기 뭐라그래야 하냐)</h6>
                 </div>
                 <div class="card-body p-3">
                     <div class="row">
