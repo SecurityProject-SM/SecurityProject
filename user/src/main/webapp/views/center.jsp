@@ -129,16 +129,15 @@
 
 <script>
     let chart = {
-        chartInstance: null, // Highcharts 인스턴스를 저장
+        chartInstance: null,
         init: function () {
             this.initchart();
             this.getdata();
             setInterval(() => {
-                this.getdata(); // 5초마다 데이터 갱신
+                this.getdata();
             }, 5000);
         },
         initchart: function () {
-            // Highcharts 인스턴스 초기화
             this.chartInstance = Highcharts.chart('container3', {
                 chart: {
                     type: 'areaspline'
@@ -169,14 +168,12 @@
             if (this.chartInstance) {
                 const series = this.chartInstance.series[0];
 
-                // 데이터 변환: 서버에서 받은 데이터를 차트 데이터 형식으로 변환
                 const chartData = {
-                    x: new Date(data.total_time).getTime(), // total_time을 타임스탬프로 변환
-                    y: data.total // total 값을 사용
+                    x: new Date(data.total_time).getTime(),
+                    y: data.total
                 };
 
-                // 새로운 데이터를 추가 (addPoint)
-                series.addPoint(chartData, true, series.data.length >= 20); // 20개 이상이면 오래된 데이터 제거
+                series.addPoint(chartData, true, series.data.length >= 20);
             } else {
                 console.error("차트가 초기화되지 않았습니다.");
             }
