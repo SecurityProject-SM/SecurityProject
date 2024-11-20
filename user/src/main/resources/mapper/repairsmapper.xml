@@ -12,7 +12,7 @@
         SELECT * FROM repairs
     </select>
     <insert id="insert" parameterType="RepairsDto">
-        INSERT INTO repairs VALUES (#{repairsId},#{buildingId},#{adminId},#{repairStat},SYSDATE(),#{repairSen},#{repairLoc})
+        INSERT INTO repairs (building_id,iot_id, repair_stat, repair_start, repair_loc) VALUES (#{buildingId},#{iotId},#{repairStat},SYSDATE(),#{repairLoc})
     </insert>
     <update id="update" parameterType="RepairsDto">
         UPDATE repairs SET repair_stat=#{repairStat} WHERE repair_id=#{repairId}
