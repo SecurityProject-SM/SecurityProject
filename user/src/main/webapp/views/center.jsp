@@ -24,7 +24,7 @@
         height: 20px;
         width: 100%;
         max-width: 600px;
-        margin-top: 15px;
+        margin-top: 20px;
     }
 
     .progress-value {
@@ -128,10 +128,83 @@
 </style>
 
 <script>
+    let chart = {
+        chartInstance: null, // Highcharts 인스턴스를 저장
+        init: function () {
+            this.initchart();
+            this.getdata();
+            setInterval(() => {
+                this.getdata(); // 5초마다 데이터 갱신
+            }, 5000);
+        },
+        initchart: function () {
+            // Highcharts 인스턴스 초기화
+            this.chartInstance = Highcharts.chart('container3', {
+                chart: {
+                    type: 'areaspline'
+                },
+                title: {
+                    text: 'IoT 실시간 데이터'
+                },
+                xAxis: {
+                    type: 'datetime', // X축에 시간 표시
+                    title: {
+                        text: '시간'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: '전력 값 (W)'
+                    }
+                },
+                series: [
+                    {
+                        name: 'IoT 데이터',
+                        data: [] // 초기 데이터
+                    }
+                ]
+            });
+        },
+        display: function (data) {
+            if (this.chartInstance) {
+                const series = this.chartInstance.series[0];
+
+                // 데이터 변환: 서버에서 받은 데이터를 차트 데이터 형식으로 변환
+                const chartData = {
+                    x: new Date(data.total_time).getTime(), // total_time을 타임스탬프로 변환
+                    y: data.total // total 값을 사용
+                };
+
+                // 새로운 데이터를 추가 (addPoint)
+                series.addPoint(chartData, true, series.data.length >= 20); // 20개 이상이면 오래된 데이터 제거
+            } else {
+                console.error("차트가 초기화되지 않았습니다.");
+            }
+        },
+        getdata: function () {
+            $.ajax({
+                url: '/iot/chartdata',
+                type: 'GET',
+                success: (data) => {
+                    if (data) {
+                        this.display(data);
+                    } else {
+                        console.error('서버에서 데이터를 가져오지 못했습니다.');
+                    }
+                },
+                error: (xhr, status, error) => {
+                    console.error('데이터 요청 중 오류 발생:', status, error);
+                }
+            });
+        }
+    };
+
+
+
     let elec = {
         init: function () {
             this.getelec();
-            setInterval(this.getelec, 5000);
+            setInterval(this.getelec, 50000);
         },
 
         getelec: function () {
@@ -154,7 +227,7 @@
     let park = {
         init: function () {
             this.parkstat()
-            setInterval(this.parkstat, 100000);
+            setInterval(this.parkstat, 1000000);
         },
 
         parkstat: function () {
@@ -249,8 +322,8 @@
             let formattedTime = time.substring(11, 16); // 시간만 잘라내기 (HH:mm)
 
             let weatherHTML =
-                '<strong>' + '현재 온도' + '</strong><br>' +
-                '<strong>기온:</strong> ' + temp + '°C<br>';
+                '<h4>' + '현재 온도' + '</h4><br>' +
+                '<h4>기온: ' + temp + '°C</h4>' ;
 
             let weatherImg =
                 '<img src="https://openweathermap.org/img/wn/' + icon + '.png" alt="' + des + '" class="weather-icon">';
@@ -265,6 +338,7 @@
         map.init();
         park.init();
         elec.init();
+        chart.init();
     });
 
 </script>
@@ -347,16 +421,10 @@
         <div class="col-lg-7 mb-lg-0 mb-4">
             <div class="card z-index-2 h-100">
                 <div class="card-header pb-0 pt-3 bg-transparent">
-                    <h6 class="text-capitalize">Sales overview</h6>
-                    <p class="text-sm mb-0">
-                        <i class="fa fa-arrow-up text-success"></i>
-                        <span class="font-weight-bold">4% more</span> in 2021
-                    </p>
+                    <h6 class="text-capitalize">실시간 사용 전력</h6>
                 </div>
-                <div class="card-body p-3">
-                    <div class="chart">
-                        <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-                    </div>
+                <div class="card-body">
+                    <div id="container3" style="width: 100%; height: 400px;"></div>
                 </div>
             </div>
         </div>
