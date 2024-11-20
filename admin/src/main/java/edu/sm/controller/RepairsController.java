@@ -44,9 +44,9 @@ public class RepairsController {
     }
 
 
-    @RequestMapping("/calender")
-    public String calender(Model model) {
-        model.addAttribute("center", "repairs/center");
-        return"index";
-    }
+//    @RequestMapping("/calender")
+//    public String calender(Model model) {
+//        model.addAttribute("center", "repairs/center");
+//        return"index";
+//    }
 }

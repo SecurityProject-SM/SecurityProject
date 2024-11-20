@@ -73,6 +73,12 @@
     /* 애니메이션 속성 추가 */
     animation: float 3s ease-in-out infinite; /* 3초 주기로 무한 반복 */
   }
+
+  /*고장일때 row 강조*/
+  .tr-break {
+    background-color: #f8d7da; /* 연한 빨간색 */
+    color: #721c24; /* 진한 빨간색 텍스트 */
+  }
   #IOT1{top: 11px; left: 204px;}
   #IOT2{top: 21px; left: 611px;}
   #IOT3{top: 65px; left: 461px;}
@@ -103,26 +109,17 @@
   console.log("imagePath 객체:", imagePath);
   let energy = {
 
-
     intervalId: null, // 반복 통신을 위한 ID
     isPowerBoxActive: false, // 클릭 상태 확인 변수
     init:function() {
-      // setInterval(this.fetchLatestData, 2000);
       console.log("energy.init 호출됨"); // init 함수 호출 확인
-      // this.renderLatestData();
       this.fetchTotalPower();
-      setInterval(this.fetchTotalPower,5000);
-      // this.fetchTotalPower();
-      // this.startTotalPowerUpdate();
-      // this.fetchIotStatus();
-      setInterval(this.fetchIotStatus, 5000);
-      // $("#totalPowerBox").click(this.togglePowerData.bind(this)); // 총 전력량 박스 클릭 이벤트
-    },
-    startTotalPowerUpdate: function() {
-      this.intervalIdForPower = setInterval(this.fetchTotalPower.bind(this), 300);
+      setInterval(this.fetchIotStatus, 3000);
+      setInterval(this.fetchTotalPower,3000);
     },
 
 
+    // iot상태 불러와서 이미지 업데이트
     fetchIotStatus: function () {
       $.ajax({
         url: "/iot/getIotStatus",
@@ -185,40 +182,70 @@
       // 전력량 데이터만 테이블에 렌더링
       Object.keys(latestData.E).forEach(iotId => {
         let iotData = latestData.E[iotId];
-        let row = `<tr>
+        let statusText = ""; // 상태 텍스트 초기화
+
+        // 상태에 따라 텍스트 설정
+        switch (iotData.status) {
+          case "1":
+            statusText = "작동중";
+            rowClass = ""; // 기본 상태
+            break;
+          case "2":
+            statusText = "정지";
+            rowClass = ""; // 기본 상태
+            break;
+          case "3":
+            statusText = "고장";
+            rowClass = "tr-break"; // 고장 상태일 경우 클래스 추가
+            break;
+          default:
+            statusText = "알 수 없음";
+            rowClass = ""; // 기본 상태
+            break;
+        }
+
+        let row = `<tr class="\${rowClass}">
                 <td>\${iotId}</td>
                 <td>\${iotData.name}</td>
                 <td>\${iotData.value} kWh</td>
-                <td><button onclick='showControlBox("\${iotId}")'>제어</button></td>
-                <td></td>
-                <td>-</td>
+<!--                <td><button onclick='showControlBox("\${iotId}")'>제어</button></td>-->
+                <td><button onclick='energy.toggleIotStatus("\${iotId}", "\${iotData.status}")'>제어</button></td>
+                <td>\${statusText}</td>
             </tr>`;
         tableBody.append(row);
       });
+    },
+    toggleIotStatus: function (iotId, currentStatus) {
+      // 고장 상태인 경우 경고창 표시
+      if (currentStatus === "3") {
+        alert("고장 상태는 제어할 수 없습니다.");
+        return;
+      }
+
+      // 상태 변경 요청
+      let newStatus = currentStatus === "1" ? "2" : "1"; // 1 -> 2, 2 -> 1
+      $.ajax({
+        url: "/iot/updateStatus",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ iotId }),
+        success: function (response) {
+          alert(response); // 상태 변경 성공 메시지
+          // energy.renderLatestData(); // 상태 변경 후 최신 데이터 다시 로드
+
+          // 최신 데이터를 즉시 불러옴
+          energy.fetchIotStatus(); // 상태 데이터 갱신
+          energy.fetchTotalPower(); // 전력량 데이터 갱신
+        },
+        error: function (xhr) {
+          if (xhr.status === 403) {
+            alert(xhr.responseText); // 고장 상태 메시지
+          } else {
+            alert("IoT 상태 변경 중 오류가 발생했습니다.");
+          }
+        }
+      });
     }
-    <%--fetchLatestData: function(){--%>
-    <%--  $.ajax({--%>
-    <%--    url: "<c:url value='/iot/latestData'/>",--%>
-    <%--    type: "GET",--%>
-    <%--    success: function(data){--%>
-    <%--      let tableBody = $("#iotTableBody");--%>
-    <%--      tableBody.empty();--%>
-    <%--      $.each(data.latestData.E, function(iotId, iotData){--%>
-    <%--        let row = "<tr>" +--%>
-    <%--                "<td>" + iotId + "</td>" +--%>
-    <%--                "<td>" + iotData.name + "</td>" +--%>
-    <%--                "<td>" + iotData.value + " kWh</td>" +--%>
-    <%--                "<td><button onclick='showControlBox(\"" + iotId + "\")'>제어</button></td>" +--%>
-    <%--                "<td>-</td>" +--%>
-    <%--                "</tr>";--%>
-    <%--        tableBody.append(row);--%>
-    <%--      });--%>
-    <%--    },--%>
-    <%--    error: function(){--%>
-    <%--      $("#iotDataDisplay").text("데이터를 불러오는 중 오류 발생");--%>
-    <%--    }--%>
-    <%--  });--%>
-    <%--}--%>
   };
   $(function(){
     energy.init();
