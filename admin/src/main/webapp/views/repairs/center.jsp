@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,13 +9,12 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <!-- FullCalendar CSS -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
-    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS 템플릿 내장 버전-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FullCalendar JS -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js'></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
     <style>
         :root {
             --primary-color: #2C3E50;
@@ -152,7 +152,96 @@
     <div id="calendar"></div>
 </div>
 <script>
-    $(document).ready(function() {
+
+    let calender = {
+        init:function (){
+            // 캘린더 초기화 및 렌더링
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                },
+                locale: 'ko',
+                editable: true,
+                dayMaxEvents: true,
+                selectable: true,
+                selectMirror: true,
+                select: this.select,
+                eventClick: this.eventClick
+            });
+            calendar.render();
+            //3초마다 갱신
+            setInterval(this.getRepair,3000);
+        },
+        // DB값 repair 불러와 찍는거
+        getRepair: function() {
+            $.ajax({
+                url: "/repairs/getrepairs",
+                method: "GET",
+                dataType: "json",
+                success: function(result) {
+                    let events = [];
+                    console.log(result);
+                    result.repairsData.forEach(function(repair) {
+                        events.push({
+                            // title: '[유지보수] ' + repair.repair + ' - ' + repair.repairLoc,
+                            title: '[유지보수] ' + repair.repairLoc,
+                            start: repair.repairStart,
+                            backgroundColor: repair.repairStat === 'A' ? '#E74C3C' : '#3498DB'
+                        });
+                    });
+                    var calendar = $('#calendar').fullCalendar('getCalendar');
+                    calendar.removeEvents();
+                    calendar.addEventSource(events);
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+        },
+
+        // 일정 선택 시 일정 입력
+        select: function(arg) {
+            var title = prompt('새로운 일정을 입력하세요:');
+            if (title) {
+                calendar.addEvent({
+                    title: title,
+                    start: arg.start,
+                    end: arg.end,
+                    allDay: arg.allDay,
+                    backgroundColor: '#3498DB',
+                    borderColor: '#3498DB'
+                });
+            }
+            calendar.unselect();
+        },
+
+        // 일정 클릭 시 일정 삭제
+        eventClick: function(arg) {
+            if (window.confirm('일정을 삭제하시겠습니까?')) {
+                arg.event.remove();
+            }
+        }
+    };
+    $(function() {
+        calender.init();
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            events: [
+            ]
+        });
+    });
+
+
+    /*$(document).ready(function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
@@ -167,6 +256,7 @@
             selectable: true,
             selectMirror: true,
 
+            // 일정 선택 시
             select: function(arg) {
                 var title = prompt('새로운 일정을 입력하세요:');
                 if (title) {
@@ -182,6 +272,31 @@
                 calendar.unselect();
             },
 
+            // repairs 데이터 가져오기
+            events: function(fetchInfo, successCallback, failureCallback) {
+                $.ajax({
+                    url: '',
+                    type: 'GET',
+                    dataType:"json",
+                    success: function(result) {
+                        var events = [];
+                        result.repairData.forEach(function(repair) {
+                            events.push({
+                                title: '[유지보수 획인필요] ' + repair.iotId + ' - ' + repair.repairStart,
+                                start: repair.repairStart,
+                                backgroundColor: repair.repairStat === '1' ? '#E74C3C' : '#3498DB'
+                            });
+                        });
+                        successCallback(events);
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                        failureCallback(error);
+                    }
+                });
+            },
+
+            // 일정 클릭 시
             eventClick: function(arg) {
                 if (confirm('이 일정을 삭제하시겠습니까?')) {
                     arg.event.remove();
@@ -190,7 +305,15 @@
         });
 
         calendar.render();
-    });
+
+        setInterval(function() {
+            calendar.refetchEvents();
+        }, 2000);
+    });*/
 </script>
 </body>
 </html>
+
+
+
+

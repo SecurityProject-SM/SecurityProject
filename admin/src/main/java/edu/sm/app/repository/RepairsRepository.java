@@ -14,7 +14,7 @@ import java.util.List;
 public interface RepairsRepository extends SBRepository<Integer, RepairsDto> {
 
     List<NoticeDto> getFindPage(Search search);
-    List<RepairsDto> getRepairs();
+//    List<RepairsDto> getRepairs();
 
     //완료버튼
     int suc(Integer repairId);

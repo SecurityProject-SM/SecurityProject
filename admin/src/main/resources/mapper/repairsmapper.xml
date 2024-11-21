@@ -3,8 +3,6 @@
         PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.sm.app.repository.RepairsRepository">
-
-
     <select id="selectOne" parameterType="Integer" resultType="RepairsDto">
         SELECT * FROM repairs WHERE repairs_id=#{repairsId}
     </select>
@@ -12,7 +10,7 @@
         SELECT * FROM repairs
     </select>
     <insert id="insert" parameterType="RepairsDto">
-        INSERT INTO repairs VALUES (#{repairsId},#{buildingId},#{adminId},#{repairStat},SYSDATE(),#{repairSen},#{repairLoc})
+        INSERT INTO repairs (building_id,iot_id, repair_stat, repair_start, repair_loc) VALUES (#{buildingId},#{iotId},#{repairStat},SYSDATE(),#{repairLoc})
     </insert>
     <update id="update" parameterType="RepairsDto">
         UPDATE repairs SET repair_stat=#{repairStat} WHERE repair_id=#{repairId}
@@ -20,14 +18,4 @@
     <delete id="delete" parameterType="Integer">
         DELETE FROM repairs WHERE repair_id=#{repairId}
     </delete>
-
-    <!-- 페이징처리 -->
-    <select id="getRepairs" resultType="edu.sm.app.dto.RepairsDto">
-        SELECT * FROM repairs ORDER BY repair_id ASC
-    </select>
-
-    <update id="suc" parameterType="RepairsDto">
-        UPDATE repairs SET repair_stat='A' WHERE repair_id=#{repairId}
-    </update>
-
 </mapper>
