@@ -1,5 +1,6 @@
 package edu.sm.app.service;
 
+import edu.sm.app.dto.AvgTHDto;
 import edu.sm.app.dto.IotHistoryDto;
 import edu.sm.app.dto.ParkDto;
 import edu.sm.app.frame.SBService;
@@ -42,6 +43,10 @@ public class IotHistoryService implements SBService<Integer, IotHistoryDto> {
 
     public List<IotHistoryDto> selectLatestIotHistory() throws Exception {
         return iotHistoryRepository.selectLatestIotHistory();
+    }
+
+    public AvgTHDto selectAvgTH() throws Exception{
+        return iotHistoryRepository.selectAvgTH();
     }
 
     public Double getElec() throws Exception {
