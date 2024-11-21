@@ -4,31 +4,23 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.sm.app.dto.IotDto;
 import edu.sm.app.dto.IotHistoryDto;
+import edu.sm.app.dto.RepairsDto;
 import edu.sm.app.service.IotHistoryService;
 import edu.sm.app.service.IotServcie;
+import edu.sm.app.service.RepairsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.io.input.ReversedLinesFileReader;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +30,7 @@ public class IotRestController {
     private static final String LOG_FILE_PATH = "C:\\SmartBuildingProject\\logs\\data.log";
     private final IotServcie iotService;
     private final IotHistoryService iotHistoryService;
+    private final RepairsService repairsService;
 
 
     @RequestMapping("/data")
@@ -53,11 +46,34 @@ public class IotRestController {
             String valueCategory = jsonNode.get("category").asText();
             double iotValue = jsonNode.get("value").asDouble();
 
-            log.info("불러온 밸류값 : " + iotValue);
+
+            String iotStatus = iotService.getIotStatusById(iotId);
+            if(iotStatus.equals("1")) {
+                if (valueCategory.equals("E") && iotValue >= 50) {
+                    IotDto BreakIot = new IotDto();
+                    BreakIot.setIotId(iotId);
+                    BreakIot.setIotCategory(valueCategory);
+                    BreakIot.setIotStatus("3");
+                    iotService.modify(BreakIot);
+
+                    String buildingId = jsonNode.get("building_id").asText();
+                    String iotLoc = jsonNode.get("loc").asText();
+
+                    log.info("제발 찍혀라 Building ID: {}, IoT Loc: {}", buildingId, iotLoc);
+                    RepairsDto repairsDto = RepairsDto.builder()
+                            .buildingId(buildingId)
+                            .iotId(iotId)
+                            .repairStat("A")
+                            .repairLoc(iotLoc)
+                            .build();
+                    repairsService.add(repairsDto);
+                }
+
+            }
+
 
             // IOT 상태에 따라 DB에 들어갈 value값 지정
             // iot가 꺼져있으면 사용전력이 0이들어감
-            String iotStatus = iotService.getIotStatusById(iotId);
             if (!iotStatus.equals("1")) {
                 iotValue = 0.0;
             }
@@ -80,6 +96,34 @@ public class IotRestController {
     }
 
 
+    // iot기기 제어 함수
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+    public ResponseEntity<String> updateIotStatus(@RequestBody Map<String, String> request) {
+        try {
+            String iotId = request.get("iotId");
+            String currentStatus = iotService.getIotStatusById(iotId);
+
+            // 고장 상태인 경우
+            if ("3".equals(currentStatus)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("고장 상태인 기기는 제어할 수 없습니다.");
+            }
+
+            // 상태 변경 처리
+            String newStatus = "1".equals(currentStatus) ? "2" : "1"; // 1 -> 2, 2 -> 1
+            IotDto iotDto = new IotDto();
+            iotDto.setIotId(iotId);
+            iotDto.setIotStatus(newStatus);
+            iotService.modify(iotDto);
+
+            return ResponseEntity.ok("IoT 상태가 변경되었습니다.");
+        } catch (Exception e) {
+            log.error("Error updating IoT status", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("IoT 상태 변경 중 오류가 발생했습니다.");
+        }
+    }
+
     // IoT 상태 조회 API
     @RequestMapping("/getIotStatus")
     @ResponseBody
@@ -89,7 +133,7 @@ public class IotRestController {
         for (IotDto iot : iotList) {
             Map<String,Object> obj = new HashMap<>();
             obj.put("iotId", iot.getIotId());
-            obj.put("iotStatus", iot.getIotStatus()); // true: on, false: off
+            obj.put("iotStatus", iot.getIotStatus()); // 1:on 2:off 3:break
             result.add(obj);
         }
         return result;
@@ -115,6 +159,7 @@ public class IotRestController {
             iotData.put("value", data.getIotValue());
             iotData.put("name",data.getIotName());
             iotData.put("id", iotId);
+            iotData.put("status", data.getIotStatus());
 
 
             latestPowerData.get(category).put(iotId, iotData);
@@ -134,60 +179,7 @@ public class IotRestController {
         return result;
     }
 
-    //테이블에 뿌리는 코드 (로그에서 읽는 코드)
-//    @RequestMapping("/latestData")
-//    public Map<String, Object> getLatestData() {
-//        Map<String,Map<String, Map<String,Object>>> latestPowerData = new HashMap<>();
-//        latestPowerData.put("T", new HashMap<>());
-//        latestPowerData.put("H", new HashMap<>());
-//        latestPowerData.put("E", new HashMap<>());
-//
-//        File file = new File(LOG_FILE_PATH);
-//        try (ReversedLinesFileReader br = new ReversedLinesFileReader(file)) {
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//                String[] parts = line.split(", ", 2);
-//                if (parts.length < 2) continue;
-//
-//                // JSON 형식 데이터 파싱
-//                String jsonString = parts[1];
-//                JSONObject json = new JSONObject(jsonString);
-//
-//                String category = json.getString("category");
-//                if(!latestPowerData.containsKey(category)) continue;
-//
-//                String iotId = json.getString("iot_id");
-//                if(latestPowerData.get(category).containsKey(iotId)) continue;
-//
-//                Map<String, Object> iotData = new HashMap<>();
-//                iotData.put("name", json.getString("iot_name"));
-//                iotData.put("value", Float.parseFloat(json.getString("value")));
-//
-//                latestPowerData.get(category).put(iotId, iotData);
-//
-//            }
-//        } catch (Exception e) {
-//            log.error("Error reading log file", e);
-//            throw new RuntimeException(e);
-//        }
-//
-//        // 각 기기의 최신 전력량 합산
-//        Float totalPower = latestPowerData.get("E").values().stream()
-//                .map(data -> (Float) data.get("value"))
-//                .reduce(0.0f, Float::sum);
-//
-//
-//        // 소수점 둘째 자리까지 포맷팅
-//        DecimalFormat df = new DecimalFormat("#.##");
-//        Float formattedTotalPower = Float.parseFloat(df.format(totalPower));
-//
-//        // 결과 데이터를 반환 형식에 맞게 정리
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("latestData", latestPowerData);
-//        result.put("totalPower", formattedTotalPower);
-//
-//        return result;
-//    }
+
 
     @RequestMapping("/mainpage")
     public ResponseEntity<Double> getElec() throws Exception {

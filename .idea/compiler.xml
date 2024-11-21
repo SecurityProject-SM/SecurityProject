@@ -13,11 +13,17 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="iot_1" target="17" />
+      <module name="iot_1.main" target="17" />
+      <module name="iot_1.test" target="17" />
       <module name="iot_2" target="17" />
       <module name="iot_2.main" target="17" />
       <module name="iot_2.test" target="17" />
       <module name="iotaircon.main" target="17" />
       <module name="iotaircon.test" target="17" />
+      <module name="iottemp1" target="17" />
+      <module name="iottemp1.main" target="17" />
+      <module name="iottemp1.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

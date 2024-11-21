@@ -22,8 +22,8 @@ public class RepairsController {
     public String repairs(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
         log.info("Loading repairs list - page {}", pageNo);
 
-        PageInfo<RepairsDto> pageInfo = new PageInfo<>(repairsService.getRepairsPage(pageNo), 5); // 페이지네이션 설정
-        model.addAttribute("cpage", pageInfo);
+//        PageInfo<RepairsDto> pageInfo = new PageInfo<>(repairsService.getRepairsPage(pageNo), 5); // 페이지네이션 설정
+//        model.addAttribute("cpage", pageInfo);
         model.addAttribute("center", "repairs/center"); // 수정된 경로
         model.addAttribute("target", "repairs"); // 수정된 target 이름
         return "index";
@@ -36,10 +36,4 @@ public class RepairsController {
         return "redirect:/repairs";
     }
 
-
-    @RequestMapping("/calender")
-    public String calender(Model model) {
-        model.addAttribute("center", "repairs/center");
-        return"index";
-    }
 }
