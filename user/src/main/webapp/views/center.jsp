@@ -12,6 +12,13 @@
 </head>
 
 <style>
+    #remainingDays {
+        color: black;
+        font-size: 1.2em;
+        font-weight: bold;
+        visibility: visible;
+    }
+
     <%-- progress 바 --%>
     .progress {
         background: rgba(255, 255, 255, 0.1);
@@ -328,7 +335,25 @@
             $('#weatherContainer').append(weatherHTML);
             $('#imgContainer').append(weatherImg);
         }
+
+
     };
+
+    let dnjftp = {
+        init: function () {
+            const today = new Date();
+            const currentDate = today.getDate();
+
+            if (currentDate === 1) {
+                $("#remainingDays").text("D - 0");
+            } else {
+                const nextDueDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+                const remainingDays = Math.ceil((nextDueDate - today) / (1000 * 60 * 60 * 24));
+                $("#remainingDays").text(`남은 일수: ${remainingDays}일`);
+            }
+        }
+    };
+
 
     $(function () {
         center.init();
@@ -336,6 +361,7 @@
         park.init();
         elec.init();
         chart.init();
+        dnjftp.init();
     });
 
 </script>
@@ -402,10 +428,12 @@
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
-                            <p>데이터 값 들어갈 자리</p>
+                            <h3>월세 납부일</h3>
+                            <h6 id="remainingDays">남은 일수:</h6>
                         </div>
+
                         <div class="col-4">
-                            <p>아이콘 들어갈 자리</p>
+                            <img src="<c:url value="img/dnjftp.jpg"/>" style="width: 90%">
                         </div>
                     </div>
                 </div>
