@@ -40,6 +40,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
+<script>
+    <%--document.addEventListener("DOMContentLoaded", function () {--%>
+    <%--    var loginid = "${sessionScope.loginid}";--%>
+
+    <%--    if (!loginid || loginid === "null") {--%>
+    <%--        alert("로그인이 필요한 서비스 입니다.");--%>
+    <%--        window.location.href = "/login";--%>
+    <%--    }--%>
+    <%--});--%>
+</script>
+
+
 <body class="g-sidenav-show bg-gray-100">
 <%--<div class="min-height-300 bg-dark position-absolute w-100" style="background-image: url('<c:url value="/img/bruce-mars.jpg"/>')"></div>--%>
 <div class="min-height-300 bg-dark position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
