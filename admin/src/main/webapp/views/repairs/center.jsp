@@ -1,319 +1,166 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar</title>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- FullCalendar CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
-    <!-- Bootstrap CSS 템플릿 내장 버전-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FullCalendar JS -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
+    <title>Google Calendar</title>
+    <meta charset='utf-8' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <style>
-        :root {
-            --primary-color: #2C3E50;
-            --accent-color: #3498DB;
-            --bg-gradient: linear-gradient(135deg, #1a2b3c 0%, #2C3E50 100%);
-            --event-color: #3498DB;
-            --hover-color: #2980B9;
-        }
-
         body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Arial', sans-serif;
-            background: var(--bg-gradient);
-            min-height: 100vh;
-            color: #ECF0F1;
+            margin: 40px 10px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
         }
-
-        .calendar-container {
-            max-width: 1200px;
-            margin: 20px auto;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .calendar-title {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #ECF0F1;
-            font-size: 2.5em;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
         #calendar {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        /* FullCalendar 커스텀 스타일 */
-        .fc {
-            background: transparent;
-        }
-
-        .fc-toolbar-title {
-            color: #ECF0F1 !important;
-            font-size: 1.5em !important;
-            font-weight: bold !important;
-        }
-
-        .fc-button-primary {
-            background-color: var(--accent-color) !important;
-            border-color: var(--accent-color) !important;
-            color: white !important;
-            padding: 8px 16px !important;
-            border-radius: 5px !important;
-            transition: all 0.3s ease !important;
-        }
-
-        .fc-button-primary:hover {
-            background-color: var(--hover-color) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .fc-daygrid-day {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        }
-
-        .fc-daygrid-day-number {
-            color: #ECF0F1 !important;
-            font-weight: 500;
-            padding: 8px !important;
-        }
-
-        .fc-day-today {
-            background: rgba(52, 152, 219, 0.2) !important;
-        }
-
-        .fc-event {
-            background-color: var(--event-color) !important;
-            border: none !important;
-            padding: 3px 5px !important;
-            margin: 2px 0 !important;
-            border-radius: 4px !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
-        }
-
-        .fc-event:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-
-        .fc-day-header {
-            color: #ECF0F1 !important;
-            font-weight: bold !important;
-        }
-
-        .fc-col-header-cell {
-            background: rgba(255, 255, 255, 0.1) !important;
-            color: #ECF0F1 !important;
-        }
-
-        /* 반응형 스타일 */
-        @media (max-width: 768px) {
-            .calendar-container {
-                margin: 10px;
-                padding: 10px;
-            }
-
-            .calendar-title {
-                font-size: 1.8em;
-            }
-
-            .fc-toolbar {
-                flex-direction: column;
-            }
-
-            .fc-toolbar-chunk {
-                margin: 5px 0;
-            }
+            max-width: 1100px;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-<div class="calendar-container">
-    <h2 class="calendar-title">Schedule Management</h2>
-    <div id="calendar"></div>
-</div>
-<script>
+<div id="calendar"></div>
 
-    let calender = {
-        init:function (){
-            // 캘린더 초기화 및 렌더링
-            var calendarEl = document.getElementById('calendar');
+<script>
+    const CLIENT_ID = '819413479729-h0djsa73ccab5100nidvhkbfo6mq90q5.apps.googleusercontent.com';
+    const API_KEY = 'AIzaSyAw5ATyRPtGDxeZLu5GoPjqZCENrKLoxuw';
+    const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
+    const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
+
+    let tokenClient;
+    let gapiInited = false;
+    let gisInited = false;
+
+    let calendar = {
+        // 캘린더 초기화 및 기본 설정
+        init: function() {
+            var calendarEl = document.getElementById('calendar'); // 캘린더가 들어갈 div 요소 가져오기
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                initialView: 'dayGridMonth',  // 처음 보여질 때 월간 보기로 설정
+                headerToolbar: {  // 상단 툴바 설정
+                    left: 'prev,next today',     // 왼쪽: 이전,다음,오늘 버튼
+                    center: 'title',             // 중앙: 현재 년월 표시
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'  // 오른쪽: 월,주,일 보기 버튼
                 },
-                locale: 'ko',
-                editable: true,
-                dayMaxEvents: true,
-                selectable: true,
-                selectMirror: true,
-                select: this.select,
-                eventClick: this.eventClick
+                editable: true,    // 이벤트 드래그&드롭 가능
+                selectable: true,  // 날짜 선택 가능
+
+                select: this.select,          // 날짜 선택시 실행할 함수
+                eventClick: this.eventClick,  // 이벤트 클릭시 실행할 함수
+                eventDrop: this.eventDrop,    // 이벤트 드래그&드롭시 실행할 함수
+                events: this.getEvents        // 이벤트 데이터 가져오는 함수
             });
-            calendar.render();
-            //3초마다 갱신
-            setInterval(this.getRepair,3000);
+
+            calendar.render();  // 캘린더 렌더링
+
+            // 5초마다 이벤트 데이터 새로고침
+            setInterval(function() {
+                calendar.refetchEvents();
+            }, 5000);
         },
-        // DB값 repair 불러와 찍는거
-        getRepair: function() {
+
+        // DB에서 이벤트 데이터 가져오기
+        getEvents: function(fetchInfo, successCallback, failureCallback) {
             $.ajax({
-                url: "/repairs/getrepairs",
-                method: "GET",
-                dataType: "json",
+                url: '/repairs/getrepairs',  // 서버 요청 URL
+                type: 'GET',
                 success: function(result) {
                     let events = [];
-                    console.log(result);
+                    // DB에서 가져온 각 repair 데이터를 캘린더 이벤트 형식으로 변환
                     result.repairsData.forEach(function(repair) {
                         events.push({
-                            // title: '[유지보수] ' + repair.repair + ' - ' + repair.repairLoc,
-                            title: '[유지보수] ' + repair.repairLoc,
-                            start: repair.repairStart,
-                            backgroundColor: repair.repairStat === 'A' ? '#E74C3C' : '#3498DB'
+                            title: '[유지보수] ' + repair.repairLoc,  // 이벤트 제목
+                            start: repair.repairStart,                // 시작 날짜
+                            backgroundColor: repair.repairStat === 'A' ? '#E74C3C' : '#3498DB',  // 상태에 따른 색상
+                            extendedProps: {  // 추가 속성 저장
+                                repairId: repair.repairId,
+                                repairStat: repair.repairStat
+                            }
                         });
                     });
-                    var calendar = $('#calendar').fullCalendar('getCalendar');
-                    calendar.removeEvents();
-                    calendar.addEventSource(events);
-                },
-                error: function(error) {
-                    console.log('Error:', error);
+                    successCallback(events);  // 변환된 이벤트 데이터 전달
                 }
             });
         },
 
-        // 일정 선택 시 일정 입력
-        select: function(arg) {
-            var title = prompt('새로운 일정을 입력하세요:');
-            if (title) {
-                calendar.addEvent({
-                    title: title,
-                    start: arg.start,
-                    end: arg.end,
-                    allDay: arg.allDay,
-                    backgroundColor: '#3498DB',
-                    borderColor: '#3498DB'
-                });
-            }
-            calendar.unselect();
-        },
-
-        // 일정 클릭 시 일정 삭제
-        eventClick: function(arg) {
-            if (window.confirm('일정을 삭제하시겠습니까?')) {
-                arg.event.remove();
-            }
-        }
-    };
-    $(function() {
-        calender.init();
-
-        $('#calendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
-            },
-            events: [
-            ]
-        });
-    });
-
-
-    /*$(document).ready(function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,dayGridWeek,dayGridDay'
-            },
-            locale: 'ko',
-            editable: true,
-            dayMaxEvents: true,
-            selectable: true,
-            selectMirror: true,
-
-            // 일정 선택 시
-            select: function(arg) {
-                var title = prompt('새로운 일정을 입력하세요:');
-                if (title) {
-                    calendar.addEvent({
-                        title: title,
-                        start: arg.start,
-                        end: arg.end,
-                        allDay: arg.allDay,
-                        backgroundColor: '#3498DB',
-                        borderColor: '#3498DB'
-                    });
-                }
-                calendar.unselect();
-            },
-
-            // repairs 데이터 가져오기
-            events: function(fetchInfo, successCallback, failureCallback) {
+        // 날짜 선택시 새 일정 추가
+        select: function(info) {
+            let repairLoc = prompt('일정 정보를 입력하세요:');  // 사용자에게 일정 정보 입력받기
+            if (repairLoc) {
                 $.ajax({
-                    url: '',
-                    type: 'GET',
-                    dataType:"json",
-                    success: function(result) {
-                        var events = [];
-                        result.repairData.forEach(function(repair) {
-                            events.push({
-                                title: '[유지보수 획인필요] ' + repair.iotId + ' - ' + repair.repairStart,
-                                start: repair.repairStart,
-                                backgroundColor: repair.repairStat === '1' ? '#E74C3C' : '#3498DB'
-                            });
+                    url: '/repairs/add',  // 서버 요청 URL
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',  // JSON 형식으로 데이터 전송
+                    data: JSON.stringify({  // 서버로 보낼 데이터
+                        buildingId: null,
+                        iotId: null,
+                        repairStat: null,
+                        repairStart: info.startStr,  // 선택한 날짜
+                        repairLoc: repairLoc        // 입력받은 일정 정보
+                    }),
+                    success: function(response) {
+                        // 서버 저장 성공시 캘린더에 이벤트 추가
+                        info.view.calendar.addEvent({
+                            title: repairLoc,
+                            start: info.startStr,
+                            backgroundColor: '#3498DB'
                         });
-                        successCallback(events);
                     },
                     error: function(error) {
                         console.log('Error:', error);
-                        failureCallback(error);
+                        alert('일정 추가에 실패했습니다.');
                     }
                 });
-            },
-
-            // 일정 클릭 시
-            eventClick: function(arg) {
-                if (confirm('이 일정을 삭제하시겠습니까?')) {
-                    arg.event.remove();
-                }
             }
-        });
+            info.view.calendar.unselect();  // 날짜 선택 상태 해제
+        },
 
-        calendar.render();
+        // 이벤트 클릭시 삭제
+        eventClick: function(info) {
+            if(confirm('선택한 일정을 삭제하시겠습니까?')) {
+                $.ajax({
+                    url: '/repairs/delete',  // 서버 요청 URL
+                    type: 'POST',
+                    data: {
+                        repairId: info.event.extendedProps.repairId  // 삭제할 이벤트 ID
+                    },
+                    success: function(response) {
+                        info.event.remove();  // 캘린더에서 이벤트 제거
+                    }
+                });
+            }
+        },
 
-        setInterval(function() {
-            calendar.refetchEvents();
-        }, 2000);
-    });*/
+        // 이벤트 드래그&드롭으로 수정
+        eventDrop: function(info) {
+            if(confirm('일정을 수정하시겠습니까?')) {
+                $.ajax({
+                    url: '/repairs/update',  // 서버 요청 URL
+                    type: 'POST',
+                    data: {
+                        repairId: info.event.extendedProps.repairId,  // 수정할 이벤트 ID
+                        start: info.event.startStr,    // 변경된 시작 날짜
+                        end: info.event.endStr         // 변경된 종료 날짜
+                    },
+                    success: function(response) {
+                        // 성공시 자동으로 반영됨
+                    },
+                    error: function() {
+                        info.revert();  // 실패시 원래 위치로 되돌리기
+                    }
+                });
+            } else {
+                info.revert();  // 취소시 원래 위치로 되돌리기
+            }
+        }
+    };
+
+    // 문서가 완전히 로드된 후 캘린더 초기화
+    $(function() {
+        calendar.init();
+    });
+
 </script>
 </body>
 </html>
-
-
-
-

@@ -2,6 +2,7 @@ package edu.sm.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.sm.app.dto.AvgTHDto;
 import edu.sm.app.dto.IotDto;
 import edu.sm.app.dto.IotHistoryDto;
 import edu.sm.app.dto.RepairsDto;
@@ -148,6 +149,9 @@ public class IotRestController {
 
         List<IotHistoryDto> historyLatestData = iotHistoryService.selectLatestIotHistory();
 
+        // 평균 습도 값 불러오기
+        AvgTHDto avgTHData = iotHistoryService.selectAvgTH();
+
         for(IotHistoryDto data : historyLatestData){
             String category = data.getValueCategory();
             if(!latestPowerData.containsKey(category)) continue;
@@ -175,6 +179,12 @@ public class IotRestController {
         Map<String, Object> result = new HashMap<>();
         result.put("latestData",latestPowerData);
         result.put("totalPower",formattedTotalPower);
+
+        // 평균 온도와 습도 데이터를 Map에 추가
+        Map<String, Object> avgData = new HashMap<>();
+        avgData.put("avgTemperature", avgTHData.getAvgTemperature());
+        avgData.put("avgHumidity", avgTHData.getAvgHumidity());
+        result.put("avgData", avgData);
 
         return result;
     }

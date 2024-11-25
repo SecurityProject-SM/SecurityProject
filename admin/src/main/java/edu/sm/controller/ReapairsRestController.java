@@ -39,4 +39,27 @@ public class ReapairsRestController {
         return rsult;
     }
 
+    @RequestMapping("/add")
+    public Object add() throws Exception {
+        List<RepairsDto> repairs=repairsService.get();
+        JSONArray array = new JSONArray();
+
+        for(RepairsDto repair :repairs){
+            JSONObject obj = new JSONObject();
+            obj.put("repairId",repair.getRepairId());
+            obj.put("buildingId",repair.getBuildingId());
+            obj.put("iotId",repair.getIotId());
+            obj.put("repairStat",repair.getRepairStat());
+            obj.put("repairStart",repair.getRepairStart());
+            obj.put("repairLoc",repair.getRepairLoc());
+            array.add(obj);
+        }
+        JSONObject rsult = new JSONObject();
+        rsult.put("repairsData",array);
+        return rsult;
+    }
+
+
+
+
 }
