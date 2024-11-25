@@ -675,7 +675,7 @@
 
 
 <div id="chat-window" class="chat-window"
-     style="display: none; position: fixed; bottom: 70px; right: 10px; width: 420px; height: 510px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+     style="display: none; position: fixed; bottom: 70px; right: 10px; width: 425px; height: 515px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
     <div class="chat-header" style="padding: 10px; background: #007bff; color: white; font-size: 16px;">
         AI 상담사
         <button id="close-chat"
