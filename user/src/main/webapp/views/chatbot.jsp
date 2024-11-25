@@ -45,6 +45,10 @@
         background: #00A0B0; /* Darker Blue */
     }
 
+    #totext {
+        width: 354px;
+    }
+
 
 </style>
 <script>
@@ -61,6 +65,13 @@
                 this.disconnect();
             });
 
+            $('#totext').keypress((event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // 기본 Enter 동작 방지
+                    $('#sendto').click(); // 전송 버튼 클릭과 동일한 동작 실행
+                }
+            });
+
             $('#sendto').click(()=>{
                 var msg = JSON.stringify({
                     'sendid' : this.id,
@@ -71,6 +82,7 @@
                     "<h4>" + this.id +":"+
                     $('#totext').val()
                     + "</h4>");
+                $('#totext').val(''); // 입력 필드 초기화
             });
         },
         connect:function(){
@@ -135,7 +147,7 @@
         websocket.init();
     });
 </script>
-<div class="col-sm-10">
+<div>
 <%--    <h2>ChatBot Page</h2>--%>
 <%--    <div class="col-sm-5">--%>
 <%--        <h1 id="login_id">${sessionScope.loginid.custId}</h1>--%>
@@ -145,7 +157,7 @@
 
 
         <div id="to"></div>
-    <input type="text" id="totext"><button id="sendto">Send</button>
+        <input type="text" id="totext"><button id="sendto"><img src="img/chat.png" style="height: 30px"></button>
 
 
 <%--    </div>--%>

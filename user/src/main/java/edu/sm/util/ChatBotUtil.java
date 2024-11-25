@@ -177,23 +177,26 @@ public class ChatBotUtil {
                 // Parsing the "bubbles" array
                 JSONArray bubbles = (JSONArray) json.get("bubbles");
                 if (bubbles == null || bubbles.isEmpty()) {
-                    return "Error: No bubbles in response";
+                    return "Default response: No bubbles in response";
                 }
 
                 // Accessing the first bubble and its "data" field
                 JSONObject firstBubble = (JSONObject) bubbles.get(0);
                 JSONObject bubbleData = (JSONObject) firstBubble.get("data");
                 if (bubbleData == null) {
-                    return "Error: No data in bubbles";
+                    return "Default response: No data in bubbles";
                 }
+
+                // Initialize variables for description and links
+                String description = null;
+                StringBuilder linkMessages = new StringBuilder();
 
                 // Accessing "cover" -> "description"
                 JSONObject cover = (JSONObject) bubbleData.get("cover");
                 if (cover != null) {
                     JSONObject coverData = (JSONObject) cover.get("data");
                     if (coverData != null) {
-                        String description = (String) coverData.get("description");
-                        chatMessage = description; // Add the description to the message
+                        description = (String) coverData.get("description");
                     }
                 }
 
@@ -201,7 +204,6 @@ public class ChatBotUtil {
                 JSONArray contentTable = (JSONArray) bubbleData.get("contentTable");
                 if (contentTable != null && !contentTable.isEmpty()) {
                     JSONArray firstRow = (JSONArray) contentTable.get(0); // First row of the table
-                    StringBuilder linkMessages = new StringBuilder();
                     for (Object item : firstRow) {
                         JSONObject cell = (JSONObject) item;
                         JSONObject cellData = (JSONObject) cell.get("data");
@@ -212,13 +214,20 @@ public class ChatBotUtil {
                                 JSONObject linkData = (JSONObject) actionData.get("data");
                                 if (linkData != null) {
                                     String urlLink = (String) linkData.get("url");
-
                                     linkMessages.append("\n").append(title).append(": ").append(urlLink);
                                 }
                             }
                         }
                     }
-                    chatMessage += linkMessages.toString(); // Append link messages
+                }
+
+                // Decide the final message
+                if (linkMessages.length() > 0) {
+                    chatMessage = (description != null ? description + "\n" : "") + linkMessages.toString();
+                } else if (description != null) {
+                    chatMessage = description; // Only description if no links
+                } else {
+                    chatMessage = "No content available"; // Fallback if no data
                 }
             }
         } else {
@@ -227,6 +236,7 @@ public class ChatBotUtil {
 
         return chatMessage;
     }
+
 
 
 
