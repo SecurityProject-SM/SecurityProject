@@ -120,38 +120,32 @@ public class MainInputController {
         return "redirect:/";
     }
 
-    @MessageMapping("/sendchatbot") // 특정 Id에게 전송
+    @MessageMapping("/sendchatbot")
     public void sendchat(Msg msg, SimpMessageHeaderAccessor headerAccessor) throws Exception {
-        String id = msg.getSendid(); // 보낸 사람 ID
-        String content = msg.getContent1(); // 사용자가 입력한 내용
+        String id = msg.getSendid();
+        String content = msg.getContent1();
         log.info("Received message: {}", content);
 
         String resultMessage = null;
         String extractedUrl = null;
 
-        // ChatBotUtil 호출 (URL 추출 여부에 따라 처리)
         if (content.contains("주차정산")) {
-            // URL이 포함된 응답 생성
             resultMessage = ChatBotUtil.getMsgUrl(url, key, content);
         } else {
-            // 단순 메시지 응답
             resultMessage = ChatBotUtil.getMsg(url, key, content);
         }
 
-        // URL 추출 로직
         if (resultMessage != null && resultMessage.contains("http")) {
             int httpIndex = resultMessage.indexOf("http");
             extractedUrl = resultMessage.substring(httpIndex).trim(); // URL 부분 추출
             resultMessage = resultMessage.substring(0, httpIndex).trim(); // 메시지 부분 추출
         }
 
-        // Msg 객체 업데이트
         msg.setContent1(resultMessage != null ? resultMessage : "알 수 없는 응답입니다.");
         msg.setUrl(extractedUrl);
 
         log.info("Processed Msg: {}", msg);
 
-        // 클라이언트로 전송
         template.convertAndSend("/sendto/" + id, msg);
     }
 

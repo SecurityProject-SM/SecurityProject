@@ -67,8 +67,8 @@
 
             $('#totext').keypress((event) => {
                 if (event.key === 'Enter') {
-                    event.preventDefault(); // 기본 Enter 동작 방지
-                    $('#sendto').click(); // 전송 버튼 클릭과 동일한 동작 실행
+                    event.preventDefault();
+                    $('#sendto').click();
                 }
             });
 
@@ -96,19 +96,17 @@
                 this.subscribe('/sendto/' + sid, function(msg) {
                     let parsedMsg = JSON.parse(msg.body);
 
-                    let content = parsedMsg.content1 || ""; // 기본 메시지 내용
-                    let url = parsedMsg.url || ""; // 기본 URL 값
+                    let content = parsedMsg.content1 || "";
+                    let url = parsedMsg.url || "";
 
-                    // URL이 `content1`에 포함된 경우 추출
                     if (!url.trim() && content.includes("http")) {
                         let urlMatch = content.match(/https?:\/\/[^\s]+/);
                         if (urlMatch) {
-                            url = urlMatch[0]; // 첫 번째 URL 추출
-                            content = content.replace(url, ""); // URL 제거 후 메시지만 남기기
+                            url = urlMatch[0];
+                            content = content.replace(url, "");
                         }
                     }
 
-                    // 메시지 렌더링
                     if (url.trim() !== "") {
                         // URL이 있는 경우
                         $("#to").prepend(
