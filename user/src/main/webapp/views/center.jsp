@@ -12,6 +12,21 @@
 </head>
 
 <style>
+
+    #chat-window {
+        position: fixed; /* 이미 설정되어 있으므로 유지 */
+        bottom: 70px;
+        right: 10px;
+        width: 300px;
+        height: 400px;
+        background: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        z-index: 9999; /* 높은 z-index 값 설정 */
+    }
+
+
     #remainingDays {
         color: black;
         font-size: 1.2em;
@@ -204,7 +219,6 @@
     };
 
 
-
     let elec = {
         init: function () {
             this.getelec();
@@ -327,7 +341,7 @@
 
             let weatherHTML =
                 '<h4>' + '현재 온도' + '</h4><br>' +
-                '<h4>기온: ' + temp + '°C</h4>' ;
+                '<h4>기온: ' + temp + '°C</h4>';
 
             let weatherImg =
                 '<img src="https://openweathermap.org/img/wn/' + icon + '.png" alt="' + des + '" class="weather-icon">';
@@ -354,6 +368,33 @@
         }
     };
 
+    let chat = {
+        init: function () {
+            this.cacheDom();
+            this.bindEvents();
+        },
+        cacheDom: function () {
+            this.$chatButton = $('#chat-button'); // Chat button
+            this.$chatWindow = $('#chat-window'); // Chat window
+            this.$closeButton = $('#close-chat'); // Close button inside chat window
+        },
+        bindEvents: function () {
+            // Bind click events
+            this.$chatButton.on('click', this.toggleChat.bind(this));
+            this.$closeButton.on('click', this.closeChat.bind(this));
+        },
+        toggleChat: function () {
+            if (this.$chatWindow.css('display') === 'none') {
+                this.$chatWindow.show();
+            } else {
+                this.$chatWindow.hide();
+            }
+        },
+        closeChat: function () {
+            this.$chatWindow.hide();
+        }
+    };
+
 
     $(function () {
         center.init();
@@ -362,6 +403,7 @@
         elec.init();
         chart.init();
         dnjftp.init();
+        chat.init();
     });
 
 </script>
@@ -461,7 +503,7 @@
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-sm-6">
-                            <jsp:include page="webcam.jsp" />
+                            <jsp:include page="webcam.jsp"/>
                         </div>
                         <div class="col-sm-6">동영상1</div>
                     </div>
@@ -548,9 +590,13 @@
             </div>
         </footer>
     </div>
+
+
     <div class="fixed-plugin">
-        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-            <i class="fa fa-cog py-2"> </i>
+        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2 d-flex align-items-center"
+           style="margin-right: 50px">
+            <img src="<c:url value='/img/barsettings.png'/>" alt="Settings" style="width: 20px;">
+            <span class="visually-hidden">Settings</span>
         </a>
         <div class="card shadow-lg">
             <div class="card-header pb-0 pt-3 ">
@@ -617,6 +663,31 @@
         </div>
     </div>
 </div>
+
+
+<div class="fixed-plugin">
+    <a id="chat-button" class="fixed-plugin-button text-dark position-fixed px-3 py-2 d-flex align-items-center"
+       style="right: 10px;">
+        <img src="<c:url value='img/chatbot.png'/>" alt="Chat" style="width: 20px;">
+        <span class="visually-hidden">Chat</span>
+    </a>
+</div>
+
+
+<div id="chat-window" class="chat-window"
+     style="display: none; position: fixed; bottom: 70px; right: 10px; width: 420px; height: 510px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+    <div class="chat-header" style="padding: 10px; background: #007bff; color: white; font-size: 16px;">
+        AI 상담사
+        <button id="close-chat"
+                style="float: right; background: none; border: none; color: white; font-size: 18px; cursor: pointer;">×
+        </button>
+    </div>
+    <div class="chat-body" style="padding: 10px; overflow-y: auto; height: calc(100% - 50px);">
+            <jsp:include page="chatbot.jsp"/>
+    </div>
+</div>
+
+
 <!--   Core JS Files   -->
 <script src="<c:url value="/js/core/popper.min.js"/>"></script>
 <script src="<c:url value="/js/core/bootstrap.min.js"/>"></script>

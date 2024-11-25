@@ -27,5 +27,17 @@
           AND (car_pay IS NULL)
     </select>
 
+    <select id="carPaySum" resultType="Map">
+        SELECT
+            DATE_FORMAT(car_in, '%Y-%m') AS month,
+        SUM(car_pay) AS totalCarPay
+        FROM
+            parklog
+        GROUP BY
+            DATE_FORMAT(car_in, '%Y-%m')
+        ORDER BY
+            month;
+    </select>
+
 
 </mapper>

@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -25,5 +28,11 @@ public class ParkController {
         return "index";
     }
 
+    @RequestMapping("/summery")
+    public String summery(Model model) {
+
+        model.addAttribute("center", "park/summery");
+        return "index";
+    }
 
 }

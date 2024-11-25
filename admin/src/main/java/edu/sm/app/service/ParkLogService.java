@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +42,9 @@ public class ParkLogService implements SBService<Integer, ParkLogDto> {
 
     public List<ParkLogDto> findByCarNum(String carNum) throws Exception {
         return parkLogRepository.findByCarNum(carNum);
+    }
+
+    public List<Map<String, Object>> carPaySum() throws Exception {
+        return parkLogRepository.carPaySum();
     }
 }

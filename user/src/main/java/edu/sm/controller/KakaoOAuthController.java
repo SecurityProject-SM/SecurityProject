@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class KakaoOAuthController {
 
-    private static final Logger logger = LogManager.getLogger(KakaoOAuthController.class);
 
     private final UsersService usersService;
 
@@ -36,7 +36,7 @@ public class KakaoOAuthController {
     @Value("${app.kakao.user-info-uri}")
     private String userInfoUri;
 
-    @GetMapping("/oauth/kakao")
+    @RequestMapping("/oauth/kakao")
     public String kakaoLogin() {
         String url = "https://kauth.kakao.com/oauth/authorize?client_id=" + clientId + "&redirect_uri=" + redirectUri + "&response_type=code";
         return "redirect:" + url;
