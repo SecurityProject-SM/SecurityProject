@@ -143,9 +143,29 @@
         background: #f1f7ff;
     }
 
-    .highcharts-description {
-        margin: 0.3rem 10px;
+    #adminchat {
+        background-color: #007bff; /* 버튼 배경 색상 */
+        color: white; /* 텍스트 색상 */
+        border: none; /* 테두리 제거 */
+        padding: 10px 20px; /* 버튼 여백 */
+        border-radius: 5px; /* 둥근 테두리 */
+        cursor: pointer; /* 마우스 포인터 */
+        font-size: 14px; /* 텍스트 크기 */
+        font-weight: bold; /* 텍스트 굵기 */
+        transition: background-color 0.3s ease, transform 0.2s ease; /* 부드러운 효과 */
+        margin-left: 10px;
     }
+
+    #adminchat:hover {
+        background-color: #0056b3; /* 호버 시 색상 변경 */
+        transform: scale(1.05); /* 호버 시 확대 효과 */
+    }
+
+    #adminchat:active {
+        background-color: #004085; /* 클릭 시 색상 */
+        transform: scale(0.95); /* 클릭 시 크기 축소 */
+    }
+
 
 </style>
 
@@ -678,11 +698,16 @@
      style="display: none; position: fixed; bottom: 70px; right: 10px; width: 425px; height: 515px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
     <div class="chat-header" style="padding: 10px; background: #007bff; color: white; font-size: 16px;">
         AI 상담사
+
+        <button id="adminchat" class="adminchat">
+            <span>관리자와 연결</span>
+        </button>
+
         <button id="close-chat"
                 style="float: right; background: none; border: none; color: white; font-size: 18px; cursor: pointer;">×
         </button>
     </div>
-    <div class="chat-body" style="padding: 10px; overflow-y: auto; height: calc(100% - 50px);">
+    <div class="chat-body" style="padding: 10px; overflow-y: auto; height: calc(100% - 50px);" id="chatbody">
             <jsp:include page="chatbot.jsp"/>
     </div>
 </div>
