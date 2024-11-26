@@ -66,6 +66,7 @@ logging:
 app:
   url:
   #    server-url: http://172.16.21.91:81
+    ocr-url: ${NCP_OCR_URL}
   dir:
     imgdir: file:///c:/springsm/imgs/    # 위치가 springsm 하위가 아니어도 상관없음
     uploaddir: c:/springsm/imgs/         # 파일을 저장할때는 아펭 file:/// 빠짐
@@ -80,6 +81,7 @@ app:
     # open weather 키값
     algo: PBEWithMD5AndDES    # ENC변경 필 (보안사유)
     skey: mykey
+    ocr-key: UVdOdGpGV2NwemhiU1RCeXFwaG9CZEJ2SW53SWVkcEc=
 
   kakao:
     client-id: "18bb7ea0e94b0d6aa04bf15517db1397"  # 카카오 개발자 콘솔에서 얻은 REST API 키

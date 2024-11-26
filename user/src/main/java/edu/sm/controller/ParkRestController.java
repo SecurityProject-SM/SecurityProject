@@ -37,6 +37,7 @@ public class ParkRestController {
     @RequestMapping("/getparkstat")
     public Object getparkstat() throws Exception {
         List<ParkDto> parkList = parkService.get();
+
         JSONArray arr = new JSONArray();
         int availableCount = 0;
         for (ParkDto park : parkList) {
