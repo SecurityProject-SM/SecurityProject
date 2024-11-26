@@ -4,7 +4,12 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SmartBuildingProject.iml" filepath="$PROJECT_DIR$/SmartBuildingProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/admin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/admin.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/admin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/admin.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/iot_1.iml" filepath="$PROJECT_DIR$/.idea/modules/iot_1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/iot_1.main.iml" filepath="$PROJECT_DIR$/.idea/modules/iot_1.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/iot_1.test.iml" filepath="$PROJECT_DIR$/.idea/modules/iot_1.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/iottemp1.iml" filepath="$PROJECT_DIR$/.idea/modules/iottemp1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/iottemp1.main.iml" filepath="$PROJECT_DIR$/.idea/modules/iottemp1.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/iottemp1.test.iml" filepath="$PROJECT_DIR$/.idea/modules/iottemp1.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/user.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/user.test.iml" filepath="$PROJECT_DIR$/.idea/modules/user.test.iml" />
     </modules>

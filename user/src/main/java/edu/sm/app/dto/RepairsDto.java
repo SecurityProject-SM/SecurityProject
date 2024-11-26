@@ -12,13 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RepairsDto {
-//    private int repairId; //PK
-//    private String buildingId; //FK
-//    private String adminId; //FK
-//    private String repairStat;
-//    private LocalDateTime repairStart;
-//    private String repairSen;
-//    private String repairLoc;
 
     private int repairId; //PK
     private String buildingId; //FK

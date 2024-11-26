@@ -16,25 +16,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/repairs")
 public class RepairsController {
 
+    String dir = "repairs/";
     final RepairsService repairsService;
 
     @RequestMapping("")
-    public String repairs(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
-        log.info("Loading repairs list - page {}", pageNo);
-
-        PageInfo<RepairsDto> pageInfo = new PageInfo<>(repairsService.getRepairsPage(pageNo), 5); // 페이지네이션 설정
-        model.addAttribute("cpage", pageInfo);
-        model.addAttribute("center", "repairs/center"); // 수정된 경로
-        model.addAttribute("target", "repairs"); // 수정된 target 이름
+    public String repairs(Model model) {
+        model.addAttribute("center", dir+"center");
         return "index";
     }
 
-    @RequestMapping("/calender")
+/*    @RequestMapping("/calender")
     public String calander(Model model) {
 
         model.addAttribute("center", "repairs/calender");
         return "index";
-    }
+    }*/
 
     @RequestMapping("/success")
     public String success(@RequestParam("id") int id) {
@@ -42,11 +38,4 @@ public class RepairsController {
         repairsService.suc(id);
         return "redirect:/repairs";
     }
-
-
-//    @RequestMapping("/calender")
-//    public String calender(Model model) {
-//        model.addAttribute("center", "repairs/center");
-//        return"index";
-//    }
 }
