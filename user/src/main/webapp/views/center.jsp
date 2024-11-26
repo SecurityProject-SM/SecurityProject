@@ -177,7 +177,7 @@
             this.getdata();
             setInterval(() => {
                 this.getdata();
-            }, 5000);
+            }, 5000000);
         },
         initchart: function () {
             this.chartInstance = Highcharts.chart('container3', {
@@ -242,7 +242,7 @@
     let elec = {
         init: function () {
             this.getelec();
-            setInterval(this.getelec, 50000);
+            setInterval(this.getelec, 500000);
         },
 
         getelec: function () {
@@ -415,8 +415,23 @@
         }
     };
 
+    let admin = {
+        init: function () {
+            // chatbody 요소 선택
+            const chatBody = $('#chatbody');
 
+            // 로딩 메시지 표시
+            chatBody.html('<p>로딩 중...</p>');
 
+            // adminchat.jsp 파일 로드 (정확한 경로 사용)
+            chatBody.load('/views/adminchat.jsp', function (response, status, xhr) {
+                if (status === "error") {
+                    console.error("Failed to load adminchat.jsp: ", xhr.status, xhr.statusText);
+                    chatBody.html('<p>오류가 발생했습니다. 다시 시도해주세요.</p>');
+                }
+            });
+        }
+    };
 
     $(function () {
         center.init();
@@ -426,7 +441,11 @@
         chart.init();
         dnjftp.init();
         chat.init();
-        chat2.init();
+
+        $('#adminchat').on('click', function () {
+            websocket.disconnect();
+            admin.init();
+        });
     });
 
 </script>
@@ -666,14 +685,6 @@
                     </button>
                 </div>
                 <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
-                <!-- Navbar Fixed -->
-                <div class="d-flex my-3">
-                    <h6 class="mb-0">상단바 고정</h6>
-                    <div class="form-check form-switch ps-0 ms-auto my-auto">
-                        <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
-                               onclick="navbarFixed(this)">
-                    </div>
-                </div>
                 <hr class="horizontal dark my-sm-4">
                 <div class="mt-2 mb-5 d-flex">
                     <h6 class="mb-0">다크모드</h6>
@@ -711,20 +722,8 @@
         </button>
     </div>
     <div class="chat-body" style="padding: 10px; overflow-y: auto; height: calc(100% - 50px);" id="chatbody">
-            <jsp:include page="chatbot.jsp"/>
+        <jsp:include page="chatbot.jsp"/>
     </div>
-
-    <script>
-        document.getElementById('adminchat').addEventListener('click', function () {
-            fetch('<c:url value="/views/adminchat.jsp" />')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('chatbody').innerHTML = data;
-                })
-                .catch(error => console.error('Error loading admin chat:', error));
-        });
-    </script>
-
 </div>
 
 

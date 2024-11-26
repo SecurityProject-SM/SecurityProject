@@ -2,9 +2,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script src="/webjars/sockjs-client/sockjs.min.js"></script>
-<script src="/webjars/stomp-websocket/stomp.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -35,11 +32,10 @@
 
 
 <script>
-    let websocket = {
+    let adminchat = {
         id:'',
         stompClient:null,
         init:function(){
-            this.id = $('#adm_id').text();
             $('#connect').click(()=>{
                 this.connect();
             });
@@ -53,29 +49,11 @@
                 });
                 this.stompClient.send("/receiveall", {}, msg);
             });
-            $('#sendme').click(()=>{
-                let msg = JSON.stringify({
-                    'sendid' : this.id,
-                    'content1' : $("#metext").val()
-                });
-                this.stompClient.send("/receiveme", {}, msg);
-            });
-            $('#sendto').click(()=>{
-                var msg = JSON.stringify({
-                    'sendid' : this.id,
-                    'receiveid' : $('#target').val(),
-                    'content1' : $('#totext').val()
-                });
-                this.stompClient.send('/receiveto', {}, msg);
-            });
+
         },
         connect:function(){
             let sid = this.id;
-
-            // 중요 ---------------------------------------------------------------------------------------
-            let socket = new SockJS('http://127.0.0.1:81/ws');
-            // 중요 ---------------------------------------------------------------------------------------
-
+            let socket = new SockJS('http://10.20.38.99:81/ws');
             this.stompClient = Stomp.over(socket);
 
             this.stompClient.connect({}, function(frame) {
@@ -116,7 +94,7 @@
         }
     };
     $(function(){
-        websocket.init();
+        adminchat.init();
     });
 </script>
 
@@ -135,7 +113,6 @@
         <div class="card-body">
             <div class="table-responsive">
                 <div class="col-sm-5">
-                    <h1 id="adm_id">${sessionScope.loginid.custId}</h1>
                     <H1 id="status">Status</H1>
                     <button id="connect">Connect</button>
                     <button id="disconnect">Disconnect</button>
@@ -144,14 +121,6 @@
                     <input type="text" id="alltext"><button id="sendall">Send</button>
                     <div id="all"></div>
 
-                    <h3>Me</h3>
-                    <input type="text" id="metext"><button id="sendme">Send</button>
-                    <div id="me"></div>
-
-                    <h3>To</h3>
-                    <input type="text" id="target">
-                    <input type="text" id="totext"><button id="sendto">Send</button>
-                    <div id="to"></div>
 
                 </div>
             </div>
