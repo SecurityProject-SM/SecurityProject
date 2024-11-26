@@ -416,6 +416,8 @@
     };
 
 
+
+
     $(function () {
         center.init();
         map.init();
@@ -424,6 +426,7 @@
         chart.init();
         dnjftp.init();
         chat.init();
+        chat2.init();
     });
 
 </script>
@@ -710,6 +713,18 @@
     <div class="chat-body" style="padding: 10px; overflow-y: auto; height: calc(100% - 50px);" id="chatbody">
             <jsp:include page="chatbot.jsp"/>
     </div>
+
+    <script>
+        document.getElementById('adminchat').addEventListener('click', function () {
+            fetch('<c:url value="/views/adminchat.jsp" />')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('chatbody').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading admin chat:', error));
+        });
+    </script>
+
 </div>
 
 

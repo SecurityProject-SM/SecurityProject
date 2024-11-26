@@ -69,10 +69,10 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping("/test")
+    @RequestMapping("/webs")
     public String test(Model model) {
         log.info("Started test");
-        return "test";
+        return "adminchat";
     }
 
     // 메인화면 날씨
