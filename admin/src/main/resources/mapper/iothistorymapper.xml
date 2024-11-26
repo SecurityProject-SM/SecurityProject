@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.sm.app.repository.IotHistoryRepository">
+    <select id="selectOne" parameterType="Integer" resultType="IotHistoryDto">
+        SELECT * FROM iothistory WHERE history_id=#{historyId}
+    </select>
+    <select id="select" resultType="IotHistoryDto">
+        SELECT * FROM iothistory
+    </select>
+    <insert id="insert" parameterType="IotHistoryDto">
+        INSERT INTO iothistory (iot_id,iot_name, value_category, iot_value, iot_status, log_date) VALUES (#{iotId},#{iotName}, #{valueCategory},#{iotValue},#{iotStatus},#{logDate})
+    </insert>
+    <select id="selectLatestIotHistory" resultType="IotHistoryDto">
+        SELECT h.* FROM iothistory h
+        JOIN (
+            SELECT iot_id, MAX(log_date) AS latest_log_date
+            FROM iothistory
+            GROUP BY iot_id
+        ) latest
+        ON h.iot_id = latest.iot_id AND h.log_date = latest.latest_log_date
+        ORDER BY h.iot_id;
+    </select>
+    <select id="getElec" resultType="Double">
+        SELECT SUM(iot_value) AS total_value
+        FROM iothistory
+        WHERE DATE(log_date) = CURDATE();
+    </select>
+
+
+
+</mapper>
