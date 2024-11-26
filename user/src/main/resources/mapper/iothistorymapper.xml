@@ -19,28 +19,54 @@
 <!--        DELETE FROM iot WHERE iot_id=#{iotId}-->
 <!--    </delete>-->
 
+<!--    <select id="selectLatestIotHistory" resultType="IotHistoryDto">-->
+<!--        SELECT h.* FROM iothistory h-->
+<!--        JOIN (-->
+<!--            SELECT iot_id, MAX(log_date) AS latest_log_date-->
+<!--            FROM iothistory-->
+<!--            GROUP BY iot_id-->
+<!--        ) latest-->
+<!--        ON h.iot_id = latest.iot_id AND h.log_date = latest.latest_log_date-->
+<!--        ORDER BY h.iot_id;-->
+<!--    </select>-->
     <select id="selectLatestIotHistory" resultType="IotHistoryDto">
-        SELECT h.* FROM iothistory h
-        JOIN (
-            SELECT iot_id, MAX(log_date) AS latest_log_date
+        WITH LatestLogDate AS (
+            SELECT MAX(log_date) AS latest_log_date
             FROM iothistory
-            GROUP BY iot_id
-        ) latest
-        ON h.iot_id = latest.iot_id AND h.log_date = latest.latest_log_date
+        )
+        SELECT h.*
+        FROM iothistory h
+                 JOIN LatestLogDate l
+                      ON h.log_date BETWEEN DATE_SUB(l.latest_log_date, INTERVAL 1 SECOND)
+                          AND l.latest_log_date
         ORDER BY h.iot_id;
     </select>
 
+<!--    <select id="selectAvgTH" resultType="edu.sm.app.dto.AvgTHDto">-->
+<!--        SELECT-->
+<!--        ROUND(AVG(CASE WHEN h.value_category = 'T' THEN h.iot_value END),1) AS avg_temperature,-->
+<!--        AVG(CASE WHEN h.value_category = 'H' THEN h.iot_value END) AS avg_humidity-->
+<!--        FROM iothistory h-->
+<!--        JOIN (-->
+<!--        SELECT iot_id, MAX(log_date) AS latest_log_date-->
+<!--        FROM iothistory-->
+<!--        GROUP BY iot_id-->
+<!--        ) latest-->
+<!--        ON h.iot_id = latest.iot_id AND h.log_date = latest.latest_log_date-->
+<!--        WHERE h.iot_value > 0;-->
+<!--    </select>-->
     <select id="selectAvgTH" resultType="edu.sm.app.dto.AvgTHDto">
+        WITH LatestLogDate AS (
+            SELECT MAX(log_date) AS latest_log_date
+            FROM iothistory
+        )
         SELECT
-        AVG(CASE WHEN h.value_category = 'T' THEN h.iot_value END) AS avg_temperature,
-        AVG(CASE WHEN h.value_category = 'H' THEN h.iot_value END) AS avg_humidity
+            ROUND(AVG(CASE WHEN h.value_category = 'T' THEN h.iot_value END),1) AS avg_temperature,
+            AVG(CASE WHEN h.value_category = 'H' THEN h.iot_value END) AS avg_humidity
         FROM iothistory h
-        JOIN (
-        SELECT iot_id, MAX(log_date) AS latest_log_date
-        FROM iothistory
-        GROUP BY iot_id
-        ) latest
-        ON h.iot_id = latest.iot_id AND h.log_date = latest.latest_log_date
+                 JOIN LatestLogDate l
+                      ON h.log_date BETWEEN DATE_SUB(l.latest_log_date, INTERVAL 1 SECOND)
+                          AND l.latest_log_date
         WHERE h.iot_value > 0;
     </select>
 

@@ -21,11 +21,14 @@
         DELETE FROM parklog WHERE parklog_id=#{parkLogId}
     </delete>
 
-    <select id="findByCarNum" parameterType="string" resultType="ParkLogDto">
-        SELECT * FROM parklog
-        WHERE car_num LIKE CONCAT('%', #{carNum}, '%')
-          AND (car_pay IS NULL)
-    </select>
+<!--    <select id="findByCarNum" parameterType="string" resultType="ParkLogDto">-->
+<!--        SELECT * FROM parklog-->
+<!--        WHERE car_num LIKE CONCAT('%', #{carNum}, '%')-->
+<!--          AND (car_pay IS NULL)-->
+<!--    </select>-->
 
+    <select id="findByCarNumber" parameterType="String" resultType="edu.sm.app.dto.ParkLogDto">
+        SELECT * FROM parklog WHERE car_num = #{carNumber}
+    </select>
 
 </mapper>

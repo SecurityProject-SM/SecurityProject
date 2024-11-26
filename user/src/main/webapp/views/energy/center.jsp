@@ -79,6 +79,20 @@
     background-color: #f8d7da; /* 연한 빨간색 */
     color: #721c24; /* 진한 빨간색 텍스트 */
   }
+
+
+  /* 제어버튼 올리면 해당하는 기기가 확대됨 */
+  /* 기본 상태 */
+  .iot-icon {
+    transition: transform 0.3s ease; /* 부드럽게 확대 효과 */
+  }
+
+  /* 마우스가 올라갔을 때 */
+  .iot-icon-hover {
+    transform: scale(1.5); /* 1.5배 확대 */
+  }
+
+
   #IOT1{top: 11px; left: 204px;}
   #IOT2{top: 21px; left: 611px;}
   #IOT3{top: 65px; left: 461px;}
@@ -167,6 +181,8 @@
         success: function(data) {
           console.log(data);
           $("#totalPower").text(data.totalPower);
+          $("#avgTemp").text(data.avgData.avgTemperature);
+          $("#avgHumidity").text(data.avgData.avgHumidity);
           // 최신 데이터 렌더링
           energy.renderLatestData(data.latestData);
         },
@@ -209,7 +225,15 @@
                 <td>\${iotData.name}</td>
                 <td>\${iotData.value} kWh</td>
 <!--                <td><button onclick='showControlBox("\${iotId}")'>제어</button></td>-->
-                <td><button onclick='energy.toggleIotStatus("\${iotId}", "\${iotData.status}")'>제어</button></td>
+<!--                <td><button onclick='energy.toggleIotStatus("\${iotId}", "\${iotData.status}")'>제어</button></td>-->
+                <td>
+                  <button
+                      class="control-button"
+                      data-iot-id="\${iotId}"
+                      onclick='energy.toggleIotStatus("\${iotId}", "\${iotData.status}")'>
+                      제어
+                  </button>
+                </td>
                 <td>\${statusText}</td>
             </tr>`;
         tableBody.append(row);
@@ -249,6 +273,19 @@
   };
   $(function(){
     energy.init();
+
+    // 제어 버튼에 마우스 이벤트 추가
+    $(document).on("mouseenter", ".control-button", function () {
+      const iotId = $(this).data("iot-id"); // 버튼의 data-iot-id 속성으로 아이콘 ID 가져오기
+      const iotIcon = $(`#${iotId}`); // 평면도에서 해당 아이콘 선택
+      iotIcon.addClass("iot-icon-hover"); // 확대 효과 클래스 추가
+    });
+
+    $(document).on("mouseleave", ".control-button", function () {
+      const iotId = $(this).data("iot-id");
+      const iotIcon = $(`#${iotId}`);
+      iotIcon.removeClass("iot-icon-hover"); // 확대 효과 클래스 제거
+    });
   });
   function showControlBox(iotId) {
     alert(iotId + " 제어 박스 표시");  // 실제 제어 박스 기능 추가 예정
@@ -275,7 +312,7 @@
     <button onclick="filterIcons('aircon')">총전력 (에어컨만 보기)</button>
   </div>
   <div class="totaldata-box" >
-    <h3>평균 온도/습도 : <span id=></span> </h3>
+    <h3>평균 온도/습도 : <span id="avgTemp"></span> / <span id="avgHumidity"></span> </h3>
 
   </div>
   <div class="totaldata-box" >

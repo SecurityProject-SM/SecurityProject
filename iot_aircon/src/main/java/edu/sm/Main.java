@@ -33,7 +33,7 @@ public class Main {
 
             // ======== 전력량 데이터 ========
             for (int j = 0; j < iotIds.length; j++) {
-                float value = 25.00f + r.nextFloat() * 27.00f; // 랜덤 값 생성
+                float value = 25.00f + r.nextFloat() * 24.00f; // 랜덤 값 생성
                 String formattedValue = df.format(value);
                 // JSON 데이터 생성
                 JSONObject jsonData = new JSONObject();

@@ -12,4 +12,5 @@ import java.util.List;
 @Mapper
 public interface ParkLogRepository extends SBRepository<Integer, ParkLogDto> {
     List<ParkLogDto> findByCarNum(@Param("carNum") String carNum);
+    ParkLogDto findByCarNumber(String carNumber);
 }
