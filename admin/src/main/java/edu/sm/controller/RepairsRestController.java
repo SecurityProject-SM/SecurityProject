@@ -18,6 +18,7 @@ import java.util.List;
 public class RepairsRestController {
     private final RepairsService repairsService;
 
+    //DB값 불러오기
     @GetMapping("/getrepairs")
     public Object getRepairs() throws Exception {
         List<RepairsDto> repairs = repairsService.get();
@@ -38,7 +39,7 @@ public class RepairsRestController {
         result.put("repairsData", array);
         return result;
     }
-
+    // DB상태 업데이트 A or B
     @PostMapping("/updateRepairStatus")
     public Object updateRepairStatus(RepairsDto repairsDto) throws Exception {
         repairsService.modify(repairsDto);
