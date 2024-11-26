@@ -230,18 +230,6 @@
       <h4> 정산하기</h4>
     <a href="<c:url value="/park/parkset"/>" class="btn btn-light" role="button" style="text-align: center">정산하기</a>
     </div>
-    <div class="button-container">
-      <a class="nav-link" href="<c:url value="/park/parkset"/>">
-        <button class="custom-button">주차 정산</button>
-      </a>
-<%--      <a class="nav-link" href="<c:url value="/park/parkloc"/>">--%>
-<%--        <button class="custom-button">위치 조회</button>--%>
-<%--      </a>--%>
-<%--        <a class="nav-link" href="<c:url value="/park/parkpay"/>">--%>
-<%--          <button class="custom-button">요금 결제</button>--%>
-<%--        </a>--%>
-    </div>
-
   </div>
 </div>
 
