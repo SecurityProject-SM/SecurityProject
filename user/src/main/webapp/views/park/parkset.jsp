@@ -144,7 +144,7 @@
                     merchant_uid: 'order_' + new Date().getTime(),
                     name: '주차 정산 요금',
                     // amount: totalFee
-                    amount: 100
+                    amount: totalFee
                 }, function (rsp) {
                     if (rsp.success) {
                         alert('결제가 완료되었습니다.\n결제 금액: ' + rsp.paid_amount + '원');
