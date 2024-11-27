@@ -10,7 +10,7 @@
     <meta name="author" content=""/>
     <title>건어물 - 건물을 효율적으로!</title>
     <!-- loader-->
-    <link href="<c:url value='/css/pace.min.css'/>" rel="stylesheet"/>
+<%--    <link href="<c:url value='/css/pace.min.css'/>" rel="stylesheet"/>--%>
     <script src="<c:url value='/js/pace.min.js'/>"></script>
     <!-- favicon -->
     <link rel="icon" href="<c:url value='/img/gunamul_icon.ico'/>" type="image/x-icon">

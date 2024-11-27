@@ -13,9 +13,99 @@
 </head>
 
 <style>
+    #chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 24px;
+        z-index: 1000;
+    }
+
+    #chat-window {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 400px;
+        height: 500px;
+        background-color: white;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        display: none;
+        flex-direction: column;
+        z-index: 1000;
+    }
+
+    #chat-window .chat-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    #close-chat {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #chat-window .chat-body {
+        padding: 10px;
+        flex-grow: 1;
+        overflow-y: auto;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
 </style>
 
 <script>
+    let userchat = {
+        init: function () {
+            this.cacheDom();
+            this.bindEvents();
+        },
+        cacheDom: function () {
+            this.$chatButton = $('#chat-button'); // Chat button
+            this.$chatWindow = $('#chat-window'); // Chat window
+            this.$closeButton = $('#close-chat'); // Close button inside chat window
+        },
+        bindEvents: function () {
+            this.$chatButton.on('click', this.toggleChat.bind(this));
+            this.$closeButton.on('click', this.closeChat.bind(this));
+        },
+        toggleChat: function () {
+            if (this.$chatWindow.css('display') === 'none') {
+                this.$chatWindow.show();
+            } else {
+                this.$chatWindow.hide();
+            }
+        },
+        closeChat: function () {
+            this.$chatWindow.hide();
+        }
+    };
+
+
+    $(function () {
+        userchat.init();
+    })
 </script>
 
 <body>
@@ -275,6 +365,19 @@
                 </div>
             </div>
         </div><!--End Row-->
+
+        <div id="chat-button" class="floating-button">
+            💬
+        </div>
+        <div id="chat-window" class="chat-window">
+            <div class="chat-header">
+                <span>Chat</span>
+                <button id="close-chat">X</button>
+            </div>
+            <div class="chat-body">
+                <jsp:include page="chat.jsp"/>
+            </div>
+        </div>
 
         <!--End Dashboard Content-->
 

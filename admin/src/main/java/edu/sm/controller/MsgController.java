@@ -48,6 +48,6 @@ public class MsgController {
     @RequestMapping("/testchat")
     public String testchat(Model model) {
         model.addAttribute("serverurl", serverurl);
-        return "chat";
+        return "index";
     }
 }

@@ -40,9 +40,6 @@
         stompClient:null,
         init:function(){
             this.id = $('#adm_id').text();
-            $('#connect').click(()=>{
-                this.connect();
-            });
             $('#disconnect').click(()=>{
                 this.disconnect();
             });
@@ -113,6 +110,7 @@
     };
     $(function(){
         websocket.init();
+        websocket.connect();
     });
 </script>
 
@@ -125,30 +123,14 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Web Socket</h6>
-        </div>
         <div class="card-body">
             <div class="table-responsive">
-                <div class="col-sm-5">
-                    <h1 id="adm_id">${sessionScope.admin.id}</h1>
+                <div>
                     <H1 id="status">Status</H1>
-                    <button id="connect">Connect</button>
                     <button id="disconnect">Disconnect</button>
 
-                    <h3>All</h3>
                     <input type="text" id="alltext"><button id="sendall">Send</button>
                     <div id="all"></div>
-
-                    <h3>Me</h3>
-                    <input type="text" id="metext"><button id="sendme">Send</button>
-                    <div id="me"></div>
-
-                    <h3>To</h3>
-                    <input type="text" id="target">
-                    <input type="text" id="totext"><button id="sendto">Send</button>
-                    <div id="to"></div>
-
                 </div>
             </div>
         </div>
