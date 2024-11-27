@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -103,9 +102,5 @@ public class ParkLogService implements SBService<Integer, ParkLogDto> {
         feeResult.put("totalTime", totalTimeFormatted);
         feeResult.put("totalFee", totalFee);
         return feeResult;
-    }
-
-    public List<Map<String, Object>> carPaySum() throws Exception {
-        return parkLogRepository.carPaySum();
     }
 }

@@ -21,11 +21,11 @@ spring:
   datasource:
     # SQL 로그를 찍기위해 위에것을 사용 실 서비스 시에는 아래 드라이버 사용
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/smartbuilding?characterEncoding=utf8
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/final_project?characterEncoding=utf8
     #    driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mysql://127.0.0.1:3306/immersive?characterEncoding=utf8
-    username: smuser
-    password: 111111
+    username: root
+    password: 1234
 
 # Mybatis settings
 mybatis:
@@ -37,25 +37,6 @@ mybatis:
   # classpath = resources 를 의미함
   # resources 아래 mapper 아래 xml로 sql문을 작성할거임
 
-
-
-
-#  db세팅
-#  datasource:
-#    #driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-#    #url: jdbc:log4jdbc:mysql://127.0.0.1:3306/shopdb?characterEncoding=utf8
-#    #driver-class-name: com.mysql.cj.jdbc.Driver
-#    #url: jdbc:mysql://127.0.0.1:3306/shopdb?characterEncoding=utf8
-#    url: jdbc:mysql://127.0.0.1:3306/shopdb?serverTimezone=Asia/Seoul
-#    username: shop
-#    password: 1234
-
-#mybatis:
-#  type-aliases-package: com.example.web01.app.dto
-#  mapper-locations: classpath:/mapper/*.xml
-#  configuration:
-#    map-underscore-to-camel-case: true
-
 # log settings
 logging:
   level:
@@ -65,8 +46,7 @@ logging:
 # 위까지는 spring꺼 아래부터는 팀, 개인의 변수들
 app:
   url:
-  #    server-url: http://172.16.21.91:81
-#    ocr-url: ${NCP_OCR_URL}
+    server-url: https://10.20.36.50:82
     ocr-url: "https://ob9suhs003.apigw.ntruss.com/custom/v1/36276/89a574cffaaaf2f84722b0879bcd673f2d437f561807daa4c0b25d561ebb47d0/general"
   dir:
     imgdir: file:///c:/springsm/imgs/    # 위치가 springsm 하위가 아니어도 상관없음

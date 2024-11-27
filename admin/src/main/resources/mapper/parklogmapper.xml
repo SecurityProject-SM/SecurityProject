@@ -31,17 +31,4 @@
         SELECT * FROM parklog WHERE car_num = #{carNumber}
     </select>
 
-    <select id="carPaySum" resultType="Map">
-        SELECT
-            DATE_FORMAT(car_in, '%Y-%m') AS month,
-        SUM(car_pay) AS totalCarPay
-        FROM
-            parklog
-        GROUP BY
-            DATE_FORMAT(car_in, '%Y-%m')
-        ORDER BY
-            month;
-    </select>
-
-
 </mapper>

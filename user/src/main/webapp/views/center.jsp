@@ -375,15 +375,23 @@
 
     let dnjftp = {
         init: function () {
-            const today = new Date();
-            const currentDate = today.getDate();
+            this.calculateRemainingDays();
+        },
+        calculateRemainingDays: function () {
+            const now = new Date();
+            const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+            const timeDifference = nextMonth - now;
+            const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
-            if (currentDate === 1) {
-                $("#remainingDays").text("D - 0");
+            // 콘솔 출력
+            console.log("남은일수: " + daysRemaining);
+
+            // 요소가 존재하는지 확인
+            const remainingDaysElement = document.getElementById("remainingDays");
+            if (remainingDaysElement) {
+                remainingDaysElement.textContent = `남은 일수: ${daysRemaining}`;
             } else {
-                const nextDueDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-                const remainingDays = Math.ceil((nextDueDate - today) / (1000 * 60 * 60 * 24));
-                $("#remainingDays").text(`남은 일수: ${remainingDays}일`);
+                console.error("ID가 'remainingDays'인 요소를 찾을 수 없습니다.");
             }
         }
     };
@@ -513,7 +521,7 @@
                     <div class="row">
                         <div class="col-8">
                             <h3>월세 납부일</h3>
-                            <h6 id="remainingDays">남은 일수:</h6>
+                            <div id="remainingDays">남은 일수:</div>
                         </div>
 
                         <div class="col-4">
