@@ -1,7 +1,6 @@
 package edu.sm.controller;
 
 import edu.sm.app.dto.ParkDto;
-import edu.sm.app.dto.ParkLogDto;
 import edu.sm.app.service.ParkLogService;
 import edu.sm.app.service.ParkService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -37,7 +35,6 @@ public class ParkRestController {
     @RequestMapping("/getparkstat")
     public Object getparkstat() throws Exception {
         List<ParkDto> parkList = parkService.get();
-
         JSONArray arr = new JSONArray();
         int availableCount = 0;
         for (ParkDto park : parkList) {

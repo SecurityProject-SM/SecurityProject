@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RepairsService  implements SBService<Integer, RepairsDto> {
-    
+
     final RepairsRepository repairsRepository;
 
     @Override
@@ -48,9 +48,4 @@ public class RepairsService  implements SBService<Integer, RepairsDto> {
         return rowsAffected > 0;
     }
 
-
-//    public List<RepairsDto> getRepairsPage(int pageNo) {
-//        PageHelper.startPage(pageNo, 10); // 페이지당 10개의 항목 표시
-//        return repairsRepository.getRepairs();
-//    }
 }

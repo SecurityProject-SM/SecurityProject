@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/repairs")
 public class RepairsController {
 
+    String dir = "repairs/";
     final RepairsService repairsService;
 
     @RequestMapping("")
-    public String repairs(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
-        log.info("Loading repairs list - page {}", pageNo);
-        model.addAttribute("center", "repairs/center"); // 수정된 경로
-        model.addAttribute("target", "repairs"); // 수정된 target 이름
+    public String repairs(Model model) {
+        model.addAttribute("center", dir+"center");
         return "index";
     }
 
