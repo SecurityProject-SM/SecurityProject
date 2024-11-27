@@ -24,11 +24,13 @@
                 initialView: 'dayGridMonth',
                 googleCalendarApiKey: 'AIzaSyAw5ATyRPtGDxeZLu5GoPjqZCENrKLoxuw',
                 events: {
-                    googleCalendarId: 'c_e038e7f3d11c0e4f1a472dc492ede21ca5ac621b92d64c9d7179f0412761cff1@group.calendar.google.com'
+                    // googleCalendarId: 'c_e038e7f3d11c0e4f1a472dc492ede21ca5ac621b92d64c9d7179f0412761cff1@group.calendar.google.com'
+                    googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com'
                 },
                 locale: 'ko',
                 eventClick: function(info) {
-                    info.jsEvent.preventDefault();
+                    // 구글 오픈
+                    // info.jsEvent.preventDefault();
 
                     // DB 이벤트인 경우에만 색상 토글
                     if (info.event.extendedProps.isDBEvent) {

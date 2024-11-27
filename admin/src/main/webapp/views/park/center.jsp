@@ -330,7 +330,6 @@
         display: none;
         justify-content: center;
         align-items: center;
-        z-index: 10000;
     }
 
     .popup-content {
@@ -351,6 +350,7 @@
 
     .popup-header h3 {
         margin: 0;
+        color: black;
     }
 
     .popup-close {
@@ -385,6 +385,7 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        color: black;
     }
 
 </style>
@@ -521,7 +522,9 @@
                 <div class="photo-placeholder"><jsp:include page="webcam.jsp" /></div>
             </div>
             <div class="popup-detect">
-                <button id="detect-button" onclick="pic.takeSnapshot()">감지</button>
+                <button id="detect-button" onclick="pic.takeSnapshotAndSend()">감지</button>
+<%--                <button id="detect-button" onclick="pic.takeSnapshot()">감지</button>--%>
+<%--                <button onclick="pic.send()">전송</button>--%>
             </div>
             <div class="popup-info">
                 <div><strong>라벨:</strong> 감지된 차량</div>

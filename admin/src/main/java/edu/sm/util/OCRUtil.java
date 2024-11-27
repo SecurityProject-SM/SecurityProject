@@ -15,14 +15,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class OCRUtil {
-    public static JSONObject getResult(String imgpath, String imgname){
+    public static JSONObject getResult(String apiurl, String secretkey, String imgpath, String imgname){
         JSONObject obj = null;
 
 //        String apiURL = "https://ob9suhs003.apigw.ntruss.com/custom/v1/36176/31fcaecf61b9c9d3f441fa84010a9294091541d126ab198f900dd5064598ce70/infer";
 //        String secretKey = "bnJhUnR5WlpSYlluR1FXTFBLU29tSEZwUWJvYVlkSHE=";
 
-        String apiURL = "https://ob9suhs003.apigw.ntruss.com/custom/v1/36276/89a574cffaaaf2f84722b0879bcd673f2d437f561807daa4c0b25d561ebb47d0/general";
-        String secretKey = "UVdOdGpGV2NwemhiU1RCeXFwaG9CZEJ2SW53SWVkcEc=";
+        String apiURL = apiurl;
+        String secretKey = secretkey;
         String imageFile = imgpath+imgname;
 
         try {

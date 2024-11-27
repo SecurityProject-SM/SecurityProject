@@ -15,10 +15,16 @@ class OcrTests {
     @Value("${app.dir.uploadimgdir}")
     String dir;
 
+    @Value("${app.url.ocr-url}")
+    String url;
+
+    @Value("${app.key.ocr-key}")
+    String key;
+
     @Test
     void contextLoads() {
         String imgname = "realcar.jpg";
-        JSONObject jsonObject = OCRUtil.getResult(dir,imgname);
+        JSONObject jsonObject = OCRUtil.getResult(url, key, dir,imgname);
         log.info(jsonObject.toJSONString());
 
         String carNumber = OCRUtil.getCarNumber(jsonObject);
