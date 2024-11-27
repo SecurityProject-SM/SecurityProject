@@ -78,18 +78,6 @@
                         JSON.parse(msg.body).content1
                         + "</h4>");
                 });
-
-                websocket.stompClient.subscribe('/newchat', function(msg) {
-                    const message = JSON.parse(msg.body);
-
-                    $("#chat-button").addClass("new-message");
-
-                    setTimeout(() => {
-                        $("#chat-button").removeClass("new-message");
-                    }, 5000); // 5초 후 복구
-                });
-            });
-
             });
         },
         disconnect:function(){
