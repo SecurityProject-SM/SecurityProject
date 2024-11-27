@@ -19,19 +19,6 @@
         border: 2px solid red;
     }
 
-    #me {
-        width: 400px;
-        height: 200px;
-        overflow: auto;
-        border: 2px solid blue;
-    }
-
-    #to {
-        width: 400px;
-        height: 200px;
-        overflow: auto;
-        border: 2px solid green;
-    }
 </style>
 
 <script>
@@ -91,6 +78,18 @@
                         JSON.parse(msg.body).content1
                         + "</h4>");
                 });
+
+                websocket.stompClient.subscribe('/newchat', function(msg) {
+                    const message = JSON.parse(msg.body);
+
+                    $("#chat-button").addClass("new-message");
+
+                    setTimeout(() => {
+                        $("#chat-button").removeClass("new-message");
+                    }, 5000); // 5초 후 복구
+                });
+            });
+
             });
         },
         disconnect:function(){

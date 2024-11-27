@@ -369,12 +369,13 @@
         <div id="chat-button" class="floating-button">
             💬
         </div>
-        <div id="chat-window" class="chat-window">
+
+        <div id="chat-window" class="chat-window" style="margin-bottom: 15px">
             <div class="chat-header">
                 <span>Chat</span>
                 <button id="close-chat">X</button>
             </div>
-            <div class="chat-body">
+            <div class="chat-body" >
                 <jsp:include page="chat.jsp"/>
             </div>
         </div>
