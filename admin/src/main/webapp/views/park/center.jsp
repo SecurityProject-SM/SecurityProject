@@ -97,36 +97,6 @@
 
     }
 
-    .oldspot {
-        /*#spot1 { top: 8px; left: 173px; background-color: green; }*/
-        /*#spot2 { top: 8px; left: 268px; background-color: green; }*/
-        /*#spot3 { top: 8px; left: 363px; background-color: green; }*/
-        /*#spot4 { top: 8px; left: 457px; background-color: green; }*/
-        /*#spot5 { top: 8px; left: 552px; background-color: green; }*/
-        /*#spot6 { top: 8px; left: 646px; background-color: green; }*/
-
-        /*#spot7 { top: 199px; left: 224px; background-color: green; }*/
-        /*#spot8 { top: 199px; left: 319px; background-color: green; }*/
-        /*#spot9 { top: 199px; left: 413px; background-color: green; }*/
-        /*#spot10 { top: 199px; left: 507px; background-color: green; }*/
-        /*#spot11 { top: 199px; left: 603px; background-color: green; }*/
-
-        /*#spot12 { top: 302px; left: 224px; background-color: green; }*/
-        /*#spot13 { top: 302px; left: 319px; background-color: green; }*/
-        /*#spot14 { top: 302px; left: 413px; background-color: green; }*/
-        /*#spot15 { top: 302px; left: 507px; background-color: green; }*/
-        /*#spot16 { top: 302px; left: 603px; background-color: green; }*/
-
-        /*#spot17 { top: 496px; left: 173px; background-color: green; }*/
-        /*#spot18 { top: 496px; left: 267px; background-color: green; }*/
-        /*#spot19 { top: 496px; left: 362px; background-color: green; }*/
-        /*#spot20 { top: 496px; left: 457px; background-color: green; }*/
-        /*#spot21 { top: 496px; left: 552px; background-color: green; }*/
-        /*#spot22 { top: 496px; left: 646px; background-color: green; }*/
-
-        /*#spot23 { top: 305px; left: 15px; width: 97px; height: 89px; background-color: green; }*/
-        /*#spot24 { top: 400px; left: 15px; width: 97px; height: 89px; background-color: green; }*/
-    }
     #spot1 { top: 8px; left: 173px; background-color: green; }
     #spot1:hover {
         opacity: 1;
@@ -392,7 +362,7 @@
 
 <script>
     let park = {
-        loadingShown: false, // 로딩이 처음 한 번만 나타나도록 제어하는 플래그
+        // loadingShown: false, // 로딩이 처음 한 번만 나타나도록 제어하는 플래그
         init: function () {
             // this.init();  // 초기 로드
             setInterval(this.parkstat, 1000);  // 5초마다 상태 갱신
@@ -453,10 +423,10 @@
 
 <body class="bg-theme bg-theme1">
 <!-- 로딩 스피너 HTML 추가 -->
-<div class="loading-wrap">
+<%--<div class="loading-wrap">
     <div class="loading-spinner"></div>
     <p>로딩 중입니다...</p>
-</div>
+</div>--%>
 
 <div class="content-wrapper">
     <div class="row mt-3">

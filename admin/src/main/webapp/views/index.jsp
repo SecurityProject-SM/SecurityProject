@@ -64,16 +64,74 @@
         background-color: rgba(0,0,0,.05);
     }
 
-    /* 드롭다운 화살표 */
-    .notification-dropdown:before {
-        content: '';
-        position: absolute;
-        top: -10px;
-        right: 10px;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 10px solid #fff;
+
+
+    /*----------------------------------------*/
+    /* 알림 아이콘 컨테이너 */
+    .nav-alarmicon {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 44px;
     }
+
+    /* 알림 아이콘 링크 */
+    .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        height: 44px;
+        width: 44px;
+        position: relative;
+    }
+
+    /* 알림 뱃지 */
+    .notification-badge {
+        position: absolute;
+        background-color: #31CE36;
+        text-align: center;
+        border-radius: 10px;
+        min-width: 17px;
+        height: 17px;
+        font-size: 10px;
+        color: #ffffff;
+        font-weight: 300;
+        line-height: 17px;
+        top: 3px;
+        right: 3px;
+    }
+
+    /* 알림 드롭다운 메뉴 */
+    .notification-dropdown {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        min-width: 280px;
+        background: #ffffff;
+        border-radius: 4px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        margin-top: 1px;
+        z-index: 1000;
+    }
+
+    /* 알림 푸터 */
+    .notification-footer {
+        padding: 12px 15px;
+    }
+
+    /* 전체보기 링크 */
+    .see-all {
+        display: block;
+        text-align: center;
+        color: #444;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    /* 전체보기 링크 */
+
 </style>
 <html>
 <head>
@@ -84,8 +142,8 @@
     <meta name="author" content=""/>
     <title>건어물 - 건물을 효율적으로!</title>
     <!-- loader-->
-    <link href="<c:url value='/css/pace.min.css'/>" rel="stylesheet"/>
-    <script src="<c:url value='/js/pace.min.js'/>"></script>
+<%--    <link href="<c:url value='/css/pace.min.css'/>" rel="stylesheet"/>--%>
+<%--    <script src="<c:url value='/js/pace.min.js'/>"></script>--%>
     <!-- favicon -->
     <link rel="icon" href="<c:url value='/img/gunamul_icon.ico'/>" type="image/x-icon">
     <!-- Vector CSS -->
@@ -124,18 +182,23 @@
                     </a>
                 </li>
             </ul>
-
+            <%-- 상단 nev바 오른쪽 아이콘  --%>
             <ul class="navbar-nav align-items-center right-nav-link">
 
-                <!-- 여기에 알림 아이콘 추가 -->
-                <li class="nav-item notification-icon">
-                    <a class="nav-link" href="javascript:void();">
+                <!-- 알람 -->
+                <li class="nav-alarmicon">
+                    <a class="nav-link" href="#">
                         <i class="fa fa-bell-o"></i>
-                        <span class="notification-badge">0</span>
+                        <span class="notification-badge">4</span>
                     </a>
                     <div class="notification-dropdown">
-                        <div class="notification-list">
-                            <!-- 알림 내용이 여기에 동적으로 추가됨 -->
+                        <div class="notification-footer">
+                            <div><h2 style="color: #0a1219">알림내용</h2></div>
+
+                            <%--알림 푸터--%>
+                            <a href="<c:url value="/repairs"/>" class="see-all">
+                                내 켈린더 바로가기 <i class="fa fa-angle-right"></i>
+                            </a>
                         </div>
                     </div>
                 </li>
@@ -157,13 +220,6 @@
                     </c:otherwise>
                 </c:choose>
 
-
-                <li class="nav-item">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                        <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>
-                    </a>
-                    <!-- 나머지 프로필 드롭다운 코드 -->
-                </li>
             </ul>
         </nav>
     </header>
@@ -205,8 +261,41 @@
     </footer>
 </div>
 <!-- End wrapper -->
+
 <script>
 
+    let alarm = {
+        init: function() {
+            this.onclick();
+            this.initEventHandlers();  // 추가된 부분
+        },
+
+        //알림 아이콘을 눌렀을 때 이벤트
+        onclick: function() {
+            $('.nav-alarmicon .nav-link').click(function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $('.notification-dropdown').toggle();
+            });
+        },
+
+        // 알림 아이콘 다시 눌렀을 때 드롭다운 닫기
+        initEventHandlers: function() {
+            // 문서 클릭시 드롭다운 닫기
+            $(document).click(function() {
+                $('.notification-dropdown').hide();
+            });
+
+            // 드롭다운 외 부분 클릭 시 드롭다운 닫기
+            $('.notification-dropdown').click(function(e) {
+                e.stopPropagation();
+            });
+        }
+    };
+
+    $(function() {
+        alarm.init();
+    });
 </script>
 
 </body>

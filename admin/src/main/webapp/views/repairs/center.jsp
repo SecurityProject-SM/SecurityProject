@@ -90,7 +90,7 @@
                 }
             });
         },
-
+        //DB에서 불러온 값 클릭시 상태 업데이트
         updateStatus: function(newStatus) {
             if (!currentEvent) return;
 
