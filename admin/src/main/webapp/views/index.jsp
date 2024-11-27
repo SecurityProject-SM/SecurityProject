@@ -142,7 +142,7 @@
 <!-- sidebar-menu js -->
 <script src="<c:url value='/js/sidebar-menu.js'/>"></script>
 <!-- loader scripts -->
-<script src="<c:url value='/js/jquery.loading-indicator.js'/>"></script>
+<%--<script src="<c:url value='/js/jquery.loading-indicator.js'/>"></script>--%>
 <!-- Custom scripts -->
 <script src="<c:url value='/js/app-script.js'/>"></script>
 <!-- Chart js -->
