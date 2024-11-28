@@ -1,7 +1,5 @@
 package edu.sm.controller;
 
-import com.github.pagehelper.PageInfo;
-import edu.sm.app.dto.RepairsDto;
 import edu.sm.app.service.RepairsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,17 +22,14 @@ public class RepairsController {
         model.addAttribute("center", dir+"center");
         return "index";
     }
-
 /*    @RequestMapping("/calender")
     public String calander(Model model) {
 
         model.addAttribute("center", "repairs/calender");
         return "index";
     }*/
-
     @RequestMapping("/success")
     public String success(@RequestParam("id") int id) {
-
         repairsService.suc(id);
         return "redirect:/repairs";
     }

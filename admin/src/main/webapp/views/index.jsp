@@ -16,122 +16,150 @@
 <script src="<c:url value='/js/index.js'/>"></script>
 
 <style>
-    .notification-icon {
+    /* 알림 아이콘 컨테이너 */
+    .nav-alarmicon {
         position: relative;
+        display: inline-block;
         cursor: pointer;
+        padding: 10px;
     }
 
-    .notification-badge {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: #f41127;
-        color: white;
-        border-radius: 50%;
-        padding: 2px 6px;
-        font-size: 10px;
-        display: none;
-    }
-
+    /* 알림 드롭다운 */
     .notification-dropdown {
         display: none;
         position: absolute;
         right: 0;
         top: 100%;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        min-width: 280px;
-        z-index: 1000;
+        background: white;
+        border: 1px solid #ddd;
         border-radius: 4px;
-        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        width: 300px;
+        z-index: 1000;
     }
 
-    .notification-list {
+    /* 알림 내용 영역 */
+    .notification-content {
         max-height: 300px;
         overflow-y: auto;
+        padding: 10px;
     }
 
+    /* 알림 아이템 */
     .notification-item {
-        padding: 10px 15px;
-        border-bottom: 1px solid rgba(0,0,0,.1);
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        margin-bottom: 5px;
     }
 
     .notification-item:last-child {
         border-bottom: none;
+        margin-bottom: 0;
     }
 
-    .unread {
-        background-color: rgba(0,0,0,.05);
+    .notification-item:hover {
+        background-color: #f8f9fa;
     }
 
+    /* 알림 상태 스타일 */
+    .notification-item.status-A {
+        border-left: 4px solid #E74C3C;
+    }
 
+    .notification-item.status-B {
+        border-left: 4px solid #67e73c;
+    }
 
-    /*----------------------------------------*/
-    /* 알림 아이콘 컨테이너 */
-    .nav-alarmicon {
-        position: relative;
+    /* 알림 제목 */
+    .notification-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    /* 알림 날짜 */
+    .notification-date {
+        font-size: 12px;
+        color: #666;
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        height: 44px;
-    }
-
-    /* 알림 아이콘 링크 */
-    .nav-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        height: 44px;
-        width: 44px;
-        position: relative;
     }
 
     /* 알림 뱃지 */
     .notification-badge {
         position: absolute;
-        background-color: #31CE36;
+        top: 10px;
+        right: 9px;
+        background-color: #E74C3C;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 4px;
+        font-size: 11px;
+        min-width: 18px;
+        height: 18px;
         text-align: center;
-        border-radius: 10px;
-        min-width: 17px;
-        height: 17px;
-        font-size: 10px;
-        color: #ffffff;
-        font-weight: 300;
-        line-height: 17px;
-        top: 3px;
-        right: 3px;
-    }
-
-    /* 알림 드롭다운 메뉴 */
-    .notification-dropdown {
+        line-height: 14px;
+        border: 1px solid #fff;
         display: none;
-        position: absolute;
-        right: 0;
-        top: 100%;
-        min-width: 280px;
-        background: #ffffff;
-        border-radius: 4px;
-        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-        margin-top: 1px;
-        z-index: 1000;
     }
 
-    /* 알림 푸터 */
-    .notification-footer {
-        padding: 12px 15px;
+    /* 페이지네이션 */
+    .notification-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        gap: 5px;
+        border-top: 1px solid #eee;
     }
 
-    /* 전체보기 링크 */
-    .see-all {
-        display: block;
-        text-align: center;
-        color: #444;
-        font-size: 13px;
-        font-weight: 600;
-        text-decoration: none;
+    .pagination-btn {
+        border: 1px solid #ddd;
+        background: white;
+        color: #333;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 12px;
     }
-    /* 전체보기 링크 */
 
+    .pagination-btn.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+        .notification-dropdown {
+            width: 280px;
+            right: -70px;
+        }
+        .notification-footer {
+            padding: 10px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .notification-footer .see-all {
+            display: block;
+            color: #444;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 5px;
+        }
+
+        .notification-footer .see-all:hover {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .notification-date {
+            font-size: 11px;
+        }
 </style>
 <html>
 <head>
@@ -185,23 +213,27 @@
             <%-- 상단 nev바 오른쪽 아이콘  --%>
             <ul class="navbar-nav align-items-center right-nav-link">
 
-                <!-- 알람 -->
-                <li class="nav-alarmicon">
-                    <a class="nav-link" href="#">
+                <!-- 알림 아이콘 영역 -->
+                <div class="nav-alarmicon">
+                    <a href="#" class="nav-link">
                         <i class="fa fa-bell-o"></i>
-                        <span class="notification-badge">4</span>
+                        <span class="notification-badge" id="notification-count"></span>
                     </a>
-                    <div class="notification-dropdown">
-                        <div class="notification-footer">
-                            <div><h2 style="color: #0a1219">알림내용</h2></div>
 
-                            <%--알림 푸터--%>
-                            <a href="<c:url value="/repairs"/>" class="see-all">
-                                내 켈린더 바로가기 <i class="fa fa-angle-right"></i>
+                    <!-- 알림 드롭다운 메뉴 -->
+                    <div class="notification-dropdown">
+                        <!-- 알림 내용 -->
+                        <div class="notification-content" id="notification-list">
+                            <!-- loadNotifications() 함수에 의해 동적으로 채워짐 -->
+                        </div>
+                        <!-- 알림 푸터 -->
+                        <div class="notification-footer">
+                            <a href="/repairs" class="see-all">
+                                내 캘린더 바로가기 <i class="fa fa-angle-right"></i>
                             </a>
                         </div>
                     </div>
-                </li>
+                </div>
 
                 <c:choose>
                     <c:when test="${sessionScope.loginid == null}">
@@ -264,13 +296,22 @@
 
 <script>
 
+    // 알림 객체 정의
     let alarm = {
+        // 페이징 관련 설정
+        pageSize: 5,     // 페이지당 표시할 알림 수
+        currentPage: 1,  // 현재 페이지
+        totalItems: 0,   // 전체 알림 수
+
+        // 초기화 함수
         init: function() {
             this.onclick();
-            this.initEventHandlers();  // 추가된 부분
+            this.initEventHandlers();
+            this.loadNotifications();
+            this.markAsRead();
         },
 
-        //알림 아이콘을 눌렀을 때 이벤트
+        // 알림 아이콘 클릭 이벤트
         onclick: function() {
             $('.nav-alarmicon .nav-link').click(function(e) {
                 e.preventDefault();
@@ -279,22 +320,151 @@
             });
         },
 
-        // 알림 아이콘 다시 눌렀을 때 드롭다운 닫기
+        // 이벤트 핸들러 초기화
         initEventHandlers: function() {
-            // 문서 클릭시 드롭다운 닫기
             $(document).click(function() {
                 $('.notification-dropdown').hide();
             });
 
-            // 드롭다운 외 부분 클릭 시 드롭다운 닫기
             $('.notification-dropdown').click(function(e) {
                 e.stopPropagation();
+            });
+
+            // 페이지네이션 버튼 클릭 이벤트
+            $(document).on('click', '.pagination-btn', function(e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                if (page !== alarm.currentPage) {
+                    alarm.currentPage = page;
+                    alarm.loadNotifications();
+                }
+            });
+        },
+
+        // 페이지네이션 HTML 생성
+        createPagination: function(totalPages) {
+            const paginationContainer = $('<div>').addClass('notification-pagination');
+
+            // 이전 페이지 버튼
+            if (this.currentPage > 1) {
+                paginationContainer.append(
+                    $('<button>')
+                        .addClass('pagination-btn')
+                        .data('page', this.currentPage - 1)
+                        .text('이전')
+                );
+            }
+
+            // 페이지 번호 버튼들
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = $('<button>')
+                    .addClass('pagination-btn')
+                    .data('page', i)
+                    .text(i);
+
+                if (i === this.currentPage) {
+                    pageBtn.addClass('active');
+                }
+
+                paginationContainer.append(pageBtn);
+            }
+
+            // 다음 페이지 버튼
+            if (this.currentPage < totalPages) {
+                paginationContainer.append(
+                    $('<button>')
+                        .addClass('pagination-btn')
+                        .data('page', this.currentPage + 1)
+                        .text('다음')
+                );
+            }
+
+            return paginationContainer;
+        },
+
+        // DB에서 알림 데이터 로드
+        loadNotifications: function() {
+            $.ajax({
+                url: '/getrepairs',
+                type: 'GET',
+                success: function(result) {
+                    const notifications = result.repairsData;
+                    const container = $('#notification-list');
+                    alarm.totalItems = notifications.length;
+
+                    // 알림 컨테이너 비우기
+                    container.empty();
+
+                    // 알림 수 표시
+                    if (notifications.length > 0) {
+                        $('#notification-count').text(notifications.length).show();
+                    } else {
+                        $('#notification-count').hide();
+                    }
+
+                    // 페이징 처리
+                    const startIndex = (alarm.currentPage - 1) * alarm.pageSize;
+                    const endIndex = Math.min(startIndex + alarm.pageSize, notifications.length);
+                    const totalPages = Math.ceil(notifications.length / alarm.pageSize);
+
+                    // 현재 페이지의 알림만 표시
+                    for (let i = startIndex; i < endIndex; i++) {
+                        const repair = notifications[i];
+                        const date = new Date(repair.repairStart);
+                        const formattedDate = date.toLocaleDateString('ko-KR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            weekday: 'long'
+                        });
+
+                        const statusText = repair.repairStat === 'A' ? '진행중' : '완료';
+
+                        // 알림 항목 HTML 생성
+                        const notificationItem = $('<div>')
+                            .addClass('notification-item')
+                            .addClass('status-' + repair.repairStat)
+                            .click(function(e) {
+                                // 기본 링크 동작 방지
+                                e.preventDefault();
+                                // 클릭한 알림 항목 숨기기
+                                $(this).hide();
+                                // 알림 카운트 감소
+                                const currentCount = parseInt($('#notification-count').text());
+                                if (currentCount > 1) {
+                                    $('#notification-count').text(currentCount - 1);
+                                } else {
+                                    $('#notification-count').hide();
+                                }
+                            });
+
+                        const titleDiv = $('<div>')
+                            .addClass('notification-title')
+                            .text('[유지보수] ' + repair.repairLoc);
+
+                        const dateDiv = $('<div>')
+                            .addClass('notification-date')
+                            .text(formattedDate + ' (' + statusText + ')');
+
+                        notificationItem.append(titleDiv, dateDiv);
+                        container.append(notificationItem);
+                    }
+
+                    // 페이지네이션 추가
+                    if (totalPages > 1) {
+                        container.append(alarm.createPagination(totalPages));
+                    }
+                }
             });
         }
     };
 
+    // 문서 로드 완료 시 알림 시스템 초기화
     $(function() {
         alarm.init();
+        setInterval(function() {
+            alarm.loadNotifications();
+        }, 3000);
     });
 </script>
 
