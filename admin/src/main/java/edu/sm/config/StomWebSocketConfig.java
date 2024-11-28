@@ -12,11 +12,17 @@ public class StomWebSocketConfig implements WebSocketMessageBrokerConfigurer{
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chatbot").setAllowedOriginPatterns("*").withSockJS();
+                                    // setAllowedOriginPatterns는 아래 경로로 접속했을때만 가능
+                                    // *로 바꾸면 어느 ip든 접속 가능
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/chat").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/chbot").setAllowedOriginPatterns("http://127.0.0.1").withSockJS();
+        registry.addEndpoint("/wss").setAllowedOriginPatterns("*").withSockJS();
     }
 
+    /* 어플리케이션 내부에서 사용할 path를 지정할 수 있음 */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/sendto");
+        registry.enableSimpleBroker("/send","/broadcast");
     }
 }

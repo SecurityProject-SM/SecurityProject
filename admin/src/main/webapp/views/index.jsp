@@ -103,6 +103,10 @@
     <!-- Custom Style-->
     <link href="<c:url value='/css/app-style.css'/>" rel="stylesheet"/>
 
+    <%-- 웹소켓 라이브러리--%>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+
     <!-- jQuery, Popper, Bootstrap from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -162,7 +166,27 @@
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
                         <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>
                     </a>
-                    <!-- 나머지 프로필 드롭다운 코드 -->
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-item user-details">
+                            <a href="<c:url value='/javascript:void();'/>">
+                                <div class="media">
+                                    <div class="avatar"><img class="align-self-start mr-3" src="https://via.placeholder.com/110x110" alt="user avatar"></div>
+                                    <div class="media-body">
+                                        <h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
+                                        <p class="user-subtitle">mccoy@example.com</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><i class="icon-envelope mr-2"></i> Inbox</li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li>
+                    </ul>
                 </li>
             </ul>
         </nav>
@@ -205,9 +229,5 @@
     </footer>
 </div>
 <!-- End wrapper -->
-<script>
-
-</script>
-
 </body>
 </html>

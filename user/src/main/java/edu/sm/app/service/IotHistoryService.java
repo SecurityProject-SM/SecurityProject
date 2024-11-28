@@ -8,7 +8,9 @@ import edu.sm.app.repository.IotHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +53,16 @@ public class IotHistoryService implements SBService<Integer, IotHistoryDto> {
 
     public Double getElec() throws Exception {
         return iotHistoryRepository.getElec();
+    }
+
+    public Map<String, Object> chartdata() throws Exception {
+        Map<String, Object> rawData = iotHistoryRepository.chartdata();
+
+        LocalDateTime logDate = (LocalDateTime) rawData.get("total_time");
+        String formattedDate = logDate != null ? logDate.toString() : null;
+
+        rawData.put("total_time", formattedDate);
+        return rawData;
     }
 
 }
