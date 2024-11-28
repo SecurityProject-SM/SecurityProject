@@ -59,17 +59,18 @@
         margin-top: 10px; /* 요소 전체를 아래로 이동 */
         width: 799px; /* 도면 이미지 너비 */
         height: 600px; /* 도면 이미지 높이 */
-        background-image: url('<c:url value="/img/park/parkimg.png"/>');
+        background-image: url('<c:url value="/img/park/parkimg2.png"/>');
         background-size: cover;
         overflow: hidden; /* 컨테이너 밖으로 삐져나오지 않도록 설정 */
     }
 
     .parking-spot {
         position: absolute;
-        width: 90px;  /* 각 주차 공간의 크기 */
+        width: 89px;  /* 각 주차 공간의 크기 */
         height: 98px;
-        opacity: 0.5;
-        transition: all 1s ease; /* 마우스 효과 부드러운 전환 */
+        opacity: 0;
+        transition: opacity 2s ease; /* 천천히 나타나는 애니메이션 */
+        transform-origin: center center; /* 회전 중심점 설정 */
     }
     .info-container {
         display: flex;
@@ -97,228 +98,173 @@
 
     }
 
-    .oldspot {
-        /*#spot1 { top: 8px; left: 173px; background-color: green; }*/
-        /*#spot2 { top: 8px; left: 268px; background-color: green; }*/
-        /*#spot3 { top: 8px; left: 363px; background-color: green; }*/
-        /*#spot4 { top: 8px; left: 457px; background-color: green; }*/
-        /*#spot5 { top: 8px; left: 552px; background-color: green; }*/
-        /*#spot6 { top: 8px; left: 646px; background-color: green; }*/
-
-        /*#spot7 { top: 199px; left: 224px; background-color: green; }*/
-        /*#spot8 { top: 199px; left: 319px; background-color: green; }*/
-        /*#spot9 { top: 199px; left: 413px; background-color: green; }*/
-        /*#spot10 { top: 199px; left: 507px; background-color: green; }*/
-        /*#spot11 { top: 199px; left: 603px; background-color: green; }*/
-
-        /*#spot12 { top: 302px; left: 224px; background-color: green; }*/
-        /*#spot13 { top: 302px; left: 319px; background-color: green; }*/
-        /*#spot14 { top: 302px; left: 413px; background-color: green; }*/
-        /*#spot15 { top: 302px; left: 507px; background-color: green; }*/
-        /*#spot16 { top: 302px; left: 603px; background-color: green; }*/
-
-        /*#spot17 { top: 496px; left: 173px; background-color: green; }*/
-        /*#spot18 { top: 496px; left: 267px; background-color: green; }*/
-        /*#spot19 { top: 496px; left: 362px; background-color: green; }*/
-        /*#spot20 { top: 496px; left: 457px; background-color: green; }*/
-        /*#spot21 { top: 496px; left: 552px; background-color: green; }*/
-        /*#spot22 { top: 496px; left: 646px; background-color: green; }*/
-
-        /*#spot23 { top: 305px; left: 15px; width: 97px; height: 89px; background-color: green; }*/
-        /*#spot24 { top: 400px; left: 15px; width: 97px; height: 89px; background-color: green; }*/
-    }
-    #spot1 { top: 8px; left: 173px; background-color: green; }
+    #spot1 { top: 6px; left: 166px; }
     #spot1:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot2 { top: 8px; left: 268px; background-color: green; }
+    #spot2 { top: 6px; left: 261px; }
     #spot2:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot3 { top: 8px; left: 363px; background-color: green; }
+    #spot3 { top: 6px; left: 356px; }
     #spot3:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot4 { top: 8px; left: 457px; background-color: green; }
+    #spot4 { top: 6px; left: 450px; }
     #spot4:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 5px solid yellow;
         cursor: pointer;
     }
 
-    #spot5 { top: 8px; left: 552px; background-color: green; }
+    #spot5 { top: 6px; left: 545px; }
     #spot5:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot6 { top: 8px; left: 646px; background-color: green; }
+    #spot6 { top: 6px; left: 640px; }
     #spot6:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot7 { top: 199px; left: 224px; background-color: green; }
+    #spot7 { top: 195px; left: 215px; }
     #spot7:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot8 { top: 199px; left: 319px; background-color: green; }
+    #spot8 { top: 195px; left: 310px; }
     #spot8:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot9 { top: 199px; left: 413px; background-color: green; }
+    #spot9 { top: 195px; left: 404px; }
     #spot9:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot10 { top: 199px; left: 507px; background-color: green; }
+    #spot10 { top: 195px; left: 500px; }
     #spot10:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot11 { top: 199px; left: 603px; background-color: green; }
+    #spot11 { top: 195px; left: 595px; }
     #spot11:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot12 { top: 302px; left: 224px; background-color: green; }
+    #spot12 { top: 299px; left: 215px; }
     #spot12:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot13 { top: 302px; left: 319px; background-color: green; }
+    #spot13 { top: 299px; left: 310px; }
     #spot13:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot14 { top: 302px; left: 413px; background-color: green; }
+    #spot14 { top: 299px; left: 404px; }
     #spot14:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot15 { top: 302px; left: 507px; background-color: green; }
+    #spot15 { top: 299px; left: 499px; }
     #spot15:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot16 { top: 302px; left: 603px; background-color: green; }
+    #spot16 { top: 299px; left: 595px; }
     #spot16:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot17 { top: 496px; left: 173px; background-color: green; }
+    #spot17 { top: 496px; left: 168px; }
     #spot17:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot18 { top: 496px; left: 267px; background-color: green; }
+    #spot18 { top: 496px; left: 262px; }
     #spot18:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot19 { top: 496px; left: 362px; background-color: green; }
+    #spot19 { top: 496px; left: 357px; }
     #spot19:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot20 { top: 496px; left: 457px; background-color: green; }
+    #spot20 { top: 496px; left: 452px; }
     #spot20:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot21 { top: 496px; left: 552px; background-color: green; }
+    #spot21 { top: 496px; left: 547px; }
     #spot21:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot22 { top: 496px; left: 646px; background-color: green; }
+    #spot22 { top: 496px; left: 641px; }
     #spot22:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot23 { top: 305px; left: 15px; width: 97px; height: 89px; background-color: green; }
+    #spot23 { top: 303px; left: 7px; width: 97px; height: 89px; }
     #spot23:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
 
-    #spot24 { top: 400px; left: 15px; width: 97px; height: 89px; background-color: green; }
+    #spot24 { top: 398px; left: 7px; width: 97px; height: 89px; }
     #spot24:hover {
         opacity: 1;
-        border: 2px solid yellow;
-        background-color: orange;
+        border: 4px solid yellow;
         cursor: pointer;
     }
-
 
     .popup-wrap {
         position: fixed;
@@ -387,7 +333,6 @@
         gap: 10px;
         color: black;
     }
-
 </style>
 
 <script>
@@ -422,7 +367,29 @@
                     data.parkingData.forEach(function (park) {
                         const spotElement = document.getElementById("spot" + park.parkId);
                         if (spotElement) {
-                            spotElement.style.backgroundColor = park.parkStat ? "green" : "red";
+                            if(park.parkStat==true){
+                                spotElement.style.backgroundColor = "#32ec70";
+                                spotElement.style.backgroundImage = ""; // 기존 이미지를 제거
+                                spotElement.style.opacity = "0.6"; // 기존 투명도 초기화
+                                spotElement.style.transform = ""; // 회전 초기화
+                            }else{
+                                spotElement.style.backgroundColor = ""; // 배경색 제거
+                                spotElement.style.backgroundImage = "url('<c:url value="/img/park/parkingcar.png"/>')";
+                                spotElement.style.backgroundSize = "cover"; // 이미지 크기 조정
+                                spotElement.style.opacity = "1"; // 투명도 초기화
+                            }
+                            // 특정 주차 공간만 180도 회전
+                            if (park.parkId >= 7 && park.parkId <= 11 || park.parkId >= 17 && park.parkId <= 22) {
+                                spotElement.style.transform = "rotate(180deg)";
+                            } else {
+                                spotElement.style.transform = ""; // 회전 초기화
+                            }
+
+                            if(park.parkId >= 23 && park.parkId <= 24 && park.parkStat==false){
+                                spotElement.style.backgroundImage = "url('<c:url value="/img/park/parkingcar2.png"/>')";
+                                spotElement.style.backgroundSize = "cover"; // 이미지 크기 조정
+                                spotElement.style.opacity = "1"; // 투명도 초기화
+                            }
                         }
                     });
                 },
@@ -457,6 +424,7 @@
     <div class="loading-spinner"></div>
     <p>로딩 중입니다...</p>
 </div>
+
 
 <div class="content-wrapper">
     <div class="row mt-3">
