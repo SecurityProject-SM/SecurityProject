@@ -17,10 +17,14 @@
     }
 
     #to {
-        width: 400px;
+        width: 100%;
         height: 400px;
         overflow: auto;
-        border: 2px solid green;
+    }
+
+    #totext {
+        border-radius: 5px;
+        margin-top: 3px;
     }
 
     #movebutton {
@@ -59,8 +63,12 @@
     /* 챗봇 메시지 (왼쪽 정렬) */
     .chatbot-message {
         text-align: left;
-        color: #0cedd7; /* 챗봇 메시지 색상 */
-        margin: 10px;
+        color: #08bfaa; /* 텍스트 색상 */
+        margin: 10px; /* 외부 여백 */
+        background-color: #e6ffff; /* 배경색 (밝은 하늘색) */
+        border-radius: 10px; /* 둥근 모서리 */
+        padding: 10px 15px; /* 내부 여백 (위아래 10px, 양옆 15px) */
+        display: inline-block; /* 배경 크기를 텍스트 크기에 맞춤 */
     }
 
 
@@ -129,17 +137,19 @@
                     if (url.trim() !== "") {
                         // URL이 있는 경우
                         $("#to").prepend(
-                            "<h4 class='chatbot-message'>" +
-                            "Chatbot:<br>" + content.trim() + "<br>" +
+                            "<h5 class='chatbot-message'>" +
+                            "<img src='img/chatbot.png' style='width: 30px; margin-right: 10px; vertical-align: middle;'>"
+                            + content.trim() + "<br>" +
                             "<button id='movebutton' onclick=\"window.location.href='" + url + "'\">이동</button>" +
-                            "</h4>"
+                            "</h5>"
                         );
                     } else {
                         // URL이 없는 경우
                         $("#to").prepend(
-                            "<h4 class='chatbot-message'>" +
-                            "Chatbot:<br>" + content.trim() +
-                            "</h4>"
+                            "<h5 class='chatbot-message'>" +
+                            "<img src='img/chatbot.png' style='width: 30px; margin-right: 10px; vertical-align: middle;'>" +
+                             content.trim() +
+                            "</h5>"
                         );
                     }
                 });
@@ -175,9 +185,14 @@
     <%--        <button id="disconnect">Disconnect</button>--%>
 
 
-    <div id="to"></div>
-    <input type="text" id="totext">
-    <button id="sendto"><img src="img/chat.png" style="height: 30px"></button>
+        <div id="to">
+            <!-- 초기 웰컴 메시지 -->
+            <h5 class='chatbot-message'>
+                <img src="img/chatbot.png" style="width: 30px">
+                안녕하세요! 무엇을 도와드릴까요?
+            </h5>
+        </div>    <input type="text" id="totext" placeholder="메시지를 입력하세요...">
+    <button id="sendto" style="background-color: white"><img src="img/chaticon.png" style="height: 30px; ></button>
 
 
     <%--    </div>--%>

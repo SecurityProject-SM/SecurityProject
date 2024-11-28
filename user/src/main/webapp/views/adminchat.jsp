@@ -49,6 +49,7 @@
         },
         connect:function(){
             let sid = this.id;
+            let userid = ${sessionScope.loginid.userId};
             let socket = new SockJS('http://10.20.34.98:82/ws');
             this.stompClient = Stomp.over(socket);
 
