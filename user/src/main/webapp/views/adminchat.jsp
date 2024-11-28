@@ -9,24 +9,17 @@
 
 <style>
     #all {
-        width: 400px;
         height: 200px;
         overflow: auto;
         border: 2px solid red;
     }
 
-    #me {
-        width: 400px;
-        height: 200px;
-        overflow: auto;
-        border: 2px solid blue;
+
+    .button-container1212 {
+
     }
 
-    #to {
-        width: 400px;
-        height: 200px;
-        overflow: auto;
-        border: 2px solid green;
+    #connect, #disconnect {
     }
 </style>
 
@@ -37,7 +30,10 @@
         stompClient:null,
         init:function(){
             $('#connect').click(()=>{
-                this.connect();
+                $("#status").text("연결중...");
+                setTimeout(() => {
+                    this.connect();
+                },2000);
             });
             $('#disconnect').click(()=>{
                 this.disconnect();
@@ -53,7 +49,7 @@
         },
         connect:function(){
             let sid = this.id;
-            let socket = new SockJS('https://10.20.36.50:82/ws');
+            let socket = new SockJS('http://10.20.34.98:82/ws');
             this.stompClient = Stomp.over(socket);
 
             this.stompClient.connect({}, function(frame) {
@@ -102,27 +98,24 @@
 
 <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Web Socket</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Web Socket</h6>
+            <h6 class="m-0 font-weight-bold text-primary"> 관리자 1:1 채팅</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <div class="col-sm-5">
-                    <H1 id="status">Status</H1>
-                    <button id="connect">Connect</button>
-                    <button id="disconnect">Disconnect</button>
+                    <h6 id="status">Status</h6>
 
-                    <h3>All</h3>
-                    <input type="text" id="alltext"><button id="sendall">Send</button>
+                    <div class="button-container1212">
+                        <button id="connect">대화연결</button>
+                        <button id="disconnect">대화종료</button>
+                    </div>
+
                     <div id="all"></div>
+                    <input type="text" id="alltext"><button id="sendall">Send</button>
 
-
-                </div>
             </div>
         </div>
     </div>

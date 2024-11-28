@@ -73,6 +73,41 @@
         line-height: 1.5;
     }
 
+    #chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        z-index: 1000;
+        transition: all 0.3s;
+    }
+
+    #chat-button.new-message {
+        background-color: #ff0000;
+        transform: scale(1.2);
+        animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1.2);
+        }
+        50% {
+            transform: scale(1.3);
+        }
+        100% {
+            transform: scale(1.2);
+        }
+    }
+
 </style>
 
 <script>

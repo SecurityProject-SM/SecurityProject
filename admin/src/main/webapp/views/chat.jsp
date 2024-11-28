@@ -19,79 +19,90 @@
         border: 2px solid red;
     }
 
+
+
 </style>
 
 <script>
     let websocket = {
-        id:'',
-        stompClient:null,
-        init:function(){
+        id: '',
+        stompClient: null,
+        init: function () {
             this.id = $('#adm_id').text();
-            $('#disconnect').click(()=>{
+            $('#connect').click(() => {
+                this.connect();
+            });
+
+            $('#disconnect').click(() => {
                 this.disconnect();
             });
-            $('#sendall').click(()=>{
+
+            $('#alltext').keydown((event) => {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    $('#sendall').click();
+                }
+            });
+            $('#sendall').click(() => {
                 let msg = JSON.stringify({
-                    'sendid' : this.id,
-                    'content1' : $("#alltext").val()
+                    'sendid': this.id,
+                    'content1': $("#alltext").val()
                 });
                 this.stompClient.send("/receiveall", {}, msg);
             });
-            $('#sendme').click(()=>{
-                let msg = JSON.stringify({
-                    'sendid' : this.id,
-                    'content1' : $("#metext").val()
-                });
-                this.stompClient.send("/receiveme", {}, msg);
-            });
-            $('#sendto').click(()=>{
-                var msg = JSON.stringify({
-                    'sendid' : this.id,
-                    'receiveid' : $('#target').val(),
-                    'content1' : $('#totext').val()
-                });
-                this.stompClient.send('/receiveto', {}, msg);
-            });
         },
-        connect:function(){
+        connect: function () {
             let sid = this.id;
-            let socket = new SockJS('https://10.20.36.50:82/ws');
+            let socket = new SockJS('http://10.20.34.98:82/ws');
             this.stompClient = Stomp.over(socket);
 
-            this.stompClient.connect({}, function(frame) {
+            this.stompClient.connect({}, function (frame) {
                 websocket.setConnected(true);
                 console.log('Connected: ' + frame);
-                this.subscribe('/send', function(msg) {
+                this.subscribe('/send', function (msg) {
                     $("#all").prepend(
-                        "<h4>" + JSON.parse(msg.body).sendid +":"+
+                        "<h4>" + JSON.parse(msg.body).sendid + ":" +
                         JSON.parse(msg.body).content1
                         + "</h4>");
+                    websocket.onNewMessage(); // chat-button 스타일 변경
                 });
-                this.subscribe('/send/'+sid, function(msg) {
+                this.subscribe('/send/' + sid, function (msg) {
                     $("#me").prepend(
-                        "<h4>" + JSON.parse(msg.body).sendid +":"+
-                        JSON.parse(msg.body).content1+ "</h4>");
+                        "<h4>" + JSON.parse(msg.body).sendid + ":" +
+                        JSON.parse(msg.body).content1 + "</h4>");
                 });
-                this.subscribe('/send/to/'+sid, function(msg) {
+                this.subscribe('/send/to/' + sid, function (msg) {
                     $("#to").prepend(
-                        "<h4>" + JSON.parse(msg.body).sendid +":"+
+                        "<h4>" + JSON.parse(msg.body).sendid + ":" +
                         JSON.parse(msg.body).content1
                         + "</h4>");
                 });
             });
         },
-        disconnect:function(){
+        disconnect: function () {
             if (this.stompClient !== null) {
                 this.stompClient.disconnect();
             }
             websocket.setConnected(false);
             console.log("Disconnected");
         },
-        setConnected:function(connected){
+        setConnected: function (connected) {
             if (connected) {
                 $("#status").text("Connected");
             } else {
                 $("#status").text("Disconnected");
+            }
+        },
+        onNewMessage: function () {
+            if (window.parent) {
+                const chatButton = window.parent.document.querySelector('#chat-button');
+                if (chatButton) {
+                    chatButton.classList.add('new-message');
+
+                    setTimeout(() => {
+                        chatButton.classList.remove('new-message');
+                    }, 5000);
+                }
             }
         }
     };
@@ -114,10 +125,12 @@
             <div class="table-responsive">
                 <div>
                     <H1 id="status">Status</H1>
-                    <button id="disconnect">Disconnect</button>
+<%--                    <button id="connect">Connect</button>--%>
+<%--                    <button id="disconnect">Disconnect</button>--%>
 
-                    <input type="text" id="alltext"><button id="sendall">Send</button>
                     <div id="all"></div>
+                    <input type="text" id="alltext"><button id="sendall">Send</button>
+
                 </div>
             </div>
         </div>
