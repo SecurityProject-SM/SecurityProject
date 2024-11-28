@@ -129,11 +129,8 @@ public class MainInputController {
         String resultMessage = null;
         String extractedUrl = null;
 
-        if (content.contains("주차정산")) {
-            resultMessage = ChatBotUtil.getMsgUrl(url, key, content);
-        } else {
-            resultMessage = ChatBotUtil.getMsg(url, key, content);
-        }
+        resultMessage = ChatBotUtil.getMsgUrl(url, key, content);
+
 
         if (resultMessage != null && resultMessage.contains("http")) {
             int httpIndex = resultMessage.indexOf("http");
@@ -148,8 +145,6 @@ public class MainInputController {
 
         template.convertAndSend("/sendto/" + id, msg);
     }
-
-
 
 
 }

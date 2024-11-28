@@ -13,10 +13,41 @@
 
 <style>
     #all {
-        width: 400px;
-        height: 200px;
+        height: 280px;
         overflow: auto;
-        border: 2px solid red;
+        margin-top: 5px;
+        background-color: #f0fafb;
+    }
+
+    /* 사용자가 보낸 메시지 */
+    .user-massage {
+        background-color: #d1f7c4; /* 연한 초록색 */
+        text-align: left; /* 오른쪽 정렬 */
+        padding: 10px;
+        border-radius: 5px;
+        color: black;
+        margin: 5px 0;
+    }
+
+    /* 관리자가 보낸 메시지 */
+    .admin-message {
+        background-color: #f1f1f1; /* 연한 회색 */
+        text-align: right; /* 왼쪽 정렬 */
+        padding: 10px;
+        border-radius: 5px;
+        color: black;
+        margin: 5px 0;
+    }
+
+    #alltext {
+        width: 260px;
+    }
+
+    #sendall {
+        background-color: black;
+        color: white;
+        border-radius: 5px;
+        margin-left: 5px;
     }
 
 
@@ -43,12 +74,12 @@
                     $('#sendall').click();
                 }
             });
+
             $('#sendall').click(() => {
                 let msg = JSON.stringify({
-                    'sendid': this.id,
                     'content1': $("#alltext").val()
                 });
-                this.stompClient.send("/receiveall", {}, msg);
+                this.stompClient.send("/send/admin", {}, msg);
             });
         },
         connect: function () {
@@ -59,23 +90,19 @@
             this.stompClient.connect({}, function (frame) {
                 websocket.setConnected(true);
                 console.log('Connected: ' + frame);
-                this.subscribe('/send', function (msg) {
+                this.subscribe('/send/user', function (msg) {
                     $("#all").prepend(
-                        "<h4>" + JSON.parse(msg.body).sendid + ":" +
+                        "<h5 class='user-massage'>" + "사용자 : " +
                         JSON.parse(msg.body).content1
-                        + "</h4>");
-                    websocket.onNewMessage(); // chat-button 스타일 변경
+                        + "</h5>");
+                    websocket.onNewMessage();
                 });
-                this.subscribe('/send/' + sid, function (msg) {
-                    $("#me").prepend(
-                        "<h4>" + JSON.parse(msg.body).sendid + ":" +
-                        JSON.parse(msg.body).content1 + "</h4>");
-                });
-                this.subscribe('/send/to/' + sid, function (msg) {
-                    $("#to").prepend(
-                        "<h4>" + JSON.parse(msg.body).sendid + ":" +
+
+                this.subscribe('/send/admin', function (msg) {
+                    $("#all").prepend(
+                        "<h5 class='admin-message'>" +
                         JSON.parse(msg.body).content1
-                        + "</h4>");
+                        + "</h5>");
                 });
             });
         },
@@ -88,9 +115,9 @@
         },
         setConnected: function (connected) {
             if (connected) {
-                $("#status").text("Connected");
+                $("#status").text("연결됨");
             } else {
-                $("#status").text("Disconnected");
+                $("#status").text("연결 끊김");
             }
         },
         onNewMessage: function () {
@@ -116,20 +143,19 @@
 
 <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Web Socket</h1>
-
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
                 <div>
-                    <H1 id="status">Status</H1>
+                    <H3 id="status">Status</H3>
 <%--                    <button id="connect">Connect</button>--%>
 <%--                    <button id="disconnect">Disconnect</button>--%>
 
                     <div id="all"></div>
-                    <input type="text" id="alltext"><button id="sendall">Send</button>
+                    <div style="margin-top: 5px">
+                    <input type="text" id="alltext"><button id="sendall">전송</button>
+                    </div>
 
                 </div>
             </div>

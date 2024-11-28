@@ -9,7 +9,7 @@
 
 <style>
     /* 내가 보낸 메시지 */
-    .my-message {
+    .user-massage {
         background-color: #d1f7c4; /* 연한 초록색 */
         text-align: right; /* 오른쪽 정렬 */
         padding: 10px;
@@ -104,10 +104,9 @@
             });
             $('#sendall').click(() => {
                 let msg = JSON.stringify({
-                    'sendid': this.id,
                     'content1': $("#alltext").val()
                 });
-                this.stompClient.send("/receiveall", {}, msg);
+                this.stompClient.send("/send/user", {}, msg);
             });
             $("#alltext").keydown((event) => {
                 if (event.key === "Enter") {
@@ -125,20 +124,17 @@
             this.stompClient.connect({}, function (frame) {
                 websocket.setConnected(true);
                 console.log('Connected: ' + frame);
-                this.subscribe('/send', function (msg) {
+
+                this.subscribe('/send/user', function (msg) {
                     $("#all").prepend(
-                        "<h5>" + JSON.parse(msg.body).sendid + ":" +
+                        "<h5 class='user-massage'>" +
                         JSON.parse(msg.body).content1
                         + "</h5>");
                 });
-                this.subscribe('/send/' + sid, function (msg) {
-                    $("#me").prepend(
-                        "<h5>" + JSON.parse(msg.body).sendid + ":" +
-                        JSON.parse(msg.body).content1 + "</h5>");
-                });
-                this.subscribe('/send/to/' + sid, function (msg) {
-                    $("#to").prepend(
-                        "<h5>" + JSON.parse(msg.body).sendid + ":" +
+
+                this.subscribe('/send/admin', function (msg) {
+                    $("#all").prepend(
+                        "<h5 class='admin-message'>" + "관리자 : " +
                         JSON.parse(msg.body).content1
                         + "</h5>");
                 });
@@ -153,9 +149,9 @@
         },
         setConnected: function (connected) {
             if (connected) {
-                $("#status").text("Connected");
+                $("#status").text("연결됨");
             } else {
-                $("#status").text("Disconnected");
+                $("#status").text("연결 끊김");
             }
         }
     };
@@ -194,5 +190,3 @@
     </div>
 
 </div>
-
-

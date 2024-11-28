@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MsgController {
 
-    private final SimpMessageSendingOperations simpmsgsend;
+    private final SimpMessageSendingOperations simpMessageSendingOperations;
 
     @Autowired
     SimpMessagingTemplate template;
@@ -28,11 +28,20 @@ public class MsgController {
     private String serverurl;
 
 
-    @MessageMapping("/receiveall") // 모두에게 전송
-    public void receiveall(Msg msg, SimpMessageHeaderAccessor headerAccessor) {
-        log.info("===================================================="+msg);
+//    @MessageMapping("/receiveall") // 모두에게 전송
+//    public void receiveall(Msg msg, SimpMessageHeaderAccessor headerAccessor) {
+//        log.info("===================================================="+msg);
+//        template.convertAndSend("/send",msg);
+//    }
 
-        template.convertAndSend("/send",msg);
+    @MessageMapping("/send/user") // 사용자가 메시지를 보낼 때
+    public void receiveUserMessage(Msg msg) {
+        template.convertAndSend("/receive/user/", msg); // 특정 사용자에게 전송
+    }
+
+    @MessageMapping("/send/admin") // 관리자가 메시지를 보낼 때
+    public void receiveAdminMessage(Msg msg) {
+        template.convertAndSend("/receive/admin", msg); // 모든 관리자가 구독 중인 경로에 전송
     }
 
     @MessageMapping("/receiveme") // 나에게만 전송 ex)Chatbot
