@@ -39,7 +39,6 @@
         check: function () {
             let pwd = $('#pwd').val();
             let tel = $('#tel').val();
-            let mail = $('#mail').val();
 
             if (pwd == '' || pwd == null) {
                 alert('pwd is mandatory');
@@ -53,12 +52,6 @@
                 return;
             }
 
-            if (mail == '' || mail == null) {
-                alert('mail is mandatory');
-                $('#mail').focus();
-                return;
-            }
-            this.send();
         },
 
         send: function () {

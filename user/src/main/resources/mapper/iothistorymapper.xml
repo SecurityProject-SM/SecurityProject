@@ -78,6 +78,17 @@
         WHERE DATE(log_date) = CURDATE();
     </select>
 
+    <select id="chartdata" resultType="map">
+        SELECT
+            SUM(iot_value) AS total,
+            MAX(log_date) AS total_time
+        FROM (
+                 SELECT iot_value, log_date
+                 FROM iothistory
+                 ORDER BY log_date DESC
+                     LIMIT 7
+             ) AS recent_values;
+    </select>
 
 
 </mapper>

@@ -1,19 +1,25 @@
 package edu.sm.controller;
 
-import com.github.pagehelper.PageInfo;
-import edu.sm.app.dto.NoticeDto;
+import edu.sm.app.dto.Msg;
 import edu.sm.app.dto.UsersDto;
 import edu.sm.app.service.NoticeService;
 import edu.sm.app.service.UsersService;
+import edu.sm.util.ChatBotUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import edu.sm.util.ChatBotUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @Slf4j
@@ -22,6 +28,12 @@ public class MainInputController {
 
     final UsersService usersService;
     final NoticeService noticeService;
+    final SimpMessagingTemplate template;
+
+    @Value("${app.url.chatbot}")
+    String url;
+    @Value("${app.key.chatbot}")
+    String key;
 
     // 로그아웃 처리
     @RequestMapping("/logoutimpl")
@@ -61,9 +73,8 @@ public class MainInputController {
         }
     }
 
-    @PostMapping("/additionalimpl")
+    @RequestMapping("/additionalimpl")
     public String additionalimpl(HttpSession session, UsersDto usersDto, Model model) throws Exception {
-        log.info("Received additional info: userPwd={}, userTel={}, userMail={}", usersDto.getUserPwd(), usersDto.getUserTel(), usersDto.getUserMail());
         UsersDto sessionUser = (UsersDto) session.getAttribute("loginid");
 
         if (sessionUser == null) {
@@ -108,5 +119,32 @@ public class MainInputController {
         session.invalidate();
         return "redirect:/";
     }
+
+    @MessageMapping("/sendchatbot")
+    public void sendchat(Msg msg, SimpMessageHeaderAccessor headerAccessor) throws Exception {
+        String id = msg.getSendid();
+        String content = msg.getContent1();
+        log.info("Received message: {}", content);
+
+        String resultMessage = null;
+        String extractedUrl = null;
+
+        resultMessage = ChatBotUtil.getMsgUrl(url, key, content);
+
+
+        if (resultMessage != null && resultMessage.contains("http")) {
+            int httpIndex = resultMessage.indexOf("http");
+            extractedUrl = resultMessage.substring(httpIndex).trim(); // URL 부분 추출
+            resultMessage = resultMessage.substring(0, httpIndex).trim(); // 메시지 부분 추출
+        }
+
+        msg.setContent1(resultMessage != null ? resultMessage : "알 수 없는 응답입니다.");
+        msg.setUrl(extractedUrl);
+
+        log.info("Processed Msg: {}", msg);
+
+        template.convertAndSend("/sendto/" + id, msg);
+    }
+
 
 }

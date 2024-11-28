@@ -197,4 +197,15 @@ public class IotRestController {
         return ResponseEntity.ok(totalPower);
     }
 
+    @RequestMapping("/chartdata")
+    public ResponseEntity<Map<String, Object>> getChartData() {
+        try {
+            Map<String, Object> chartData = iotHistoryService.chartdata();
+            return ResponseEntity.ok(chartData);
+        } catch (Exception e) {
+            log.error("Error fetching chart data", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

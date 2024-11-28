@@ -31,12 +31,16 @@ public class MainController {
     @Value("${app.key.okey}")
     private String okey;
 
+    @Value("${app.url.server-url}")
+    private String serverurl;
+
     final NoticeService noticeService;
 
     @RequestMapping("/")
     public String main(Model model) {
         log.info("Started Main");
         List<NoticeDto> recentNotices = noticeService.getTop3Notices();
+        model.addAttribute("serverurl", serverurl);
         model.addAttribute("recentNotices", recentNotices);
 
         return "index";
@@ -69,10 +73,10 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping("/test")
+    @RequestMapping("/webs")
     public String test(Model model) {
         log.info("Started test");
-        return "test";
+        return "adminchat";
     }
 
     // 메인화면 날씨
@@ -81,6 +85,8 @@ public class MainController {
     public Object oh(Model model) throws IOException, ParseException {
         return WeatherUtil.getWeather2("36.804125", "127.1524667", okey);
     }
+
+
 }
 
 

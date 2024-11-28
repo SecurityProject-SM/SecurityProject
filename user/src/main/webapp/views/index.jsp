@@ -1,21 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html lang="en">
-
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
         건어물
     </title>
-    <!-- Fonts and icons -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
-    <!-- Nucleo Icons -->
-    <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet"/>
-    <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet"/>
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
     <!-- CSS Files -->
     <link id="pagestyle" href="<c:url value="/css/argon-dashboard.css?v=2.1.0"/> " rel="stylesheet"/>
 
@@ -26,17 +18,33 @@
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 
+
     <%--  highcharts Library  --%>
     <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-    <%-- jquary --%>
+
+<%-- jquary --%>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
+<script>
+    <%--document.addEventListener("DOMContentLoaded", function () {--%>
+    <%--    var loginid = "${sessionScope.loginid}";--%>
+
+    <%--    if (!loginid || loginid === "null") {--%>
+    <%--        alert("로그인이 필요한 서비스 입니다.");--%>
+    <%--        window.location.href = "/login";--%>
+    <%--    }--%>
+    <%--});--%>
+</script>
+
 
 <body class="g-sidenav-show bg-gray-100">
 <%--<div class="min-height-300 bg-dark position-absolute w-100" style="background-image: url('<c:url value="/img/bruce-mars.jpg"/>')"></div>--%>
