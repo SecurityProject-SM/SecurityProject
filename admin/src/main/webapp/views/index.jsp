@@ -16,63 +16,149 @@
 <script src="<c:url value='/js/index.js'/>"></script>
 
 <style>
-    .notification-icon {
+    /* 알림 아이콘 컨테이너 */
+    .nav-alarmicon {
         position: relative;
+        display: inline-block;
         cursor: pointer;
+        padding: 10px;
     }
 
-    .notification-badge {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: #f41127;
-        color: white;
-        border-radius: 50%;
-        padding: 2px 6px;
-        font-size: 10px;
-        display: none;
-    }
-
+    /* 알림 드롭다운 */
     .notification-dropdown {
         display: none;
         position: absolute;
         right: 0;
         top: 100%;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        min-width: 280px;
-        z-index: 1000;
+        background: white;
+        border: 1px solid #ddd;
         border-radius: 4px;
-        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        width: 300px;
+        z-index: 1000;
     }
 
-    .notification-list {
+    /* 알림 내용 영역 */
+    .notification-content {
         max-height: 300px;
         overflow-y: auto;
+        padding: 10px;
     }
 
+    /* 알림 아이템 */
     .notification-item {
-        padding: 10px 15px;
-        border-bottom: 1px solid rgba(0,0,0,.1);
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        margin-bottom: 5px;
     }
 
     .notification-item:last-child {
         border-bottom: none;
+        margin-bottom: 0;
     }
 
-    .unread {
-        background-color: rgba(0,0,0,.05);
+    .notification-item:hover {
+        background-color: #f8f9fa;
     }
 
-    /* 드롭다운 화살표 */
-    .notification-dropdown:before {
-        content: '';
+    /* 알림 상태 스타일 */
+    .notification-item.status-A {
+        border-left: 4px solid #E74C3C;
+    }
+
+    .notification-item.status-B {
+        border-left: 4px solid #67e73c;
+    }
+
+    /* 알림 제목 */
+    .notification-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    /* 알림 날짜 */
+    .notification-date {
+        font-size: 12px;
+        color: #666;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* 알림 뱃지 */
+    .notification-badge {
         position: absolute;
-        top: -10px;
-        right: 10px;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 10px solid #fff;
+        top: 10px;
+        right: 9px;
+        background-color: #E74C3C;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 4px;
+        font-size: 11px;
+        min-width: 18px;
+        height: 18px;
+        text-align: center;
+        line-height: 14px;
+        border: 1px solid #fff;
+        display: none;
+    }
+
+    /* 페이지네이션 */
+    .notification-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        gap: 5px;
+        border-top: 1px solid #eee;
+    }
+
+    .pagination-btn {
+        border: 1px solid #ddd;
+        background: white;
+        color: #333;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .pagination-btn.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .notification-dropdown {
+        width: 280px;
+        right: -70px;
+    }
+    .notification-footer {
+        padding: 10px;
+        border-top: 1px solid #eee;
+        text-align: center;
+    }
+
+    .notification-footer .see-all {
+        display: block;
+        color: #444;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 5px;
+    }
+
+    .notification-footer .see-all:hover {
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+
+    .notification-date {
+        font-size: 11px;
     }
 </style>
 <html>
@@ -84,8 +170,8 @@
     <meta name="author" content=""/>
     <title>건어물 - 건물을 효율적으로!</title>
     <!-- loader-->
-    <link href="<c:url value='/css/pace.min.css'/>" rel="stylesheet"/>
-    <script src="<c:url value='/js/pace.min.js'/>"></script>
+<%--    <link href="<c:url value='/css/pace.min.css'/>" rel="stylesheet"/>--%>
+<%--    <script src="<c:url value='/js/pace.min.js'/>"></script>--%>
     <!-- favicon -->
     <link rel="icon" href="<c:url value='/img/gunamul_icon.ico'/>" type="image/x-icon">
     <!-- Vector CSS -->
