@@ -6,28 +6,60 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.15/index.global.min.js'></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales/ko.global.min.js'></script>
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 </head>
 <body>
 <div class="content-wrapper">
-    <div id='calendar'></div>
+    <div class="row">
+    <div class="col-sm-8">
+    <div id='calendar' style="width: 90%; height: 90%; margin: 20px auto;"></div>
+    </div>
+        <div class="col-sm-4">
+            <div class="event-list-container">
+                <h5 class="mb-3">예정된 일정</h5>
+                <div id="eventList" class="list-group">
+                    <!-- 여기에 일정이 동적으로 추가됨 -->
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
+
 <script>
     // 캘린더 객체 정의
     let calendar = {
         init: function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+
+                headerToolbar: {
+                    left: '',
+                    center: 'title',
+                    right: 'prev,next myCustomButton'  // 버튼들을 공백으로 구분하여 나열
+                },
+                customButtons: {
+                    myCustomButton: {
+                        text: '➕ 새 일정',
+                        click: function() {
+                            const calendarId = '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com';
+                            window.open(`https://calendar.google.com/calendar/u/0/r/eventedit?cid=${calendarId}`, '_blank');
+
+                        }
+                    }
+                },
                 initialView: 'dayGridMonth',
                 googleCalendarApiKey: 'AIzaSyAw5ATyRPtGDxeZLu5GoPjqZCENrKLoxuw',
                 events: {
                     // googleCalendarId: 'c_e038e7f3d11c0e4f1a472dc492ede21ca5ac621b92d64c9d7179f0412761cff1@group.calendar.google.com'
-                    googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com'
+                    googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com',
+                    success:function (events){
+                        updateUpcomingEvents(events);
+                    }
                 },
-                locale: 'ko',
+                locale:'ko',
                 eventClick: function(info) {
                     // 구글 오픈
                     // info.jsEvent.preventDefault();
