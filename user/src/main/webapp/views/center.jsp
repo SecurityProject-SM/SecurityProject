@@ -64,8 +64,8 @@
 
 
     .weather-icon {
-        width: 30px;
-        height: 30px;
+        width: 70px;
+        height: 70px;
         vertical-align: middle;
         margin-bottom: 5px;
     }
@@ -298,7 +298,6 @@
             });
         }
     };
-
 
     let map = {
         init: function () {
