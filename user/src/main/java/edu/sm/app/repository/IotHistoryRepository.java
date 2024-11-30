@@ -16,4 +16,7 @@ public interface IotHistoryRepository extends SBRepository<Integer, IotHistoryDt
     AvgTHDto selectAvgTH();
     Double getElec();
     Map<String, Object> chartdata();
+
+    List<Map<String, Object>> monthelec();
+
 }

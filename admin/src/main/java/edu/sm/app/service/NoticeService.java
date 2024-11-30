@@ -43,19 +43,15 @@ public class NoticeService implements SBService<Integer, NoticeDto> {
 
     // 공지사항 기본 목록 가져오기 (페이징)
     public List<NoticeDto> getNoticePage(int pageNo) {
-        PageHelper.startPage(pageNo, 5); // 페이지 당 10개의 항목 표시
+        PageHelper.startPage(pageNo, 10); // 페이지 당 10개의 항목 표시
         return noticeRepository.getNoticePage();
     }
 
     // 검색 결과 가져오기 (페이징)
     public List<NoticeDto> getFindPage(int pageNo, Search search) {
-        PageHelper.startPage(pageNo, 5); // 페이지 당 10개의 항목 표시
+        PageHelper.startPage(pageNo, 10); // 페이지 당 10개의 항목 표시
         return noticeRepository.getFindPage(search);
     }
 
-    // 메인 페이지에서 사용할거
-    public List<NoticeDto> getTop3Notices() {
-        return noticeRepository.selectTop3Notices();
-    }
 
 }

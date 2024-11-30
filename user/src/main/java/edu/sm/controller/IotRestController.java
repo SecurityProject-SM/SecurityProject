@@ -208,4 +208,17 @@ public class IotRestController {
         }
     }
 
+
+    @RequestMapping("/monthelec")
+    public ResponseEntity<List<Map<String, Object>>> getMonthlyElectricityUsage() {
+        try {
+            List<Map<String, Object>> monthlyElectricityUsage = iotHistoryService.monthelec();
+            return ResponseEntity.ok(monthlyElectricityUsage); // JSON 반환
+        } catch (Exception e) {
+            log.error("Error fetching monthly electricity usage", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
 }

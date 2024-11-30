@@ -3,32 +3,20 @@
         PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.sm.app.repository.IotHistoryRepository">
+
     <select id="selectOne" parameterType="Integer" resultType="IotHistoryDto">
         SELECT * FROM iothistory WHERE history_id=#{historyId}
     </select>
+
     <select id="select" resultType="IotHistoryDto">
         SELECT * FROM iothistory
     </select>
-    <insert id="insert" parameterType="IotHistoryDto">
-        INSERT INTO iothistory (iot_id,iot_name, value_category, iot_value, iot_status, log_date) VALUES (#{iotId},#{iotName}, #{valueCategory},#{iotValue},#{iotStatus},#{logDate})
-    </insert>
-<!--    <update id="update" parameterType="IotHistoryDto">-->
-<!--        UPDATE iot SET iot_status=#{iotStatus} WHERE iot_id=#{iotId}-->
-<!--    </update>-->
-<!--    <delete id="delete" parameterType="String">-->
-<!--        DELETE FROM iot WHERE iot_id=#{iotId}-->
-<!--    </delete>-->
 
-<!--    <select id="selectLatestIotHistory" resultType="IotHistoryDto">-->
-<!--        SELECT h.* FROM iothistory h-->
-<!--        JOIN (-->
-<!--            SELECT iot_id, MAX(log_date) AS latest_log_date-->
-<!--            FROM iothistory-->
-<!--            GROUP BY iot_id-->
-<!--        ) latest-->
-<!--        ON h.iot_id = latest.iot_id AND h.log_date = latest.latest_log_date-->
-<!--        ORDER BY h.iot_id;-->
-<!--    </select>-->
+    <insert id="insert" parameterType="IotHistoryDto">
+        INSERT INTO iothistory (iot_id, iot_name, value_category, iot_value, iot_status, log_date)
+        VALUES (#{iotId}, #{iotName}, #{valueCategory}, #{iotValue}, #{iotStatus}, #{logDate})
+    </insert>
+
     <select id="selectLatestIotHistory" resultType="IotHistoryDto">
         WITH LatestLogDate AS (
             SELECT MAX(log_date) AS latest_log_date
@@ -37,40 +25,23 @@
         SELECT h.*
         FROM iothistory h
                  JOIN LatestLogDate l
-                      ON h.log_date BETWEEN DATE_SUB(l.latest_log_date, INTERVAL 1 SECOND)
-                          AND l.latest_log_date
+                      ON h.log_date BETWEEN DATE_SUB(l.latest_log_date, INTERVAL 1 SECOND) AND l.latest_log_date
         ORDER BY h.iot_id;
     </select>
 
-<!--    <select id="selectAvgTH" resultType="edu.sm.app.dto.AvgTHDto">-->
-<!--        SELECT-->
-<!--        ROUND(AVG(CASE WHEN h.value_category = 'T' THEN h.iot_value END),1) AS avg_temperature,-->
-<!--        AVG(CASE WHEN h.value_category = 'H' THEN h.iot_value END) AS avg_humidity-->
-<!--        FROM iothistory h-->
-<!--        JOIN (-->
-<!--        SELECT iot_id, MAX(log_date) AS latest_log_date-->
-<!--        FROM iothistory-->
-<!--        GROUP BY iot_id-->
-<!--        ) latest-->
-<!--        ON h.iot_id = latest.iot_id AND h.log_date = latest.latest_log_date-->
-<!--        WHERE h.iot_value > 0;-->
-<!--    </select>-->
     <select id="selectAvgTH" resultType="edu.sm.app.dto.AvgTHDto">
         WITH LatestLogDate AS (
             SELECT MAX(log_date) AS latest_log_date
             FROM iothistory
         )
         SELECT
-            ROUND(AVG(CASE WHEN h.value_category = 'T' THEN h.iot_value END),1) AS avg_temperature,
+            ROUND(AVG(CASE WHEN h.value_category = 'T' THEN h.iot_value END), 1) AS avg_temperature,
             AVG(CASE WHEN h.value_category = 'H' THEN h.iot_value END) AS avg_humidity
         FROM iothistory h
                  JOIN LatestLogDate l
-                      ON h.log_date BETWEEN DATE_SUB(l.latest_log_date, INTERVAL 1 SECOND)
-                          AND l.latest_log_date
+                      ON h.log_date BETWEEN DATE_SUB(l.latest_log_date, INTERVAL 1 SECOND) AND l.latest_log_date
         WHERE h.iot_value > 0;
     </select>
-
-
 
     <select id="getElec" resultType="Double">
         SELECT SUM(iot_value) AS total_value
@@ -90,5 +61,19 @@
              ) AS recent_values;
     </select>
 
+    <select id="monthelec" resultType="map">
+        SELECT
+            DATE_FORMAT(log_date, '%Y-%m') AS month,
+        ROUND(SUM(iot_value), 2) AS total_value
+        FROM
+            iothistory
+        WHERE
+            log_date >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -6 MONTH), '%Y-%m-01')
+          AND log_date &lt; DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL 1 MONTH)
+        GROUP BY
+            DATE_FORMAT(log_date, '%Y-%m')
+        ORDER BY
+            month ASC;
+    </select>
 
 </mapper>
