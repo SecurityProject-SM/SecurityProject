@@ -10,6 +10,7 @@
 <html>
 
 <style>
+
     body {
         margin: 0;
         padding: 0;
@@ -90,7 +91,35 @@
 </style>
 
 <script>
-    let monthchart = {
+    let progress = {
+    ave: function (avg, latval) {
+        let percentageDifference;
+
+        if (latval >= avg) {
+            percentageDifference = 100 + ((latval - avg) / avg) * 100;
+        } else {
+            percentageDifference = (latval / avg) * 100;
+        }
+
+        $(".progress-value").css("width", percentageDifference + "%");
+
+        if (latval < avg * 0.8) {
+            $(".progress-value").css("background", "#00ff00");
+        } else if (latval >= avg * 0.8 && latval <= avg) {
+            $(".progress-value").css("background", "#ffcc00");
+        } else {
+            $(".progress-value").css("background", "#ff4d4d");
+        }
+
+        $("#averageValue").text("평균 사용량: " + avg.toFixed(2) + " kWh");
+        $("#latestValue").text("이번달 사용량: " + latval.toFixed(2) + " kWh");
+        $("#differencePercent").text("현재 사용량이 평균값 대비 " + percentageDifference.toFixed(2) + "% 입니다.");
+    }
+};
+
+
+
+let monthchart = {
         chart: null,
 
         init: function () {
@@ -109,8 +138,11 @@
 
                     const months = data.map(item => item.month);
                     const values = data.map(item => parseFloat(item.total_value));
-
                     electable.tb(months, values);
+
+                    const avg = values.reduce((acc, val) => acc + val, 0) / values.length;
+                    const latval = values[values.length - 1];
+                    progress.ave(avg, latval);
                 },
                 error: (xhr, status, error) => {
                     console.error('Failed to load data from monthelec service:', error);
@@ -192,8 +224,77 @@
         }
     };
 
+    let chart = {
+        chartInstance: null,
+        init: function () {
+            this.initchart();
+            this.getdata();
+            setInterval(() => {
+                this.getdata();
+            }, 5000000);
+        },
+        initchart: function () {
+            this.chartInstance = Highcharts.chart('container3', {
+                chart: {
+                    type: 'areaspline'
+                },
+                title: {
+                    text: 'IoT 실시간 데이터'
+                },
+                xAxis: {
+                    type: 'datetime', // X축에 시간 표시
+                    title: {
+                        text: '시간'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: '전력 값 (W)'
+                    }
+                },
+                series: [
+                    {
+                        name: 'IoT 데이터',
+                        data: [] // 초기 데이터
+                    }
+                ]
+            });
+        },
+        display: function (data) {
+            if (this.chartInstance) {
+                const series = this.chartInstance.series[0];
+
+                const chartData = {
+                    x: new Date(data.total_time).getTime(),
+                    y: data.total
+                };
+
+                series.addPoint(chartData, true, series.data.length >= 20);
+            } else {
+                console.error("차트가 초기화되지 않았습니다.");
+            }
+        },
+        getdata: function () {
+            $.ajax({
+                url: '/iot/chartdata',
+                type: 'GET',
+                success: (data) => {
+                    if (data) {
+                        this.display(data);
+                    } else {
+                        console.error('서버에서 데이터를 가져오지 못했습니다.');
+                    }
+                },
+                error: (xhr, status, error) => {
+                    console.error('데이터 요청 중 오류 발생:', status, error);
+                }
+            });
+        }
+    };
+
     $(function () {
         monthchart.init();
+        chart.init();
     });
 </script>
 
@@ -201,55 +302,33 @@
 <body>
 
 <div class="row">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+    <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
             <div class="card-body p-3">
                 <div class="row">
-                    <div class="col-8">
-                        <h4>금일 사용 전력</h4>
-                        <h3 id="elec"></h3>
-                    </div>
-                    <div class="col-4">
-                        <img src="img/electric.png" style="width: 90%">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <%-- 주차 --%>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-            <div class="card-body p-3">
-                <div class="row">
-                    <div class="col-8">
-                        <div class="status-box" id="park_stat">
-                            <h6>총주차칸 : 24</h6>
-                            <h6 style="float:left">주차가능 : </h6>
-                            <h6 id="availableCount">...</h6>
-                            <h6 style="float:left">주차중 :</h6>
-                            <h6 id="parkingCount">...</h6>
+                    <div class="card z-index-2 h-100">
+                        <div class="card-body" style="padding: 1px">
+                            <h3>전력 사용량</h3>
+
+                            <div id="progress-container">
+                                <div id="averageValue" style="font-size: 22px">평균값: </div>
+                                <div id="latestValue" style="font-size: 22px">이번달 사용량: </div>
+                                <div class="progress" style="margin-top: 20px">
+                                    <div class="progress-value"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <img src="img/park.png" style="width: 90%">
-                    </div>
-                </div>
-                <div class="progress">
-                    <div class="progress-value"></div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
             <div class="card-body p-3">
                 <div class="row">
-                    <div class="col-8">
-                        <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
-                    </div>
-                    <div class="col-4">
-                        <div id="imgContainer" style="width: 90%"></div>
-                    </div>
+                    뭐띄울까용
                 </div>
             </div>
         </div>
@@ -295,6 +374,14 @@
             <tbody>
             </tbody>
         </table>
+    </div>
+
+</div>
+<div class="row">
+    <div class="card z-index-2 h-100" style="max-width: 630px; margin-left: 120px">
+        <div class="card-body" style="padding: 1px">
+            <div id="container3" style="width: 100%; height: 300px;"></div>
+        </div>
     </div>
 </div>
 </body>

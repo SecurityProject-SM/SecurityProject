@@ -238,7 +238,6 @@
         }
     };
 
-
     let elec = {
         init: function () {
             this.getelec();

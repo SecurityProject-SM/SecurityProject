@@ -189,8 +189,6 @@ public class IotRestController {
         return result;
     }
 
-
-
     @RequestMapping("/mainpage")
     public ResponseEntity<Double> getElec() throws Exception {
         double totalPower = iotHistoryService.getElec();
@@ -215,10 +213,10 @@ public class IotRestController {
             List<Map<String, Object>> monthlyElectricityUsage = iotHistoryService.monthelec();
             return ResponseEntity.ok(monthlyElectricityUsage); // JSON 반환
         } catch (Exception e) {
-            log.error("Error fetching monthly electricity usage", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        log.error("Error fetching monthly electricity usage", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+}
 
 
 }
