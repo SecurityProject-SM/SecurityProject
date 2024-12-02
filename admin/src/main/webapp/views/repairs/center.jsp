@@ -10,23 +10,103 @@
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales/ko.global.min.js'></script>
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 </head>
+
+<style>
+    .schedule-sidebar {
+        background-color: rgba(28, 44, 80, 0.85);
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        padding: 25px;
+        height: calc(100vh - 40px);
+        backdrop-filter: blur(10px);
+    }
+
+    .schedule-title-container {
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+    }
+
+    .schedule-title {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    .schedule-list-container {
+        width: 100%;
+    }
+
+    .schedule-list {
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .schedule-list::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .schedule-list::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+    }
+
+    .schedule-list::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+    }
+
+    .schedule-list::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .schedule-item {
+        background: rgba(255, 255, 255, 0.07);
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        color: #ffffff;
+        transition: all 0.2s ease;
+    }
+
+    .schedule-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 <body>
+<%--캘린더 영역 시작--%>
 <div class="content-wrapper">
-    <div class="row">
-    <div class="col-sm-8">
-    <div id='calendar' style="width: 90%; height: 90%; margin: 20px auto;"></div>
-    </div>
-        <div class="col-sm-4">
-            <div class="event-list-container">
-                <h5 class="mb-3">예정된 일정</h5>
-                <div id="eventList" class="list-group">
-                    <!-- 여기에 일정이 동적으로 추가됨 -->
+    <div class="row" style="display: flex; height: 100vh;">
+        <!-- 캘린더 영역 -->
+        <div class="col-sm-8">
+            <div id='calendar' style="width: 90%; height: 90%; margin: 20px auto;"></div>
+        </div>
+
+        <!-- 예정된 일정 영역 -->
+        <div class="col-sm-4" style="display: flex; align-items: center;">
+            <div class="schedule-sidebar" style="width: 90%; height: 90%; margin: 20px auto;">
+                <div class="event-list-container">
+                    <div class="schedule-title-container">
+                        <h5 class="schedule-title">예정된 일정</h5>
+                    </div>
+                    <div class="schedule-list-container">
+                        <div id="eventList" class="schedule-list">
+                            <!-- 여기에 일정이 동적으로 추가됨 -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+<%--캘린더 영역 끝--%>
 
 <script>
     // 캘린더 객체 정의
