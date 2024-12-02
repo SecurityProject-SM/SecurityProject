@@ -10,12 +10,66 @@
 <html>
 
 <style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    #main-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 2rem;
+        width: 100%;
+        max-width: 100%; /* 페이지 전체 너비 사용 */
+        padding: 2rem;
+        box-sizing: border-box; /* 패딩 포함 */
+    }
+
+    #chart-container {
+        margin-top: 25px;
+        flex: 3; /* 차트 영역 크기 비율 */
+        display: flex;
+        flex-direction: column;
+        align-items: stretch; /* 차트가 컨테이너에 맞게 확장 */
+        min-width: 0; /* 유연한 크기 조정 */
+    }
+
+    #table-container {
+        margin-top: 55px;
+
+        flex: 2; /* 테이블 영역 크기 비율 */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 1rem;
+        background-color: #f9f9f9;
+        min-width: 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table th, table td {
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #f4f4f4;
+    }
+
+
     #container {
         height: 400px;
         margin: 0 auto;
-        border: 1px solid #ccc; /* 차트 테두리 추가 */
+        border: 1px solid #ccc;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 차트 상자 그림자 */
-        border-radius: 8px; /* 부드러운 모서리 */
+        border-radius: 8px;
         background-color: #f9f9f9; /* 배경 색상 */
     }
 
@@ -32,42 +86,6 @@
         background-color: #ffffff;
     }
 
-    #sliders {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem; /* 슬라이더 사이 간격 */
-        margin-top: 1rem;
-        width: 100%;
-        max-width: 600px;
-    }
-
-    #sliders table {
-        width: 100%;
-        border-spacing: 0.5rem;
-    }
-
-    #sliders td {
-        padding-right: 1rem;
-        white-space: nowrap;
-        font-size: 0.9rem;
-        color: #333; /* 텍스트 색상 */
-    }
-
-    #sliders input[type="range"] {
-        width: 100%; /* 슬라이더 너비 조정 */
-        cursor: pointer;
-        accent-color: #007bff; /* 슬라이더 강조 색상 */
-    }
-
-    .highcharts-description {
-        text-align: center;
-        font-size: 0.9rem;
-        color: #666; /* 설명 텍스트 색상 */
-        margin-top: 1rem;
-        line-height: 1.4;
-    }
-
 
 </style>
 
@@ -75,22 +93,24 @@
     let monthchart = {
         chart: null,
 
-        // 초기화 메서드
         init: function () {
             this.fetchData();
-            this.setupSliders();
         },
 
-        // 데이터 로드 메서드 (Spring Service 활용)
+        // 데이터 로드
         fetchData: function () {
             $.ajax({
                 url: '/iot/monthelec',
                 method: 'GET',
                 dataType: 'json',
                 success: (data) => {
-                    // 데이터를 포맷해서 차트 렌더링
                     const formattedData = data.map(item => [item.month, parseFloat(item.total_value)]);
                     this.renderChart(formattedData);
+
+                    const months = data.map(item => item.month);
+                    const values = data.map(item => parseFloat(item.total_value));
+
+                    electable.tb(months, values);
                 },
                 error: (xhr, status, error) => {
                     console.error('Failed to load data from monthelec service:', error);
@@ -98,7 +118,7 @@
             });
         },
 
-        // 차트 렌더링 메서드
+        // 차트 렌더링
         renderChart: function (data) {
             console.log(data)
             this.chart = Highcharts.chart('container', {
@@ -106,8 +126,8 @@
                     type: 'column',
                     options3d: {
                         enabled: true,
-                        alpha: 0,
-                        beta: 0,
+                        alpha: 17,
+                        beta: 20,
                         depth: 0,
                         viewDistance: 25
                     }
@@ -128,11 +148,11 @@
                     pointFormat: 'Electricity Usage: {point.y} kWh'
                 },
                 title: {
-                    text: 'Monthly Electricity Usage',
+                    text: '월별 전력 사용량',
                     align: 'left'
                 },
                 subtitle: {
-                    text: 'Source: Smart Building System',
+                    text: '단위 : KWh',
                     align: 'left'
                 },
                 legend: {
@@ -150,35 +170,28 @@
                 }]
             });
         },
+    };
 
-        // 슬라이더 설정 메서드
-        setupSliders: function () {
-            const self = this;
+    let electable = {
+        tb: function (months, values) {
+            const tableBody = document.querySelector('#data-table tbody');
+            tableBody.innerHTML = '';
 
-            // 슬라이더 이벤트 핸들러
-            $('#sliders input').on('input', function () {
-                const { id, value } = this;
-                if (self.chart) {
-                    self.chart.options.chart.options3d[id] = parseFloat(value);
-                    self.chart.redraw(false);
-                    self.showValues();
-                }
+            months.forEach((month, index) => {
+                const row = document.createElement('tr');
+                const monthCell = document.createElement('td');
+                monthCell.textContent = month;
+                row.appendChild(monthCell);
+
+                const valueCell = document.createElement('td');
+                valueCell.textContent = values[index].toFixed(2) + ' kWh';
+                row.appendChild(valueCell);
+
+                tableBody.appendChild(row);
             });
-
-            this.showValues();
-        },
-
-        // 슬라이더 값 표시 메서드
-        showValues: function () {
-            if (!this.chart) return;
-
-            $('#alpha-value').text(this.chart.options.chart.options3d.alpha);
-            $('#beta-value').text(this.chart.options.chart.options3d.beta);
-            $('#depth-value').text(this.chart.options.chart.options3d.depth);
         }
     };
 
-    // 초기화
     $(function () {
         monthchart.init();
     });
@@ -186,29 +199,103 @@
 
 
 <body>
-<figure class="highcharts-figure">
-    <div id="container"></div>
 
-    <div id="sliders">
-        <table>
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <h4>금일 사용 전력</h4>
+                        <h3 id="elec"></h3>
+                    </div>
+                    <div class="col-4">
+                        <img src="img/electric.png" style="width: 90%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- 주차 --%>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="status-box" id="park_stat">
+                            <h6>총주차칸 : 24</h6>
+                            <h6 style="float:left">주차가능 : </h6>
+                            <h6 id="availableCount">...</h6>
+                            <h6 style="float:left">주차중 :</h6>
+                            <h6 id="parkingCount">...</h6>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <img src="img/park.png" style="width: 90%">
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-value"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
+                    </div>
+                    <div class="col-4">
+                        <div id="imgContainer" style="width: 90%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <h3>월세 납부일</h3>
+                        <div id="remainingDays">남은 일수:</div>
+                    </div>
+
+                    <div class="col-4">
+                        <img src="<c:url value="img/dnjftp.jpg"/>" style="width: 90%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="main-container">
+    <!-- 차트 영역 -->
+    <div id="chart-container">
+        <figure class="highcharts-figure">
+            <div id="container"></div>
+        </figure>
+    </div>
+
+    <!-- 테이블 영역 -->
+    <div id="table-container">
+        <h3>월간 사용 전력</h3>
+        <table id="data-table">
+            <thead>
             <tr>
-                <td><label for="alpha">Alpha Angle</label></td>
-                <td><input id="alpha" type="range" min="0" max="45" value="15"/> <span id="alpha-value" class="value"></span></td>
+                <th>년월</th>
+                <th>총 사용 전력 (kWh)</th>
             </tr>
-            <tr>
-                <td><label for="beta">Beta Angle</label></td>
-                <td><input id="beta" type="range" min="-45" max="45" value="15"/> <span id="beta-value" class="value"></span></td>
-            </tr>
-            <tr>
-                <td><label for="depth">Depth</label></td>
-                <td><input id="depth" type="range" min="20" max="100" value="50"/> <span id="depth-value" class="value"></span></td>
-            </tr>
+            </thead>
+            <tbody>
+            </tbody>
         </table>
     </div>
-</figure>
-
-
-
-
+</div>
 </body>
 </html>
