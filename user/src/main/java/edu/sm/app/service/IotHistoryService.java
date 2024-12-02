@@ -69,4 +69,12 @@ public class IotHistoryService implements SBService<Integer, IotHistoryDto> {
         return iotHistoryRepository.monthelec();
     }
 
+    public Double getCurTemp() throws Exception {
+        return iotHistoryRepository.curtemp();
+    }
+
+    public Double getCurHum() throws Exception {
+        return iotHistoryRepository.curhum();
+    }
+
 }

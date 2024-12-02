@@ -70,10 +70,28 @@
         WHERE
             log_date >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -6 MONTH), '%Y-%m-01')
           AND log_date &lt; DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL 1 MONTH)
+          AND value_category = 'E'
         GROUP BY
             DATE_FORMAT(log_date, '%Y-%m')
         ORDER BY
             month ASC;
     </select>
+
+    <select id="curtemp" resultType="Double">
+        SELECT AVG(iot_value) AS value
+        FROM iothistory
+        WHERE value_category = 'T'
+          AND iot_value != 0
+      AND log_date = (SELECT MAX(log_date) FROM iothistory WHERE value_category = 'T');
+    </select>
+
+    <select id="curhum" resultType="Double">
+        SELECT AVG(iot_value) AS value
+        FROM iothistory
+        WHERE value_category = 'H'
+          AND iot_value != 0
+      AND log_date = (SELECT MAX(log_date) FROM iothistory WHERE value_category = 'H');
+    </select>
+
 
 </mapper>

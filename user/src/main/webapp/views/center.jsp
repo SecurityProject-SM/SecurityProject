@@ -523,7 +523,7 @@
                         </div>
 
                         <div class="col-4">
-                            <img src="<c:url value="img/dnjftp.jpg"/>" style="width: 90%">
+                            <img src="<c:url value="/img/dnjftp.jpg"/>" style="width: 90%">
                         </div>
                     </div>
                 </div>

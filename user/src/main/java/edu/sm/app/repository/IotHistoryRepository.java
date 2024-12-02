@@ -19,4 +19,7 @@ public interface IotHistoryRepository extends SBRepository<Integer, IotHistoryDt
 
     List<Map<String, Object>> monthelec();
 
+    Double curtemp();
+    Double curhum();
+
 }

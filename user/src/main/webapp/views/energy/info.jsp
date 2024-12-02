@@ -11,6 +11,40 @@
 
 <style>
 
+    #elecprice {
+        font-size: 20px; /* 글씨 크기 */
+        color: #333; /* 적당히 강조된 텍스트 색상 */
+    }
+
+    .card-body {
+        background-color: #f8f9fa; /* 부드러운 배경색 */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .font-weight-bold {
+        font-weight: bold;
+    }
+
+    .text-muted {
+        color: #6c757d; /* 중간 밝기의 텍스트 */
+        margin-bottom: 0.5rem;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .align-items-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     body {
         margin: 0;
         padding: 0;
@@ -92,34 +126,42 @@
 
 <script>
     let progress = {
-    ave: function (avg, latval) {
-        let percentageDifference;
+        ave: function (avg, latval) {
+            let percentageDifference;
 
-        if (latval >= avg) {
-            percentageDifference = 100 + ((latval - avg) / avg) * 100;
-        } else {
-            percentageDifference = (latval / avg) * 100;
+            if (latval >= avg) {
+                percentageDifference = 100 + ((latval - avg) / avg) * 100;
+            } else {
+                percentageDifference = (latval / avg) * 100;
+            }
+
+            $(".progress-value").css("width", percentageDifference + "%");
+
+            if (latval < avg * 0.8) {
+                $(".progress-value").css("background", "#00ff00");
+            } else if (latval >= avg * 0.8 && latval <= avg) {
+                $(".progress-value").css("background", "#ffcc00");
+            } else {
+                $(".progress-value").css("background", "#ff4d4d");
+            }
+
+            $("#averageValue").text("평균 사용량: " + avg.toFixed(2) + " kWh");
+            $("#latestValue").text("이번달 사용량: " + latval.toFixed(2) + " kWh");
+            $("#differencePercent").text("현재 사용량이 평균값 대비 " + percentageDifference.toFixed(2) + "% 입니다.");
         }
+    };
 
-        $(".progress-value").css("width", percentageDifference + "%");
+    let price = {
+        calc: function (latval) {
+            const ratePer100Kw = 10000; // 100kW당 비용
+            const estimatedPrice = (latval / 100) * ratePer100Kw;
+            const formattedPrice = estimatedPrice.toLocaleString();
 
-        if (latval < avg * 0.8) {
-            $(".progress-value").css("background", "#00ff00");
-        } else if (latval >= avg * 0.8 && latval <= avg) {
-            $(".progress-value").css("background", "#ffcc00");
-        } else {
-            $(".progress-value").css("background", "#ff4d4d");
+            $('#elecprice').html('예상 전기료: <strong>' + formattedPrice + '</strong>원');
         }
+    };
 
-        $("#averageValue").text("평균 사용량: " + avg.toFixed(2) + " kWh");
-        $("#latestValue").text("이번달 사용량: " + latval.toFixed(2) + " kWh");
-        $("#differencePercent").text("현재 사용량이 평균값 대비 " + percentageDifference.toFixed(2) + "% 입니다.");
-    }
-};
-
-
-
-let monthchart = {
+    let monthchart = {
         chart: null,
 
         init: function () {
@@ -143,6 +185,7 @@ let monthchart = {
                     const avg = values.reduce((acc, val) => acc + val, 0) / values.length;
                     const latval = values[values.length - 1];
                     progress.ave(avg, latval);
+                    price.calc(latval);
                 },
                 error: (xhr, status, error) => {
                     console.error('Failed to load data from monthelec service:', error);
@@ -292,9 +335,46 @@ let monthchart = {
         }
     };
 
+    let cur = {
+        init: function () {
+            this.fetchTemperature();
+            this.fetchHumidity();
+        },
+
+        fetchTemperature: function () {
+            $.ajax({
+                url: '/iot/temp',
+                method: 'GET',
+                success: function (data) {
+                    $('#temp').text(data.toFixed(1) + '°C');
+                },
+                error: function (xhr, status, error) {
+                    console.error('온도 데이터를 가져오지 못했습니다:', error);
+                    $('#temp').text('-- °C');
+                }
+            });
+        },
+
+        fetchHumidity: function () {
+            $.ajax({
+                url: '/iot/hum',
+                method: 'GET',
+                success: function (data) {
+                    $('#hum').text(data.toFixed(1) + '%');
+                },
+                error: function (xhr, status, error) {
+                    console.error('습도 데이터를 가져오지 못했습니다:', error);
+                    $('#hum').text('-- %');
+                }
+            });
+        }
+    };
+
+
     $(function () {
         monthchart.init();
         chart.init();
+        cur.init();
     });
 </script>
 
@@ -302,20 +382,21 @@ let monthchart = {
 <body>
 
 <div class="row">
-    <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+    <div class="col-xl-5 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
             <div class="card-body p-3">
                 <div class="row">
                     <div class="card z-index-2 h-100">
-                        <div class="card-body" style="padding: 1px">
-                            <h3>전력 사용량</h3>
+                        <div class="card-header" style="padding: 1px; display: flex; align-items: center;">
+                            <h3 style="margin: 0;">전력 사용량</h3>
+                            <img src="<c:url value='/img/elecuseage.png'/>" style="width: 40px; margin-left: auto;">
+                        </div>
 
-                            <div id="progress-container">
-                                <div id="averageValue" style="font-size: 22px">평균값: </div>
-                                <div id="latestValue" style="font-size: 22px">이번달 사용량: </div>
-                                <div class="progress" style="margin-top: 20px">
-                                    <div class="progress-value"></div>
-                                </div>
+                        <div id="progress-container">
+                            <div id="averageValue" style="font-size: 22px">평균값:</div>
+                            <div id="latestValue" style="font-size: 22px">이번달 사용량:</div>
+                            <div class="progress" style="margin-top: 20px">
+                                <div class="progress-value" style="border-radius: 10px"></div>
                             </div>
                         </div>
                     </div>
@@ -324,13 +405,22 @@ let monthchart = {
         </div>
     </div>
 
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
             <div class="card-body p-3">
-                <div class="row">
-                    뭐띄울까용
+                <h4 class="mb-3">현재 온도 / 습도</h4>
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h6 class="text-muted">온도</h6>
+                        <h2 id="temp" class="font-weight-bold">-- °C</h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-muted">습도</h6>
+                        <h2 id="hum" class="font-weight-bold">-- %</h2>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -339,12 +429,12 @@ let monthchart = {
             <div class="card-body p-3">
                 <div class="row">
                     <div class="col-8">
-                        <h3>월세 납부일</h3>
-                        <div id="remainingDays">남은 일수:</div>
+                        <h3>예상 전기료</h3>
+                        <div id="elecprice" style="font-size: 22px"></div>
                     </div>
 
                     <div class="col-4">
-                        <img src="<c:url value="img/dnjftp.jpg"/>" style="width: 90%">
+                        <img src="<c:url value="/img/money.png"/>" style="width: 40px; margin-left: auto">
                     </div>
                 </div>
             </div>
