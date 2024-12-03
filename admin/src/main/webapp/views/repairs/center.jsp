@@ -111,6 +111,152 @@
 <script>
     // 캘린더 객체 정의
     let calendar = {
+        init: function() {
+            // calendar div 요소를 가져옴
+            var calendarEl = document.getElementById('calendar');
+            // FullCalendar 인스턴스 생성
+            var calendarInstance = new FullCalendar.Calendar(calendarEl, {
+                // 캘린더 헤더 툴바 설정
+                headerToolbar: {
+                    left: '',  // 왼쪽 영역 비움
+                    center: 'title', // 중앙에 타이틀 표시
+                    right: 'prev,next myCustomButton' // 오른쪽에 이전/다음 버튼과 커스텀 버튼
+                },
+                // 새 일정 추가 버튼 설정
+                customButtons: {
+                    myCustomButton: {
+                        text: '➕ 새 일정',
+                        click: function() {
+                            // 구글 캘린더 일정 추가 페이지를 새 탭으로 열기
+                            const calendarId = '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com';
+                            window.open(`https://calendar.google.com/calendar/u/0/r/eventedit?cid=${calendarId}`, '_blank');
+                        }
+                    }
+                },
+                initialView: 'dayGridMonth', // 월간 뷰로 초기화
+                googleCalendarApiKey: 'AIzaSyAw5ATyRPtGDxeZLu5GoPjqZCENrKLoxuw', // 구글 캘린더 API 키
+                // 구글 캘린더 이벤트 소스 설정
+                eventSources: [{
+                    googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com',
+                    success: (events) => {
+                        console.log('구글 캘린더 이벤트 로드 성공:', events);  // 추가
+                        this.updateEventList(calendarInstance);
+                    },
+                    failure: function(error) {
+                        console.log('구글 캘린더 로드 실패:', error);  // 추가
+                    }
+                }],
+                locale: 'ko', // 한국어 설정
+                // 이벤트 클릭 핸들러
+                eventClick: function(info) {
+                    info.jsEvent.preventDefault(); // 기본 동작 방지
+
+                    // DB 이벤트인 경우
+                    if (info.event.extendedProps.isDBEvent) {
+                        // 현재 상태 가져오기
+                        const currentStatus = info.event.extendedProps.repairStat;
+                        // 상태 토글 (A->B 또는 B->A)
+                        const newStatus = currentStatus === 'A' ? 'B' : 'A';
+                        // 새 상태에 따른 색상 설정
+                        const newColor = newStatus === 'A' ? '#E74C3C' : '#67e73c';
+
+                        // 이벤트 배경색 변경
+                        info.event.setProp('backgroundColor', newColor);
+
+                        // 서버에 상태 업데이트 요청
+                        $.ajax({
+                            url: '/updateRepairStatus',
+                            type: 'POST',
+                            data: {
+                                repairId: info.event.extendedProps.repairId,
+                                repairStat: newStatus
+                            },
+                            success: function(response) {
+                                // 상태 업데이트 성공시 이벤트 속성 변경과 목록 업데이트
+                                info.event.setExtendedProp('repairStat', newStatus);
+                                calendar.updateEventList(calendarInstance);
+                            }
+                        });
+                        alert('제목: ' + info.event.title);
+                    } else {
+                        // DB 이벤트가 아닌 경우 제목만 알림
+                        alert('제목: ' + info.event.title);
+                        console.log(info.event.extendedProps.description);
+                    }
+                },
+                // 일정 변경 이벤트 핸들러들
+                eventAdd: () => { // 일정 추가시 목록 업데이트
+                    this.updateEventList(calendarInstance);
+                },
+                eventChange: () => { // 일정 변경시 목록 업데이트
+                    this.updateEventList(calendarInstance);
+                },
+                eventRemove: () => { // 일정 삭제시 목록 업데이트
+                    this.updateEventList(calendarInstance);
+                }
+            });
+
+            // 캘린더 렌더링
+            calendarInstance.render();
+            // DB 이벤트 로드
+            this.getEvents(calendarInstance);
+            // 예정된 일정 목록 초기화
+            this.updateEventList(calendarInstance);
+        },
+
+        // DB값 가져오기
+        getEvents: function(calendarInstance) {
+            $.ajax({
+                url: '/getrepairs',
+                type: 'GET',
+                success: (result) => {
+                    console.log(result);
+                    result.repairsData.forEach((repair) => {
+                        calendarInstance.addEvent({
+                            title: '[유지보수] ' + repair.repairLoc,
+                            start: repair.repairStart,
+                            backgroundColor: repair.repairStat === 'A' ? '#E74C3C' : '#3498DB',
+                            extendedProps: {
+                                isDBEvent: true,
+                                repairId: repair.repairId,
+                                repairStat: repair.repairStat
+                            }
+                        });
+                    });
+                    this.updateEventList(calendarInstance);
+                }
+            });
+        },
+
+        //DB에서 불러온 값 클릭시 상태 업데이트
+        updateStatus: function(newStatus) {
+            if (!currentEvent) return;
+
+            $.ajax({
+                url: '/updateRepairStatus',
+                type: 'POST',
+                data: {
+                    repairId: currentEvent.extendedProps.repairId,
+                    repairStat: newStatus
+                },
+                success: (response) => {
+                    currentEvent.setExtendedProp('repairStat', newStatus);
+                    currentEvent.setProp('backgroundColor', newStatus === 'B' ? '#67e73c' : '#3498DB');
+
+                    closeDialog();
+
+                    const successAlert = document.getElementById('successAlert');
+                    successAlert.style.display = 'block';
+
+                    this.updateEventList(calendarInstance);
+
+                    setTimeout(function() {
+                        successAlert.style.display = 'none';
+                    }, 3000);
+                }
+            });
+        },
+
         // 예정된 일정 목록을 업데이트하는 함수
         updateEventList: function(calendarInstance) {
             const eventList = document.getElementById('eventList');
@@ -125,12 +271,21 @@
             const allEvents = calendarInstance.getEvents();
 
             // 날짜 범위 내의 이벤트 필터링 및 정렬
+            // 필터링 로직 수정
             const upcomingEvents = allEvents
                 .filter(event => {
-                    const eventDate = new Date(event.start);
+                    const eventDate = event.start instanceof Date ?
+                        event.start : new Date(event.start);
+
+                    console.log(`이벤트 "${event.title || '제목없음'}" 정보:`, {
+                        날짜: eventDate,
+                        현재시간: now,
+                        범위끝: thirtyDaysFromNow,
+                        포함여부: eventDate >= now && eventDate <= thirtyDaysFromNow
+                    });
+
                     return eventDate >= now && eventDate <= thirtyDaysFromNow;
                 })
-                .sort((a, b) => new Date(a.start) - new Date(b.start));
 
             // 이벤트 목록 생성
             upcomingEvents.forEach(event => {
@@ -198,132 +353,6 @@
             `;
                 eventList.appendChild(noEventItem);
             }
-        },
-
-        init: function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendarInstance = new FullCalendar.Calendar(calendarEl, {
-                headerToolbar: {
-                    left: '',
-                    center: 'title',
-                    right: 'prev,next myCustomButton'
-                },
-                customButtons: {
-                    myCustomButton: {
-                        text: '➕ 새 일정',
-                        click: function() {
-                            const calendarId = '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com';
-                            window.open(`https://calendar.google.com/calendar/u/0/r/eventedit?cid=${calendarId}`, '_blank');
-                        }
-                    }
-                },
-                initialView: 'dayGridMonth',
-                googleCalendarApiKey: 'AIzaSyBZ-G8LUoLJ3GCM75yZ1ths7VCunE-0iYA',
-                eventSources: [{
-                    googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com',
-                    success: (events) => {
-                        this.updateEventList(calendarInstance);
-                    },
-                    failure: function(error) {
-                        console.error('Google Calendar loading error:', error);
-                    }
-                }],
-                locale: 'ko',
-                eventClick: function(info) {
-                    info.jsEvent.preventDefault();
-
-                    if (info.event.extendedProps.isDBEvent) {
-                        const currentStatus = info.event.extendedProps.repairStat;
-                        const newStatus = currentStatus === 'A' ? 'B' : 'A';
-                        const newColor = newStatus === 'A' ? '#E74C3C' : '#67e73c';
-
-                        info.event.setProp('backgroundColor', newColor);
-
-                        $.ajax({
-                            url: '/updateRepairStatus',
-                            type: 'POST',
-                            data: {
-                                repairId: info.event.extendedProps.repairId,
-                                repairStat: newStatus
-                            },
-                            success: function(response) {
-                                info.event.setExtendedProp('repairStat', newStatus);
-                                calendar.updateEventList(calendarInstance);
-                            }
-                        });
-                        alert('제목: ' + info.event.title);
-                    } else {
-                        alert('제목: ' + info.event.title);
-                        console.log(info.event.extendedProps.description);
-                    }
-                },
-                eventAdd: () => { //일정 추가 시
-                    this.updateEventList(calendarInstance);
-                },
-                eventChange: () => { // 일정 변경 시
-                    this.updateEventList(calendarInstance);
-                },
-                eventRemove: () => { // 일정 삭제 시
-                    this.updateEventList(calendarInstance);
-                }
-            });
-
-            calendarInstance.render();
-            this.getEvents(calendarInstance);
-            this.updateEventList(calendarInstance);
-        },
-
-        // DB값 가져오기
-        getEvents: function(calendarInstance) {
-            $.ajax({
-                url: '/getrepairs',
-                type: 'GET',
-                success: (result) => {
-                    console.log(result);
-                    result.repairsData.forEach((repair) => {
-                        calendarInstance.addEvent({
-                            title: '[유지보수] ' + repair.repairLoc,
-                            start: repair.repairStart,
-                            backgroundColor: repair.repairStat === 'A' ? '#E74C3C' : '#3498DB',
-                            extendedProps: {
-                                isDBEvent: true,
-                                repairId: repair.repairId,
-                                repairStat: repair.repairStat
-                            }
-                        });
-                    });
-                    this.updateEventList(calendarInstance);
-                }
-            });
-        },
-
-        //DB에서 불러온 값 클릭시 상태 업데이트
-        updateStatus: function(newStatus) {
-            if (!currentEvent) return;
-
-            $.ajax({
-                url: '/updateRepairStatus',
-                type: 'POST',
-                data: {
-                    repairId: currentEvent.extendedProps.repairId,
-                    repairStat: newStatus
-                },
-                success: (response) => {
-                    currentEvent.setExtendedProp('repairStat', newStatus);
-                    currentEvent.setProp('backgroundColor', newStatus === 'B' ? '#67e73c' : '#3498DB');
-
-                    closeDialog();
-
-                    const successAlert = document.getElementById('successAlert');
-                    successAlert.style.display = 'block';
-
-                    this.updateEventList(calendarInstance);
-
-                    setTimeout(function() {
-                        successAlert.style.display = 'none';
-                    }, 3000);
-                }
-            });
         }
     };
 
