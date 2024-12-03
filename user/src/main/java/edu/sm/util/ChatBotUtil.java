@@ -159,8 +159,9 @@ public class ChatBotUtil {
         }
 
         int responseCode = con.getResponseCode();
+        System.out.println("Response Code: " + responseCode);
 
-        if (responseCode == 200) { // 정상 호출
+        if (responseCode == 200) {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
                 StringBuilder jsonString = new StringBuilder();
                 String decodedString;
@@ -168,30 +169,24 @@ public class ChatBotUtil {
                     jsonString.append(decodedString);
                 }
 
-                // Debugging: Raw response log
                 System.out.println("Raw JSON Response: " + jsonString);
 
                 JSONParser jsonparser = new JSONParser();
                 JSONObject json = (JSONObject) jsonparser.parse(jsonString.toString());
 
-                // Parsing the "bubbles" array
                 JSONArray bubbles = (JSONArray) json.get("bubbles");
                 if (bubbles == null || bubbles.isEmpty()) {
                     return "Default response: No bubbles in response";
                 }
 
-                // Accessing the first bubble and its "data" field
                 JSONObject firstBubble = (JSONObject) bubbles.get(0);
                 JSONObject bubbleData = (JSONObject) firstBubble.get("data");
                 if (bubbleData == null) {
                     return "Default response: No data in bubbles";
                 }
 
-                // Initialize variables for description and links
+                // Extract description
                 String description = null;
-                StringBuilder linkMessages = new StringBuilder();
-
-                // Accessing "cover" -> "description"
                 JSONObject cover = (JSONObject) bubbleData.get("cover");
                 if (cover != null) {
                     JSONObject coverData = (JSONObject) cover.get("data");
@@ -199,11 +194,15 @@ public class ChatBotUtil {
                         description = (String) coverData.get("description");
                     }
                 }
+                if (description == null && bubbleData.containsKey("description")) {
+                    description = (String) bubbleData.get("description");
+                }
 
-                // Accessing "contentTable" -> links
+                // Extract URLs if available
+                StringBuilder linkMessages = new StringBuilder();
                 JSONArray contentTable = (JSONArray) bubbleData.get("contentTable");
                 if (contentTable != null && !contentTable.isEmpty()) {
-                    JSONArray firstRow = (JSONArray) contentTable.get(0); // First row of the table
+                    JSONArray firstRow = (JSONArray) contentTable.get(0);
                     for (Object item : firstRow) {
                         JSONObject cell = (JSONObject) item;
                         JSONObject cellData = (JSONObject) cell.get("data");
@@ -221,14 +220,18 @@ public class ChatBotUtil {
                     }
                 }
 
-                // Decide the final message
-                if (linkMessages.length() > 0) {
-                    chatMessage = (description != null ? description + "\n" : "") + linkMessages.toString();
-                } else if (description != null) {
-                    chatMessage = description; // Only description if no links
-                } else {
-                    chatMessage = "No content available"; // Fallback if no data
+                // Combine description and URL
+                if (description != null) {
+                    chatMessage = description;
                 }
+                if (linkMessages.length() > 0) {
+                    chatMessage = (chatMessage != null ? chatMessage + "\n" : "") + linkMessages.toString();
+                }
+                if (chatMessage == null) {
+                    chatMessage = "No content available";
+                }
+
+                System.out.println("Parsed Response: " + chatMessage);
             }
         } else {
             chatMessage = "Error: " + con.getResponseMessage();
@@ -236,9 +239,4 @@ public class ChatBotUtil {
 
         return chatMessage;
     }
-
-
-
-
-
 }
