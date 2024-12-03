@@ -200,6 +200,7 @@ public class IotRestController {
     public ResponseEntity<Map<String, Object>> getChartData() {
         try {
             Map<String, Object> chartData = iotHistoryService.chartdata();
+            log.info("chartdata : " + chartData);
             return ResponseEntity.ok(chartData);
         } catch (Exception e) {
             log.error("Error fetching chart data", e);

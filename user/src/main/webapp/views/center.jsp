@@ -373,21 +373,25 @@
 
     let dnjftp = {
         init: function () {
+            // HTML 요소를 가져오기
+            this.remainingDaysElement = document.getElementById("remainingDays");
             this.calculateRemainingDays();
         },
         calculateRemainingDays: function () {
             const now = new Date();
             const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
             const timeDifference = nextMonth - now;
+
+            // 남은 일수를 계산
             const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            const message = `남은 일수: ${daysRemaining}`;
 
             // 콘솔 출력
-            console.log("남은일수: " + daysRemaining);
+            console.log(message);
 
-            // 요소가 존재하는지 확인
-            const remainingDaysElement = document.getElementById("remainingDays");
-            if (remainingDaysElement) {
-                remainingDaysElement.textContent = `남은 일수: ${daysRemaining}`;
+            // HTML 요소에 값 업데이트
+            if (this.remainingDaysElement) {
+                this.remainingDaysElement.textContent = message;
             } else {
                 console.error("ID가 'remainingDays'인 요소를 찾을 수 없습니다.");
             }

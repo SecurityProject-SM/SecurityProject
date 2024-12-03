@@ -46,7 +46,8 @@
     <select id="getElec" resultType="Double">
         SELECT SUM(iot_value) AS total_value
         FROM iothistory
-        WHERE DATE(log_date) = CURDATE();
+        WHERE DATE(log_date) = CURDATE()
+          AND value_category = 'E';
     </select>
 
     <select id="chartdata" resultType="map">
@@ -56,6 +57,7 @@
         FROM (
                  SELECT iot_value, log_date
                  FROM iothistory
+                 WHERE value_category = 'E'
                  ORDER BY log_date DESC
                      LIMIT 7
              ) AS recent_values;
