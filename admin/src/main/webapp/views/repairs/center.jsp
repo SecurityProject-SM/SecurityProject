@@ -183,16 +183,6 @@
                         alert('제목: ' + info.event.title);
                         console.log(info.event.extendedProps.description);
                     }
-                },
-                // 일정 변경 이벤트 핸들러들
-                eventAdd: () => { // 일정 추가시 목록 업데이트
-                    this.updateEventList(calendarInstance);
-                },
-                eventChange: () => { // 일정 변경시 목록 업데이트
-                    this.updateEventList(calendarInstance);
-                },
-                eventRemove: () => { // 일정 삭제시 목록 업데이트
-                    this.updateEventList(calendarInstance);
                 }
             });
 
@@ -228,35 +218,6 @@
             });
         },
 
-        //DB에서 불러온 값 클릭시 상태 업데이트
-        updateStatus: function(newStatus) {
-            if (!currentEvent) return;
-
-            $.ajax({
-                url: '/updateRepairStatus',
-                type: 'POST',
-                data: {
-                    repairId: currentEvent.extendedProps.repairId,
-                    repairStat: newStatus
-                },
-                success: (response) => {
-                    currentEvent.setExtendedProp('repairStat', newStatus);
-                    currentEvent.setProp('backgroundColor', newStatus === 'B' ? '#67e73c' : '#3498DB');
-
-                    closeDialog();
-
-                    const successAlert = document.getElementById('successAlert');
-                    successAlert.style.display = 'block';
-
-                    this.updateEventList(calendarInstance);
-
-                    setTimeout(function() {
-                        successAlert.style.display = 'none';
-                    }, 3000);
-                }
-            });
-        },
-
         // 예정된 일정 목록을 업데이트하는 함수
         updateEventList: function(calendarInstance) {
             const eventList = document.getElementById('eventList');
@@ -271,20 +232,21 @@
             const allEvents = calendarInstance.getEvents();
 
             // 날짜 범위 내의 이벤트 필터링 및 정렬
-            // 필터링 로직 수정
             const upcomingEvents = allEvents
                 .filter(event => {
+                    // event.start가 null이거나 undefined인 경우 처리
+                    if (!event.start) {
+                        console.log('시작 시간이 없는 이벤트:', event);
+                        return false;
+                    }
+
                     const eventDate = event.start instanceof Date ?
                         event.start : new Date(event.start);
 
-                    console.log(`이벤트 "${event.title || '제목없음'}" 정보:`, {
-                        날짜: eventDate,
-                        현재시간: now,
-                        범위끝: thirtyDaysFromNow,
-                        포함여부: eventDate >= now && eventDate <= thirtyDaysFromNow
-                    });
+                    console.log(`이벤트 "${event.title}" 실제 날짜:`, eventDate);
 
-                    return eventDate >= now && eventDate <= thirtyDaysFromNow;
+                    const isInRange = eventDate >= now && eventDate <= thirtyDaysFromNow;
+                    return isInRange;
                 })
 
             // 이벤트 목록 생성
