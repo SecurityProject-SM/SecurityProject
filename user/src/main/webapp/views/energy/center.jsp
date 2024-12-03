@@ -223,7 +223,7 @@
         let row = `<tr class="\${rowClass}">
                 <td>\${iotId}</td>
                 <td>\${iotData.name}</td>
-                <td>\${iotData.value} kWh</td>
+                <td>\${iotData.value} kW</td>
 <!--                <td><button onclick='showControlBox("\${iotId}")'>제어</button></td>-->
 <!--                <td><button onclick='energy.toggleIotStatus("\${iotId}", "\${iotData.status}")'>제어</button></td>-->
                 <td>
@@ -308,7 +308,7 @@
 </script>
 <div class="row" style="margin-top: 200px">
   <div class="totaldata-box" id="totalPowerBox">
-    <h3>총 전력량 : <span id="totalPower"></span> kWh</h3>
+    <h3>총 전력량 : <span id="totalPower"></span> kW</h3>
     <button onclick="filterIcons('aircon')">총전력 (에어컨만 보기)</button>
   </div>
   <div class="totaldata-box" >

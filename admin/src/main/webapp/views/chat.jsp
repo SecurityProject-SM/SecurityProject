@@ -84,7 +84,7 @@
         },
         connect: function () {
             let sid = this.id;
-            let socket = new SockJS('http://10.20.34.98:82/ws');
+            let socket = new SockJS('http://210.119.34.211:82/ws');
             this.stompClient = Stomp.over(socket);
 
             this.stompClient.connect({}, function (frame) {

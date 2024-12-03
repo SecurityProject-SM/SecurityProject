@@ -77,7 +77,7 @@
 
     <div class="content-wrapper">
         <div class="container-fluid">
-
+            <h1 style="margin-left: 10px">공지사항</h1>
             <div class="row mt-3">
                 <div class="col-lg-10 mx-auto"> <!-- 가운데 정렬을 위한 mx-auto 추가 -->
                     <div class="card text-center"> <!-- 텍스트 가운데 정렬 -->
