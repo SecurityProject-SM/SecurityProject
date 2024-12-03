@@ -19,8 +19,20 @@
     .card.card-plain{
         box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
     }
+    .btn-primary{
+        background-color: #9747ea;
+        width: 100%;
+        letter-spacing: -0.025rem;
+        text-transform: none;
+        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 
     }
+    .btn-kakao{
+        background-color: #FEE500;
+        width: 100%;
+
+    }
+
 </style>
 <html lang="en">
 <head>
@@ -157,8 +169,8 @@
                     <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                         <div class="card card-plain">
                             <div class="card-header pb-0 text-start">
-                                <h4 class="font-weight-bolder">Sign In</h4>
-                                <p class="mb-0">Enter your ID and password to sign in</p>
+                                <h4 class="font-weight-bolder">로그인</h4>
+                                <p class="mb-0" style="font-size: 15px">아이디와 비밀번호를 입력하여 로그인하세요</p>
                             </div>
                             <div class="card-body">
 
@@ -171,23 +183,27 @@
 
                                 <form id="login_form">
                                     <div class="form-group">
-                                        <label for="id">id: </label>
-                                        <input type="text" class="form-control" placeholder="Enter id" id="id" name="id" value="user01">
+                                        <label for="id">아이디 </label>
+                                        <input type="text" class="form-control" placeholder="아이디를 입력하세요" id="id" name="id" value="user01">
                                     </div>
                                     <div class="form-group">
-                                        <label for="pwd">Password:</label>
-                                        <input type="password" class="form-control" placeholder="Enter password" id="pwd" name="pwd" value="password1">
+                                        <label for="pwd">비밀번호</label>
+                                        <input type="password" class="form-control" placeholder="비밀번호를 입력하세요" id="pwd" name="pwd" value="password1">
                                     </div>
-                                    <button type="button" class="btn btn-primary">Submit</button>
+
+                                    <button type="button" class="btn btn-primary" style="background-color: #9042dc;margin-bottom: 1px">로그인</button>
                                 </form>
                                 <a href="<c:url value="/oauth/kakao"/> ">
-                                    <img src="<c:url value="/img/kakao_login_medium_narrow.png"/> ">
+
+                                    <button type="button" class="btn btn-kakao" style="background-color: #ffee05"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+                                        <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+                                    </svg>  카카오 로그인</button>
                                 </a>
                             </div>
                             <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                 <p class="mb-4 text-sm mx-auto">
-                                    Don't have an account?
-                                    <a href="/register" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                                    계정이 없으신가요?
+                                    <a href="/register" class="text-primary text-gradient font-weight-bold">회원가입</a>
                                 </p>
                             </div>
                         </div>
