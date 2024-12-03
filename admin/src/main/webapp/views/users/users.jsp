@@ -13,20 +13,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 </head>
 
+<style>
+    .room-card {
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        margin: 10px auto;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
 
+    .room-header {
+        background-color: #6c757d;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        font-weight: bold;
+    }
 
+    .room-header .status {
+        background-color: #28a745;
+        padding: 3px 6px;
+        border-radius: 5px;
+        font-size: 12px;
+    }
+
+    .room-header .room-number {
+        font-size: 18px;
+    }
+
+    .room-details {
+        padding: 15px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .room-details p {
+        margin: 5px 0;
+    }
+
+    .room-details strong {
+        font-weight: bold;
+    }
+
+</style>
+
+<script>
+    let ghtlf = {}
+
+    $(function () {
+        ghtlf.init();
+    })
+</script>
 
 <body class="bg-theme bg-theme1">
 
-<!-- start loader -->
-<div id="pageloader-overlay" class="visible incoming">
-    <div class="loader-wrapper-outer">
-        <div class="loader-wrapper-inner">
-            <div class="loader"></div>
-        </div>
-    </div>
-</div>
-<!-- end loader -->
 
 <!-- Start wrapper-->
 <div id="wrapper">
@@ -38,51 +84,39 @@
 
             <div class="row mt-3">
                 <div class="col-lg-10 mx-auto">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">회원 관리</h5>
-
-                            <form class="search-bar" action="/users/findimpl" method="get">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="search" placeholder="이름"
-                                           value="${search.search}">
-                                    <button class="btn btn-primary" type="submit">검색</button>
-                                </div>
-                            </form>
-
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">이메일</th>
-                                        <th scope="col">이름</th>
-                                        <th scope="col">전화번호</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach var="user" items="${cpage.list}">
-                                        <tr>
-                                            <td><a href="/users/detail?id=${user.userId}">${user.userId}</a></td>
-                                            <td>${user.userMail}</td>
-                                            <td>${user.userName}</td>
-                                            <td>${user.userTel}</td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-
-                                <div style="margin-top: 15px">
-                                    <c:if test="${cpage.getSize() != null}">
-                                        <jsp:include page="../searchnav.jsp"/>
-                                    </c:if>
-                                </div>
-                        </div>
+                    <div class="alarm-container">
+                        <h3>알람 띄울거임</h3>
                     </div>
+
+                    <div class="container">
+                        <c:forEach var="item" items="${ghtlf}">
+                            <div class="room-card">
+                                <div class="room-header">
+                                    <!-- 입주 상태 표시: epty가 0이면 공실, 1이면 입주중 -->
+                                    <span class="status">
+                    <c:choose>
+                        <c:when test="${item.epty == 1}">입주중</c:when>
+                        <c:otherwise>공실</c:otherwise>
+                    </c:choose>
+                </span>
+                                    <span class="room-number">${item.room}호</span>
+                                </div>
+                                <div class="room-details">
+                                    <p><strong>상호명:</strong>
+                                        <c:out value="${item.bname}" default="미등록"/></p>
+                                    <p><strong>연락처:</strong>
+                                        <c:out value="${item.tel}" default="미등록"/></p>
+                                    <p><strong>계약일:</strong>
+                                        <c:out value="${item.stday}" default="N/A"/> ~
+                                        <c:out value="${item.edday}" default="N/A"/></p>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+
+
                 </div>
             </div><!--End Row-->
-
-
         </div>
         <!-- End container-fluid-->
 

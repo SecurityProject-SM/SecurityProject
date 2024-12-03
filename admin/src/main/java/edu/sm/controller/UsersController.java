@@ -2,8 +2,10 @@ package edu.sm.controller;
 
 import com.github.pagehelper.PageInfo;
 import edu.sm.app.dto.AdminsDto;
+import edu.sm.app.dto.GhtlfDto;
 import edu.sm.app.dto.Search;
 import edu.sm.app.dto.UsersDto;
+import edu.sm.app.service.GhtlfService;
 import edu.sm.app.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -19,15 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UsersController {
 
     final UsersService usersService;
+    final GhtlfService ghtlfService;
 
     @RequestMapping("")
-    public String notice(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
-        log.info("Loading notice list with user_power = 0 - page {}", pageNo);
-
-        PageInfo<UsersDto> pageInfo = new PageInfo<>(usersService.getUsersByPowerPage(pageNo), 5);  // 페이지네이션 설정
-        model.addAttribute("cpage", pageInfo);
+    public String notice(Model model) throws Exception {
+        List<GhtlfDto> ghtlfList = ghtlfService.get();
+        model.addAttribute("ghtlf", ghtlfList);
         model.addAttribute("center", "users/users");
-        model.addAttribute("target", "users");
         return "index";
     }
 
