@@ -168,11 +168,11 @@
                     <!-- 로그인 폼 (왼쪽) -->
                     <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                         <div class="card card-plain">
-                            <div class="card-header pb-0 text-start">
+                            <div class="card-header pb-0 text-start" style="background-color: #FCFBFF">
                                 <h4 class="font-weight-bolder">로그인</h4>
                                 <p class="mb-0" style="font-size: 15px">아이디와 비밀번호를 입력하여 로그인하세요</p>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" style="background-color: #FCFBFF">
 
                                 <!-- 에러 메시지 출력 -->
                                 <c:if test="${not empty errorMessage}">
@@ -200,7 +200,7 @@
                                     </svg>  카카오 로그인</button>
                                 </a>
                             </div>
-                            <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                            <div class="card-footer text-center pt-0 px-lg-2 px-1" style="background-color: #FCFBFF">
                                 <p class="mb-4 text-sm mx-auto">
                                     계정이 없으신가요?
                                     <a href="/register" class="text-primary text-gradient font-weight-bold">회원가입</a>
