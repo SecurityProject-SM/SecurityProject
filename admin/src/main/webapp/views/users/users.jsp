@@ -14,16 +14,63 @@
 </head>
 
 <style>
-    .room-card {
-        width: 300px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-        margin: 10px auto;
-        overflow: hidden;
+    .room-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        font-weight: bold;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .room-header .status {
+        background-color: #28a745;
+        padding: 3px 6px;
+        border-radius: 5px;
+        font-size: 12px;
+        text-align: left; /* 상태는 왼쪽 정렬 */
+    }
+
+    .room-header .room-number {
+        margin-left: auto; /* 오른쪽으로 이동 */
+        font-size: 18px;
+        text-align: right; /* 오른쪽 정렬 */
+    }
+
+
+    .container {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 30px;
+    }
+
+    .floor-row {
         display: flex;
         flex-direction: column;
+        gap: 15px;
+    }
+
+    .floor-header {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #555;
+        text-align: left;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .room-container {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .room-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        color: black;
     }
 
     .room-header {
@@ -31,9 +78,9 @@
         color: #fff;
         display: flex;
         justify-content: space-between;
-        align-items: center;
         padding: 10px;
         font-weight: bold;
+        border-radius: 8px 8px 0 0;
     }
 
     .room-header .status {
@@ -48,7 +95,7 @@
     }
 
     .room-details {
-        padding: 15px;
+        padding: 10px;
         font-size: 14px;
         color: #333;
     }
@@ -60,15 +107,10 @@
     .room-details strong {
         font-weight: bold;
     }
-
 </style>
 
 <script>
-    let ghtlf = {}
 
-    $(function () {
-        ghtlf.init();
-    })
 </script>
 
 <body class="bg-theme bg-theme1">
@@ -88,32 +130,35 @@
                         <h3>알람 띄울거임</h3>
                     </div>
 
+
                     <div class="container">
-                        <c:forEach var="item" items="${ghtlf}">
-                            <div class="room-card">
-                                <div class="room-header">
-                                    <!-- 입주 상태 표시: epty가 0이면 공실, 1이면 입주중 -->
-                                    <span class="status">
-                    <c:choose>
-                        <c:when test="${item.epty == 1}">입주중</c:when>
-                        <c:otherwise>공실</c:otherwise>
-                    </c:choose>
-                </span>
-                                    <span class="room-number">${item.room}호</span>
-                                </div>
-                                <div class="room-details">
-                                    <p><strong>상호명:</strong>
-                                        <c:out value="${item.bname}" default="미등록"/></p>
-                                    <p><strong>연락처:</strong>
-                                        <c:out value="${item.tel}" default="미등록"/></p>
-                                    <p><strong>계약일:</strong>
-                                        <c:out value="${item.stday}" default="N/A"/> ~
-                                        <c:out value="${item.edday}" default="N/A"/></p>
+                        <c:forEach var="floor" items="${ghtlf}">
+                            <div class="floor-row">
+                                <div class="room-container">
+                                    <c:forEach var="item" items="${floor.value}">
+                                        <div class="room-card">
+                                            <div class="room-header" style="background-color: ${item.epty == 1 ? '#6c757d' : 'red'};">
+                                                <span class="status">
+                                                    <c:choose>
+                                                        <c:when test="${item.epty == 1}">입주중</c:when>
+                                                        <c:otherwise>공실</c:otherwise>
+                                                    </c:choose>
+                                                </span>
+                                                <a href="/users/detail?ghtlfid=${item.ghtlfid}">
+                                                    <span class="room-number">${item.room}호</span>
+                                                </a>
+                                            </div>
+                                            <div class="room-details">
+                                                <p><strong>상호명:</strong> <c:out value="${item.bname}" default="미등록"/></p>
+                                                <p><strong>연락처:</strong> <c:out value="${item.tel}" default="미등록"/></p>
+                                                <p><strong>계약일:</strong> <c:out value="${item.stday}" default="N/A"/> ~ <c:out value="${item.edday}" default="N/A"/></p>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </c:forEach>
                     </div>
-
 
                 </div>
             </div><!--End Row-->
@@ -121,6 +166,7 @@
         <!-- End container-fluid-->
 
     </div><!--End content-wrapper-->
+
     <!--Start Back To Top Button-->
     <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
     <!--End Back To Top Button-->

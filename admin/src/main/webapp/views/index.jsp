@@ -14,8 +14,6 @@
 <%--    <script src="<c:url value='/js/pace.min.js'/>"></script>--%>
     <!-- favicon -->
     <link rel="icon" href="<c:url value='/img/gunamul_icon.ico'/>" type="image/x-icon">
-    <!-- Vector CSS -->
-    <link href="<c:url value='/plugins/vectormap/jquery-jvectormap-2.0.2.css'/>" rel="stylesheet"/>
     <!-- simplebar CSS-->
     <link href="<c:url value='/plugins/simplebar/css/simplebar.css'/>" rel="stylesheet"/>
     <!-- Bootstrap core CSS-->

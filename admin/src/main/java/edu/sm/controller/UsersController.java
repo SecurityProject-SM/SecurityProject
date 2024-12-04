@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -25,36 +27,56 @@ public class UsersController {
     final UsersService usersService;
     final GhtlfService ghtlfService;
 
+//    @RequestMapping("")
+//    public String notice(Model model) throws Exception {
+//        List<GhtlfDto> ghtlfList = ghtlfService.get();
+//
+//        List<GhtlfDto> sortedGhtlfList = ghtlfList.stream()
+//                .sorted((a, b) -> Integer.compare(b.getRoom(), a.getRoom())) // 내림차순 정렬
+//                .collect(Collectors.toList());
+//
+//        model.addAttribute("ghtlf", sortedGhtlfList);
+//        model.addAttribute("center", "users/users");
+//
+//        return "index"; // 뷰 이름 반환
+//    }
+
     @RequestMapping("")
     public String notice(Model model) throws Exception {
         List<GhtlfDto> ghtlfList = ghtlfService.get();
-        model.addAttribute("ghtlf", ghtlfList);
+
+        Map<Integer, List<GhtlfDto>> groupedByFloor = ghtlfList.stream()
+                .collect(Collectors.groupingBy(item -> item.getRoom() / 100)); // 층 계산
+
+        List<Map.Entry<Integer, List<GhtlfDto>>> floors = groupedByFloor.entrySet().stream()
+                .sorted((a, b) -> b.getKey().compareTo(a.getKey())) // 내림차순 정렬
+                .collect(Collectors.toList());
+
+        model.addAttribute("ghtlf", floors); // 정렬된 데이터를 ghtlf로 전달
         model.addAttribute("center", "users/users");
+
         return "index";
     }
 
-
-
-    @RequestMapping("/findimpl")
-    public String findimpl(Model model, Search search,
-                           @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
-        log.info("Searching users by name with search term: {}", search);
-        PageInfo<UsersDto> pageInfo = new PageInfo<>(usersService.getFindPage(pageNo, search), 10);
-
-        model.addAttribute("cpage", pageInfo);
-        model.addAttribute("search", search); // 검색어를 유지하기 위해 전달
-        model.addAttribute("target", "users");
-        model.addAttribute("center", "users/users");
-        return "index";
-    }
 
     @RequestMapping("/detail")
-    public String detail(Model model, @RequestParam("id") String id) throws Exception {
-        UsersDto usersDto = null;
-        usersDto = usersService.get(id);
+    public String detail(Model model, @RequestParam("ghtlfid") Integer id) throws Exception {
+        GhtlfDto ghtlfDto = null;
+        ghtlfDto = ghtlfService.get(id);
 
-        model.addAttribute("users", usersDto);
+        model.addAttribute("ghtlf", ghtlfDto);
         model.addAttribute("center", "users/detail");
+
+        return "index";
+    }
+
+    @RequestMapping("/detailud")
+    public String detail2(Model model, @RequestParam("ghtlfid") Integer id) throws Exception {
+        GhtlfDto ghtlfDto = null;
+        ghtlfDto = ghtlfService.get(id);
+
+        model.addAttribute("ghtlf", ghtlfDto);
+        model.addAttribute("center", "users/detailud");
 
         return "index";
     }
@@ -92,11 +114,6 @@ public class UsersController {
 
         return "redirect:/users";
     }
-
-
-
-
-
 
 
 }

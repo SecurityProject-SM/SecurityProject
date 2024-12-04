@@ -8,4 +8,8 @@
         SELECT * FROM ghtlf
     </select>
 
+    <select id="selectOne" resultType="edu.sm.app.dto.GhtlfDto">
+        SELECT * FROM ghtlf WHERE ghtlfid=#{ghtlfid}
+    </select>
+
 </mapper>

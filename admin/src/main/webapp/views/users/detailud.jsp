@@ -67,10 +67,6 @@
                 </div>
             </div>
 
-            <a href="/users/detailud?ghtlfid=${ghtlf.ghtlfid}">
-                수정
-            </a>
-
             <div class="row mt-3 justify-content-center">
 
                 <div class="row">
