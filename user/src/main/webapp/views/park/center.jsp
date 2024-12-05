@@ -29,6 +29,10 @@
     background: linear-gradient(to bottom, #f8f9fa, #ffffff);
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    width: fit-content;
+    position: absolute;
+    left: 200px;
+
   }
 
   /* 주차현황 제목 스타일 개선 */
