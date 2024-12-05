@@ -12,4 +12,28 @@
         SELECT * FROM ghtlf WHERE ghtlfid=#{ghtlfid}
     </select>
 
+    <update id="updateus" parameterType="edu.sm.app.dto.GhtlfDto">
+        UPDATE ghtlf
+        SET
+            bname = #{bname},
+            room = #{room},
+            dlfma = #{dlfma},
+            tel = #{tel}
+        WHERE
+            ghtlfid = #{ghtlfid}
+    </update>
+
+    <update id="updatect" parameterType="GhtlfDto">
+        UPDATE ghtlf
+        SET
+            stday = #{stday},
+            edday = #{edday},
+            deposit = #{deposit},
+            dnjftp = #{dnjftp}
+        WHERE
+            ghtlfid = #{ghtlfid}
+    </update>
+
+
+
 </mapper>

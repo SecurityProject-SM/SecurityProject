@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface GhtlfRepository extends SBRepository<Integer, GhtlfDto> {
+    void updateus(GhtlfDto ghtlfDto);
+    void updatect(GhtlfDto ghtlfDto);
 
 }
 

@@ -13,6 +13,9 @@
 </head>
 
 <style>
+    .info_box {
+        margin-left: 25px;
+    }
 
     .info_container {
         width: 400px;
@@ -143,6 +146,45 @@
         background-color: #333;
     }
 
+    .ct_content {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    .day_content {
+        margin-top: 25px;
+        margin-left: 10px;
+        border-bottom: 2px solid whitesmoke;
+    }
+
+    .included-features {
+        font-family: Arial, sans-serif;
+        margin-top: 15px;
+        margin-left: 10px;
+    }
+
+    .included-features h3 {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: whitesmoke;
+    }
+
+    .features-list {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .feature-item {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 15px;
+        color: whitesmoke;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        cursor: default;
+    }
 
 
 
@@ -177,8 +219,37 @@
         }
     };
 
+    let modal2 = {
+        open: function () {
+            $("#myModal2").fadeIn();
+        },
+
+        close: function () {
+            $("#myModal2").fadeOut();
+        },
+
+        init: function () {
+            const self = this;
+
+            $("#openModalBtn2").on("click", function () {
+                self.open();
+            });
+
+            $(".close, #closeModalBtn2").on("click", function () {
+                self.close();
+            });
+
+            $(window).on("click", function (event) {
+                if ($(event.target).is("#myModal2")) {
+                    self.close();
+                }
+            });
+        }
+    };
+
     $(function () {
         modal.init();
+        modal2.init();
     })
 </script>
 
@@ -208,9 +279,6 @@
                 </div>
             </div>
 
-            <a href="/users/detailud?ghtlfid=${ghtlf.ghtlfid}">
-                수정
-            </a>
 
             <div class="row mt-3 justify-content-center">
 
@@ -218,55 +286,45 @@
                     <div class="info_container">
                         <div class="card">
                             <div class="card-body">
-                                <div class="card-title text-center">입주자 정보</div>
-                                <div class="form-group text-center mt-3">
-                                    <img src="/img/edit_icon.png" id="openModalBtn" class="hover-effect" style="width: 30px">
+                                <div class="card-title text-center" style="font-size: 29px">입주자 정보</div>
+                                <div class="form-group text-center mt-3" style="border-bottom: 2px solid white;">
+                                    <img src="/img/edit_icon_white.png" id="openModalBtn" class="hover-effect"
+                                         style="width: 30px;  margin-bottom: 10px">
                                 </div>
-                                <hr>
-                                <form action="/users/updateimpl" method="post">
-                                    <input type="hidden" name="usersId" value="${ghtlf.ghtlfid}">
 
-                                    <div class="form-group">
-                                        <label for="userPwd">password</label>
-                                        <input type="text" class="form-control form-control-rounded" id="bname"
-                                               name="bname"
-                                               value="${ghtlf.bname}">
+                                <div class="row" style="margin-left: 15px; margin-top: 20px">
+                                    <img src="/img/shop_icon_white.png" style="width: 30px; height: 30px">
+                                    <div class="info_box">
+                                        <h6>상호명</h6>
+                                        <h4>${ghtlf.bname}</h4>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="userPwd">password</label>
-                                        <input type="text" class="form-control form-control-rounded" id="userPwd"
-                                               name="userPwd"
-                                               value="${ghtlf.room}">
+
+                                <div class="row" style="margin-left: 15px; margin-top: 20px">
+                                    <img src="/img/room_icon_white.png" style="width: 30px; height: 30px">
+                                    <div class="info_box">
+                                        <h6>방번호</h6>
+                                        <h4>${ghtlf.room}</h4>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="userMail">Mail</label>
-                                        <input type="email" class="form-control form-control-rounded" id="userMail"
-                                               name="userMail"
-                                               value="${ghtlf.dlfma}">
+                                <div class="row" style="margin-left: 15px;  margin-top: 20px">
+                                    <img src="/img/human_icon_white.png" style="width:30px; height: 30px">
+                                    <div class="info_box">
+                                        <h6>입주자 이름</h6>
+                                        <h4>${ghtlf.dlfma}</h4>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="userName">Name</label>
-                                        <input type="text" class="form-control form-control-rounded" id="userName"
-                                               name="userName"
-                                               value="${ghtlf.tel}">
+                                <div class="row" style="margin-left: 15px;  margin-top: 20px">
+                                    <img src="/img/tel_white.png" style="width: 30px; height: 30px">
+                                    <div class="info_box">
+                                        <h6>전화번호</h6>
+                                        <h4>${ghtlf.tel}</h4>
                                     </div>
+                                </div>
 
-                                    <%--  회원 권한설정 하는 부분 select or checkbox 사용 추가 필  --%>
-
-
-                                    <div class="form-group text-right">
-                                        <button type="submit" class="btn btn-light btn-round px-5">수정</button>
-                                        <form action="/users/deleteimpl" method="post" style="display:inline;">
-                                            <input type="hidden" name="usersId" value="${users.userId}">
-                                            <button type="submit" class="btn btn-danger btn-round px-5"
-                                                    onclick="return confirm('정말 삭제하시겠습니까?');">삭제
-                                            </button>
-                                        </form>
-                                    </div>
-                                </form>
 
                             </div>
                         </div>
@@ -277,53 +335,40 @@
                     <div class="info_container">
                         <div class="card">
                             <div class="card-body">
-                                <div class="card-title text-center">계약 정보</div>
-                                <hr>
-                                <form action="/users/updateimpl" method="post">
-                                    <input type="hidden" name="usersId" value="${ghtlf.ghtlfid}">
+                                <div class="card-title text-center" style="font-size: 29px">계약 정보</div>
+                                <div class="form-group text-center mt-3" style="border-bottom: 2px solid white;">
+                                    <img src="/img/edit_icon_white.png" id="openModalBtn2" class="hover-effect"
+                                         style="width: 30px;  margin-bottom: 10px">
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="userPwd">password</label>
-                                        <input type="text" class="form-control form-control-rounded" id="stday"
-                                               name="userPwd"
-                                               value="${ghtlf.stday}">
+                                <img src="/img/deposit_icon_white.png" style="width: 30px; height: 30px; margin-left: 10px">
+                                <div class="row" style="justify-content: space-between; margin-top: 10px">
+                                    <div class="ct_content">
+                                        <h6>월세</h6>
+                                        <h4>${ghtlf.dnjftp}만원</h4>
                                     </div>
-
-                                    <div class="form-group">
-                                        <label for="userTel">Tel</label>
-                                        <input type="text" class="form-control form-control-rounded" id="edday"
-                                               name="userTel"
-                                               value="${ghtlf.edday}">
+                                    <div class="ct_content">
+                                        <h6>보읒금</h6>
+                                        <h4>${ghtlf.deposit}만원</h4>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="userMail">Mail</label>
-                                        <input type="email" class="form-control form-control-rounded" id="deposit"
-                                               name="userMail"
-                                               value="${ghtlf.deposit}">
+                                <div class="day_content">
+                                    <img src="/img/day_icon_white.png" style="width: 30px; height: 30px">
+
+                                    <h6 style="margin-top: 10px">계약기간</h6>
+                                    <h4>${ghtlf.stday} ~ ${ghtlf.edday}</h4>
+                                </div>
+
+                                <div class="included-features">
+                                    <h3>관리 항목</h3>
+                                    <div class="features-list">
+                                        <span class="feature-item">전기</span>
+                                        <span class="feature-item">수도</span>
+                                        <span class="feature-item">가스</span>
+                                        <span class="feature-item">인터넷</span>
                                     </div>
-
-                                    <div class="form-group">
-                                        <label for="userName">Name</label>
-                                        <input type="text" class="form-control form-control-rounded" id="dnjftp"
-                                               name="userName"
-                                               value="${ghtlf.dnjftp}">
-                                    </div>
-
-                                    <%--  회원 권한설정 하는 부분 select or checkbox 사용 추가 필  --%>
-
-
-                                    <div class="form-group text-right">
-                                        <button type="submit" class="btn btn-light btn-round px-5">수정</button>
-                                        <form action="/users/deleteimpl" method="post" style="display:inline;">
-                                            <input type="hidden" name="usersId" value="${users.userId}">
-                                            <button type="submit" class="btn btn-danger btn-round px-5"
-                                                    onclick="return confirm('정말 삭제하시겠습니까?');">삭제
-                                            </button>
-                                        </form>
-                                    </div>
-                                </form>
-
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -352,31 +397,72 @@
 <div id="myModal" class="modal" style="display: none;">
     <div class="modal-content">
         <div class="modal_head">
-        <h3 style="color: black">입주자 정보 수정</h3>
-        <span class="close" style="margin-bottom: 30px">&times;</span>
+            <h3 style="color: black">입주자 정보 수정</h3>
+            <span class="close" style="margin-bottom: 30px">&times;</span>
         </div>
 
-        <form action="/users/updateimpl" method="post" style="width: 300px; margin: 0 auto;" class="modal_form">
-            <input type="hidden" name="usersId" value="${ghtlf.ghtlfid}">
+        <form action="/users/updatect" method="post" style="width: 300px; margin: 0 auto;" class="modal_form">
+            <input type="hidden" name="ghtlfid" value="${ghtlf.ghtlfid}">
 
             <div class="form-group">
-                <label for="bdname">건물명</label>
-                <input type="text" id="bdname" name="bname" value="${ghtlf.bname}" class="form-control" style="color: black;">
+                <label for="bname">건물명</label>
+                <input type="text" id="bname" name="bname" value="${ghtlf.bname}" class="form-control"
+                       style="color: black;">
             </div>
 
             <div class="form-group">
-                <label for="usserPwd">호실</label>
-                <input type="text" id="usserPwd" name="userPwd" value="${ghtlf.room}" class="form-control">
+                <label for="room">호실</label>
+                <input type="text" id="room" name="room" value="${ghtlf.room}" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="usesrMail">입주자 이름</label>
-                <input type="email" id="usesrMail" name="userMail" value="${ghtlf.dlfma}" class="form-control">
+                <label for="dlfma">입주자 이름</label>
+                <input type="text" id="dlfma" name="dlfma" value="${ghtlf.dlfma}" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="usesrName">전화번호</label>
-                <input type="text" id="usesrName" name="userName" value="${ghtlf.tel}" class="form-control">
+                <label for="tel">전화번호</label>
+                <input type="text" id="tel" name="tel" value="${ghtlf.tel}" class="form-control">
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-dark">저장</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+<div id="myModal2" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal_head">
+            <h3 style="color: black">입주자 정보 수정</h3>
+            <span class="close" style="margin-bottom: 30px">&times;</span>
+        </div>
+
+        <form action="/users/updatect" method="post" style="width: 300px; margin: 0 auto;" class="modal_form">
+            <input type="hidden" name="ghtlfid" value="${ghtlf.ghtlfid}">
+
+            <div class="form-group">
+                <label for="stday">계약 시작일</label>
+                <input type="text" id="stday" name="stday" value="${ghtlf.stday}" class="form-control"
+                       style="color: black;">
+            </div>
+
+            <div class="form-group">
+                <label for="edday">계약 만료일</label>
+                <input type="text" id="edday" name="edday" value="${ghtlf.edday}" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="deposit">보증금</label>
+                <input type="text" id="deposit" name="deposit" value="${ghtlf.deposit}" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="dnjftp">월세</label>
+                <input type="text" id="dnjftp" name="dnjftp" value="${ghtlf.dnjftp}" class="form-control">
             </div>
 
             <div class="form-group text-center">

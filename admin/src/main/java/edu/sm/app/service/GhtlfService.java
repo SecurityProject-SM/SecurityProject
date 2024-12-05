@@ -40,4 +40,12 @@ public class GhtlfService implements SBService<Integer, GhtlfDto> {
     public List<GhtlfDto> get() throws Exception {
         return ghtlfRepository.select();
     }
+
+    public void updateus(GhtlfDto ghtlfDto) {
+        ghtlfRepository.updateus(ghtlfDto);
+    }
+
+    public void updatect(GhtlfDto ghtlfDto) {
+        ghtlfRepository.updatect(ghtlfDto);
+    }
 }
