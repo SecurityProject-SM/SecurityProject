@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 </head>
 
 <style>
@@ -186,6 +187,37 @@
         cursor: default;
     }
 
+    /*.ct_document {*/
+    /*    font-family: Arial, sans-serif;*/
+    /*    padding: 20px;*/
+    /*}*/
+
+    /*.document_list {*/
+    /*    border: 1px solid whitesmoke;*/
+    /*    font-family: Arial, sans-serif;*/
+    /*    padding: 15px;*/
+    /*}*/
+
+    .ct_document {
+        width: 400px;
+        padding: 25px;
+        font-family: 'Nanum Gothic', Arial, sans-serif; /* 폰트 설정 */
+        color: white; /* 텍스트 색상 */
+    }
+
+    .ct_document h1 {
+        font-size: 24px; /* 제목 크기 */
+        font-weight: bold;
+        margin-bottom: 20px; /* 하단 간격 */
+    }
+
+    .ct_document .document_list h3 {
+        font-size: 18px; /* 문서 항목 텍스트 크기 */
+        font-weight: normal;
+        margin-left: 10px; /* 아이콘과 텍스트 간격 */
+        display: inline-block;
+        vertical-align: middle;
+    }
 
 
 </style>
@@ -247,9 +279,38 @@
         }
     };
 
+    let modal3 = {
+        open: function () {
+            $("#myModal3").fadeIn();
+        },
+
+        close: function () {
+            $("#myModal3").fadeOut();
+        },
+
+        init: function () {
+            const self = this;
+
+            $("#openModalBtn3").on("click", function () {
+                self.open();
+            });
+
+            $(".close, #closeModalBtn3").on("click", function () {
+                self.close();
+            });
+
+            $(window).on("click", function (event) {
+                if ($(event.target).is("#myModal3")) {
+                    self.close();
+                }
+            });
+        }
+    };
+
     $(function () {
         modal.init();
         modal2.init();
+        modal3.init();
     })
 </script>
 
@@ -280,7 +341,7 @@
             </div>
 
 
-            <div class="row mt-3 justify-content-center">
+            <div class="row" style="margin-left: 50px; margin-top: 50px; min-height: 100vh">
 
                 <div class="row">
                     <div class="info_container">
@@ -341,7 +402,8 @@
                                          style="width: 30px;  margin-bottom: 10px">
                                 </div>
 
-                                <img src="/img/deposit_icon_white.png" style="width: 30px; height: 30px; margin-left: 10px">
+                                <img src="/img/deposit_icon_white.png"
+                                     style="width: 30px; height: 30px; margin-left: 10px">
                                 <div class="row" style="justify-content: space-between; margin-top: 10px">
                                     <div class="ct_content">
                                         <h6>월세</h6>
@@ -374,6 +436,40 @@
                     </div>
                 </div>
 
+                <div class="card h-100 d-flex flex-column" style="margin-left: 50px">
+                    <div class="card-header">
+                        <h1>계약 서류</h1>
+                    </div>
+                    <div class="card-body flex-grow-1">
+                        <div class="ct_document">
+                            <div class="document_list">
+                                <div class="row align-items-center mb-3">
+                                    <div class="d-flex align-items-center w-100">
+                                        <img src="/img/document_icon_white.png" style="width: 30px; height: 30px; margin-right: 8px;">
+                                        <h3 style="margin: 0; flex-grow: 1;">임대차 계약서</h3>
+                                        <h6 id="openModalBtn3" style="margin: 0; cursor: pointer;">보기</h6>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="d-flex align-items-center w-100">
+                                        <img src="/img/document_icon_white.png" style="width: 30px; height: 30px; margin-right: 8px;">
+                                        <h3 style="margin: 0; flex-grow: 1;">건물 등기부 등본</h3>
+                                        <h6 style="margin: 0; cursor: pointer;">보기</h6>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="d-flex align-items-center w-100">
+                                        <img src="/img/document_icon_white.png" style="width: 30px; height: 30px; margin-right: 8px;">
+                                        <h3 style="margin: 0; flex-grow: 1;">신분증 사본</h3>
+                                        <h6 style="margin: 0; cursor: pointer;">보기</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
             <!--End Row-->
 
@@ -472,6 +568,28 @@
 
     </div>
 </div>
+
+<div id="myModal3" class="modal" style="display: none;">
+    <div class="modal-content" style="width: 50%; margin: 5% auto; border-radius: 8px; padding: 20px; text-align: left;">
+        <div class="modal_head" style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="color: black; margin: 0;">임대차계약서 미리보기</h3>
+            <span class="close" style="font-size: 24px; font-weight: bold; cursor: pointer;">&times;</span>
+        </div>
+        <div style="margin-top: 20px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+            <h3 style="margin: 0; font-weight: bold; text-align: center; margin-bottom: 20px;">임대차계약서</h3>
+            <p>임대인 김대표(이하 "갑"이라 한다)과 임차인 ${ghtlf.dlfma}(이하 "을"이라 한다)은 다음과 같이 임대차계약을 체결한다.</p>
+            <ol style="margin-left: 20px; padding-left: 20px; line-height: 1.6;">
+                <li>같은 을에게 다음 부동산을 임대하고 을은 이를 임차한다.</li>
+                <li>임대할 부동산의 표시: 스마트 빌딩 ${ghtlf.room}호</li>
+                <li>임대차 기간: 2023-01-01부터 2024-12-31까지</li>
+                <li>보증금: 금 ${ghtlf.deposit}만원</li>
+                <li>차임: 월 금 ${ghtlf.dnjftp}만원</li>
+            </ol>
+            <p style="margin-top: 20px;">본 계약을 증명하기 위하여 계약 당사자가 이의 없음을 확인하고 각자 서명 날인 후 1통씩 보관한다.</p>
+        </div>
+    </div>
+</div>
+
 <%-- 모달창 끝 --%>
 </body>
 </html>
