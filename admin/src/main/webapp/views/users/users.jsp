@@ -107,19 +107,15 @@
     .room-details strong {
         font-weight: bold;
     }
+
+    .rent_calc {
+        width: 250px;
+        border: 2px solid whitesmoke;
+        /*padding: 10px;*/
+    }
 </style>
 
 <script>
-    let rent = {
-        calc: function () {
-
-        }
-    }
-
-    $(function () {
-        rent.calc()
-    })
-
 </script>
 
 <body class="bg-theme bg-theme1">
@@ -138,8 +134,12 @@
                     <div class="alarm-container">
                         <h3>알람 띄울거임</h3>
                         <c:forEach var="d" items="${rentCalc}">
-                            <h4>${d.room}</h4>
-                            <h4>${d.edday}</h4>
+                            <div class="rent_calc">
+                                <div class="row" style="margin-left: 10px; justify-content: space-between">
+                                    <h4>${d.room}호</h4>
+                                    <h4>${d.edday}</h4>
+                                </div>
+                            </div>
                         </c:forEach>
                     </div>
 
@@ -150,7 +150,8 @@
                                 <div class="room-container">
                                     <c:forEach var="item" items="${floor.value}">
                                         <div class="room-card">
-                                            <div class="room-header" style="background-color: ${item.epty == 1 ? '#6c757d' : 'red'};">
+                                            <div class="room-header"
+                                                 style="background-color: ${item.epty == 1 ? '#6c757d' : 'red'};">
                                                 <span class="status">
                                                     <c:choose>
                                                         <c:when test="${item.epty == 1}">입주중</c:when>
@@ -162,9 +163,11 @@
                                                 </a>
                                             </div>
                                             <div class="room-details">
-                                                <p><strong>상호명:</strong> <c:out value="${item.bname}" default="미등록"/></p>
+                                                <p><strong>상호명:</strong> <c:out value="${item.bname}" default="미등록"/>
+                                                </p>
                                                 <p><strong>연락처:</strong> <c:out value="${item.tel}" default="미등록"/></p>
-                                                <p><strong>계약일:</strong> <c:out value="${item.stday}" default="N/A"/> ~ <c:out value="${item.edday}" default="N/A"/></p>
+                                                <p><strong>계약일:</strong> <c:out value="${item.stday}" default="N/A"/> ~
+                                                    <c:out value="${item.edday}" default="N/A"/></p>
                                             </div>
                                         </div>
                                     </c:forEach>
