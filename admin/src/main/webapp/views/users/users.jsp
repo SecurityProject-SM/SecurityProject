@@ -110,6 +110,15 @@
 </style>
 
 <script>
+    let rent = {
+        calc: function () {
+
+        }
+    }
+
+    $(function () {
+        rent.calc()
+    })
 
 </script>
 
@@ -128,6 +137,10 @@
                 <div class="col-lg-10 mx-auto">
                     <div class="alarm-container">
                         <h3>알람 띄울거임</h3>
+                        <c:forEach var="d" items="${rentCalc}">
+                            <h4>${d.room}</h4>
+                            <h4>${d.edday}</h4>
+                        </c:forEach>
                     </div>
 
 

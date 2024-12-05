@@ -34,6 +34,14 @@
             ghtlfid = #{ghtlfid}
     </update>
 
+    <select id="rentcalc" resultType="edu.sm.app.dto.GhtlfDto">
+        SELECT room, edday FROM ghtlf WHERE edday &gt; CURRENT_DATE() AND edday &lt; DATE_ADD(CURRENT_DATE(), INTERVAL 2 MONTH)
+    </select>
+
+
+
+
+
 
 
 </mapper>

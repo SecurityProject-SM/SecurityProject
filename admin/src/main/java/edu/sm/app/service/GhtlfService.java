@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,5 +48,9 @@ public class GhtlfService implements SBService<Integer, GhtlfDto> {
 
     public void updatect(GhtlfDto ghtlfDto) {
         ghtlfRepository.updatect(ghtlfDto);
+    }
+
+    public List<GhtlfDto> rentcalc() {
+        return ghtlfRepository.rentcalc();
     }
 }

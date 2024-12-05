@@ -24,33 +24,23 @@ public class UsersController {
     final UsersService usersService;
     final GhtlfService ghtlfService;
 
-//    @RequestMapping("")
-//    public String notice(Model model) throws Exception {
-//        List<GhtlfDto> ghtlfList = ghtlfService.get();
-//
-//        List<GhtlfDto> sortedGhtlfList = ghtlfList.stream()
-//                .sorted((a, b) -> Integer.compare(b.getRoom(), a.getRoom())) // 내림차순 정렬
-//                .collect(Collectors.toList());
-//
-//        model.addAttribute("ghtlf", sortedGhtlfList);
-//        model.addAttribute("center", "users/users");
-//
-//        return "index"; // 뷰 이름 반환
-//    }
-
     @RequestMapping("")
     public String notice(Model model) throws Exception {
         List<GhtlfDto> ghtlfList = ghtlfService.get();
 
         Map<Integer, List<GhtlfDto>> groupedByFloor = ghtlfList.stream()
-                .collect(Collectors.groupingBy(item -> item.getRoom() / 100)); // 층 계산
+                .collect(Collectors.groupingBy(item -> item.getRoom() / 100));
 
         List<Map.Entry<Integer, List<GhtlfDto>>> floors = groupedByFloor.entrySet().stream()
-                .sorted((a, b) -> b.getKey().compareTo(a.getKey())) // 내림차순 정렬
+                .sorted((a, b) -> b.getKey().compareTo(a.getKey()))
                 .collect(Collectors.toList());
 
-        model.addAttribute("ghtlf", floors); // 정렬된 데이터를 ghtlf로 전달
+        List<GhtlfDto> rentCalcList = ghtlfService.rentcalc();
+
+        model.addAttribute("rentCalc", rentCalcList);
+        model.addAttribute("ghtlf", floors);
         model.addAttribute("center", "users/users");
+
 
         return "index";
     }
