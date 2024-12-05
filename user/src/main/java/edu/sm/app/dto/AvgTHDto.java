@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AvgTHDto {
     private Double avgTemperature;
-    private Double avgHumidity;
+    private int avgHumidity;
 }
