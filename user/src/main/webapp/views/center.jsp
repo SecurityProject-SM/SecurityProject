@@ -553,14 +553,14 @@
                 </div>
                 <div class="card-body p-3">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div style="width: 50%;">
                             <jsp:include page="webcam.jsp"/>
                         </div>
-                        <div class="col-sm-6">동영상1</div>
+                        <img src="/img/cctv3.jpeg" style="width: 50%">
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">동영상2</div>
-                        <div class="col-sm-6">동영상3</div>
+                        <img src="/img/cctv1.gif" style="width: 50%">
+                        <img src="/img/cctv2.gif" style="width: 50%">
                     </div>
                 </div>
 
