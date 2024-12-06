@@ -20,13 +20,20 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <style>
-    #regi {
-        width: 100%;
+    .bg-gray-100{
+        --bd-pink-rgb: 214, 51, 132;
+        background-image: linear-gradient(180deg, rgba(var(--bs-body-bg-rgb), 0.01), rgba(var(--bs-body-bg-rgb), 1) 85%),
+        radial-gradient(ellipse at top left, rgba(var(--bs-primary-rgb), 0.5), transparent 50%),
+        radial-gradient(ellipse at top right, rgba(var(--bd-accent-rgb), 0.5), transparent 50%),
+        radial-gradient(ellipse at center right, rgba(var(--bd-violet-rgb), 0.5), transparent 50%),
+        radial-gradient(ellipse at center left, rgba(var(--bd-pink-rgb), 0.5), transparent 50%);
     }
-</style>
+    .card{
+        background-color: #FCFBFF
+    }
 
+</style>
 <script>
     let login = {
         init: function () {
@@ -104,13 +111,13 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navigation">
                         <ul class="navbar-nav mx-auto">
-<%--                            <li class="nav-item">--%>
-<%--                                <a class="nav-link d-flex align-items-center me-2 active" aria-current="page"--%>
-<%--                                   href="<c:url value="/"/> ">--%>
-<%--                                    <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>--%>
-<%--                                    메인 페이지--%>
-<%--                                </a>--%>
-<%--                            </li>--%>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center me-2 active" aria-current="page"
+                                   href="<c:url value="/"/> ">
+                                    <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
+                                    메인 페이지
+                                </a>
+                            </li>
                             <%--                            <li class="nav-item">--%>
                             <%--                                <a class="nav-link me-2" href="#">--%>
                             <%--                                    <i class="fa fa-user opacity-6 text-dark me-1"></i>--%>
@@ -148,12 +155,11 @@
                     <!-- 로그인 폼 (왼쪽) -->
                     <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                         <div class="card card-plain">
-                            <div class="card-header pb-0 text-start">
+                            <div class="card-header pb-0 text-start" style="background-color: #FCFBFF">
                                 <h4 class="font-weight-bolder">추가 정보 입력</h4>
                                 <p class="mb-0" style="font-size: 14px">회원 가입을 하기 위해 추가 정보를 입력해주세요</p>
                             </div>
-                            <div class="card-body">
-
+                            <div class="card-body" style="background-color: #FCFBFF">
                                 <!-- 에러 메시지 출력 -->
                                 <c:if test="${not empty errorMessage}">
                                     <div class="alert alert-danger" role="alert">
@@ -187,7 +193,7 @@
                                         <input type="text" class="form-control" placeholder="Enter Name" id="name" name="userName">
                                     </div>
 
-                                    <button type="button" onclick="login.send();" class="btn btn-primary" id="regi">회원가입</button>
+                                    <button type="button" onclick="login.send();" class="btn btn-primary" style="background-color: #9042dc; width: 100%">회원가입하기</button>
                                 </form>
                             </div>
                         </div>
@@ -196,11 +202,11 @@
                     <!-- 오른쪽 이미지 (배경) -->
                     <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
                         <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
-                             style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
-                                    background-size: cover;">
+                             style="background-image: url('https://raw.githubusercontent.com/HosikKim/SmartBuilding-Management-System/refs/heads/cmlee/user/src/main/resources/static/img/photo-1478186014654-5a7e3898daa5.jpg?token=GHSAT0AAAAAAC2OQ7SK6V7QA3H3VYAZMXBKZZVTOSQ');
+                                    background-size: contain;">
                             <span class="mask bg-gradient-primary opacity-6"></span>
-                            <h4 class="mt-5 text-white font-weight-bolder position-relative">"Attention is the new currency"</h4>
-                            <p class="text-white position-relative">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
+                            <h4 class="mt-5 text-white font-weight-bolder position-relative" style="text-shadow:3px 3px #a8b8d8" >"지능형 스마트 빌딩 관리, 지금 시작하세요."</h4>
+                            <p class="text-white position-relative">에너지 최적화, 유지보수, 자동화, 사용자 편의성 극대화</p>
                         </div>
                     </div>
 

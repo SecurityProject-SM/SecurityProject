@@ -6,6 +6,11 @@ server:
     encoding:
       charset: UTF-8
       force: true
+#  ssl:
+#    enabled: true
+#    key-store: classpath:keystore.p12  # 인증서 파일 경로
+#    key-store-password: "111111"  # 인증서 생성 시 사용한 비밀번호
+#    key-store-type: PKCS12  # 인증서 유형
 
 # Spring boot environment settings
 spring:
@@ -17,11 +22,11 @@ spring:
   datasource:
     # SQL 로그를 찍기위해 위에것을 사용 실 서비스 시에는 아래 드라이버 사용
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/final_project?characterEncoding=utf8
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/smartbuilding?characterEncoding=utf8
     #    driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mysql://127.0.0.1:3306/immersive?characterEncoding=utf8
-    username: root
-    password: 1234
+    username: smuser
+    password: 111111
 
 # Mybatis settings
 mybatis:
