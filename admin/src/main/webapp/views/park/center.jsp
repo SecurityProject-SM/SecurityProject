@@ -427,6 +427,7 @@
 
 
 <div class="content-wrapper">
+    <h1 style="margin-left: 10px">주차장 관리</h1>
     <div class="row mt-3">
         <div class="park-container">
             <div class="parking-lot">

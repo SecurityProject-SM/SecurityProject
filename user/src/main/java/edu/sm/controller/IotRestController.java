@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -50,7 +48,7 @@ public class IotRestController {
 
             String iotStatus = iotService.getIotStatusById(iotId);
             if(iotStatus.equals("1")) {
-                if (valueCategory.equals("E") && iotValue >= 50) {
+                if (valueCategory.equals("E") && iotValue >= 500) {
                     IotDto BreakIot = new IotDto();
                     BreakIot.setIotId(iotId);
                     BreakIot.setIotCategory(valueCategory);
@@ -151,6 +149,8 @@ public class IotRestController {
 
         // 평균 습도 값 불러오기
         AvgTHDto avgTHData = iotHistoryService.selectAvgTH();
+
+
 
         for(IotHistoryDto data : historyLatestData){
             String category = data.getValueCategory();

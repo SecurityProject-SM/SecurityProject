@@ -49,7 +49,7 @@ logging:
 app:
   url:
 #    server-url: http://172.16.21.91:81
-    server-url: http://10.20.38.99:81
+    server-url: http://210.119.34.211:82
     chatbot: https://3vd0tljt1i.apigw.ntruss.com/custom/v1/16306/2ff9d4e7ae8c78eccb95f0cc246199873c652301b5ef2390e613074339289a77
   dir:
     imgdir: file:///c:/springsm/imgs/    # 위치가 springsm 하위가 아니어도 상관없음

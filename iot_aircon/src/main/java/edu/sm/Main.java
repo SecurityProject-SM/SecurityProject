@@ -15,21 +15,29 @@ public class Main {
         String floor = "3";
         String houseId = "H001";
         String[] category = {"E","T","H"};
-        String[] iotIds = {"IOT1", "IOT2", "IOT3", "IOT4", "IOT5", "IOT6", "IOT7"};
-        String[] iotNames = {"에어컨1", "에어컨2", "에어컨3", "에어컨4", "에어컨5", "에어컨6", "에어컨7"};
+        String[] iotIds = {"IOT1", "IOT2", "IOT3", "IOT4", "IOT5", "IOT6", "IOT7", "IOT8", "IOT9", "IOT10", "IOT11", "IOT12", "IOT13", "IOT14", "IOT15"};
+        String[] iotNames = {"에어컨1", "에어컨2", "에어컨3", "에어컨4", "에어컨5", "에어컨6", "에어컨7", "조명1", "조명2", "조명3", "조명4", "조명5", "조명6", "조명7", "조명8"};
         String[] locations = {
+                "원장실",
                 "건어물학원 강의실1",
                 "건어물학원 강의실2",
                 "건어물학원 강의실3",
                 "건어물학원 강의실4",
                 "건어물학원 강의실5",
                 "건어물학원 강의실6",
-                "건어물학원 강의실7"
+                "로비",
+                "원장실",
+                "건어물학원 강의실2",
+                "건어물학원 강의실1",
+                "건어물학원 강의실3",
+                "건어물학원 강의실4",
+                "건어물학원 강의실5",
+                "건어물학원 강의실6",
         };
         Random r = new Random();
         DecimalFormat df = new DecimalFormat( "#.##");
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 30; i++) {
 
             // ======== 전력량 데이터 ========
             for (int j = 0; j < iotIds.length; j++) {
@@ -51,7 +59,7 @@ public class Main {
             }
 
             // ======== 온도 데이터 ========
-            for (int j = 0; j < iotIds.length; j++) {
+            for (int j = 0; j < 7; j++) {
                 float value = 21.00f + r.nextFloat() * 3.00f; // 랜덤 값 생성
                 DecimalFormat dfT = new DecimalFormat( "#.#");
                 String formattedValue = dfT.format(value);
@@ -71,7 +79,7 @@ public class Main {
             }
 
             // ======== 습도 데이터 ========
-            for (int j = 0; j < iotIds.length; j++) {
+            for (int j = 0; j < 7; j++) {
                 float value = 43.00f + r.nextFloat() * 10.00f; // 랜덤 값 생성
                 DecimalFormat dfH = new DecimalFormat( "#");
                 String formattedValue = dfH.format(value);
