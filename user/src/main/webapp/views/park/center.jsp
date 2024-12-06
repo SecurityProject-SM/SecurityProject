@@ -258,6 +258,36 @@
     font-weight: 500;
   }
 
+  .btnOrange {
+    display: block;
+    position: relative;
+    float: left;
+    width: 100%;
+    padding: 0;
+    margin: 10px 20px 10px 0;
+    font-weight: 600;
+    text-align: center;
+    line-height: 50px;
+    color: #090909;
+    border-radius: 5px;
+    transition: all 0.2s;
+    border: 0.5px solid #8f8989;
+  }
+
+  .btnOrange.btnPush {
+    box-shadow: 0px 5px 0px 0px #8f8989;
+  }
+
+  .btnPush:hover {
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  .btnOrange.btnPush:hover {
+    box-shadow: 0px 0px 0px 0px #A66615;
+  }
+
+
   /* background-color: #32ec70; */
   #spot1 { top: 6px; left: 166px; }
   #spot2 { top: 6px; left: 261px; }
@@ -440,7 +470,7 @@
 
     <div class="status-box">
       <h4> 정산하기</h4>
-    <a href="<c:url value="/park/parkset"/>" class="btn btn-light" role="button" style="text-align: center">정산하기</a>
+    <a href="<c:url value="/park/parkset"/>" class="button btnPush btnOrange" role="button" style="text-align: center">정산하기</a>
     </div>
   </div>
   </div>
