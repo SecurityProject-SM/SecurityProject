@@ -363,13 +363,55 @@
     }
 
 
-    .iot-icon {
-        transition: transform 0.3s ease; /* 부드럽게 확대 효과 */
+
+    /* 컨테이너 스타일 */
+    .data-container {
+        display: flex;
+        justify-content: space-around; /* 요소 간격 균등 */
+        align-items: center;
+        width: 1116px;
+        margin-left: 30px;
+        background-color: #f8f9fa; /* 배경색 */
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+        font-family: Arial, sans-serif;
     }
 
-    .iot-icon-hover {
-        transform: scale(1.5); /* 아이콘을 1.5배 확대 */
+    .data-box {
+        flex: 1; /* 동일한 크기 */
+        text-align: left; /* 중앙 정렬 */
+        padding: 20px;
+        margin: 0 10px;
+        border-radius: 10px;
+        background-color: #ffffff; /* 박스 배경 */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
+
+    .data-box h5 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #6c757d; /* 텍스트 색상 */
+    }
+
+    .data-box h3 {
+        font-size: 28px;
+        font-weight: bold;
+        margin: 0;
+        color: #343a40;
+    }
+
+    .data-box .icon {
+        font-size: 24px;
+        color: #6c757d;
+    }
+
+    .data-box .status {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #28a745; /* 상태 텍스트 색상 */
+    }
+
 </style>
 
 <script>
@@ -479,54 +521,16 @@
                         statusHtml = `<div class="status-box status-unknown">알 수 없음</div>`;
                         break;
                 }
-
-                // // 상태에 따라 텍스트 설정
-                // switch (iotData.status) {
-                //   case "1":
-                //     statusText = "작동중";
-                //     rowClass = ""; // 기본 상태
-                //     break;
-                //   case "2":
-                //     statusText = "정지";
-                //     rowClass = ""; // 기본 상태
-                //     break;
-                //   case "3":
-                //     statusText = "고장";
-                //     rowClass = "tr-break"; // 고장 상태일 경우 클래스 추가
-                //     break;
-                //   default:
-                //     statusText = "알 수 없음";
-                //     rowClass = ""; // 기본 상태
-                //     break;
-                // }
-
-//         let row = `<tr class="\${rowClass}">
-//                 <td>\${iotId}</td>
-//                 <td>\${iotData.name}</td>
-//                 <td>\${iotData.value} kW</td>
-// <!--                <td><button onclick='showControlBox("\${iotId}")'>제어</button></td>-->
-// <!--                <td><button onclick='energy.toggleIotStatus("\${iotId}", "\${iotData.status}")'>제어</button></td>-->
-//                 <td>
-//                   <button
-//                       class="control-button"
-//                       data-iot-id="\${iotId}"
-//                       onclick='energy.toggleIotStatus("\${iotId}", "\${iotData.status}")'>
-//                       제어
-//                   </button>
-//                 </td>
-//                 <td>\${statusText}</td>
-//             </tr>`;
-//         tableBody.append(row);
                 // ON/OFF 스위치 상태 설정
                 let isChecked = iotData.status === "1" ? "checked" : "";
                 let isDisabled = iotData.status === "3" ? "disabled" : "";
 
                 let row = `<tr>
 <!--            <td>\${iotId}</td>-->
-            <td class="iot-name">\${iotData.name}</td>
+            <td class="iot-name"  style="text-align: center;">\${iotData.name}</td>
 <!--            <td>\${iotData.value} kW</td>-->
-            <td>\${statusHtml}</td>
-            <td>
+            <td style="text-align: center;">\${statusHtml}</td>
+            <td style="text-align: center;">
               <div class="model-13">
                 <div class="checkbox">
                   <input type="checkbox" id="toggle-\${iotId}" \${isChecked} \${isDisabled}
@@ -667,24 +671,43 @@
         });
     });
 </script>
-<div class="row" style="margin-top: 16px;">
-    <div class="totaldata-box" id="totalPowerBox">
-        <h5>총 전력량 <i class="bi bi-power"></i></h5>
+<%--<div class="row" style="margin-top: 16px;">--%>
+<%--    <div class="totaldata-box" id="totalPowerBox">--%>
+<%--        <h5>총 전력량 <i class="bi bi-power"></i></h5>--%>
+<%--        <h3><span id="totalPower"></span> kW</h3>--%>
+<%--    </div>--%>
+<%--    <div class="totaldata-box">--%>
+<%--        <h5>평균 온도/습도</h5>--%>
+<%--        <div style="display: flex; gap: 50px">--%>
+<%--            <p>온도</p>--%>
+<%--            <p>습도</p>--%>
+<%--        </div>--%>
+<%--        <h3><span id="avgTemp"></span>°C <span id="avgHumidity"></span>%</h3>--%>
+
+<%--    </div>--%>
+<%--    <div class="totaldata-box">--%>
+<%--        <h5>조명</h5>--%>
+<%--        <h3 style="">4 / 8</h3>--%>
+<%--        &lt;%&ndash;    <span id=></span> 개 켜짐&ndash;%&gt;--%>
+<%--    </div>--%>
+<%--</div>--%>
+<div class="data-container">
+    <!-- 전력량 박스 -->
+    <div class="data-box">
+        <h5>총 전력량 <i class="icon fa fa-bolt"></i></h5>
         <h3><span id="totalPower"></span> kW</h3>
     </div>
-    <div class="totaldata-box">
-        <h5>평균 온도/습도</h5>
-        <div style="display: flex; gap: 50px">
-            <p>온도</p>
-            <p>습도</p>
-        </div>
-        <h3><span id="avgTemp"></span>°C <span id="avgHumidity"></span>%</h3>
 
+    <!-- 온도/습도 박스 -->
+    <div class="data-box">
+        <h5>평균 온도/습도</h5>
+        <h3><span id="avgTemp"></span>°C <span id="avgHumidity" style="margin-left: 20px"></span>%</h3>
     </div>
-    <div class="totaldata-box">
-        <h5>조명</h5>
-        <h3 style="">4 / 8</h3>
-        <%--    <span id=></span> 개 켜짐--%>
+
+    <!-- 조명 상태 박스 -->
+    <div class="data-box">
+        <h5>조명 상태</h5>
+        <h3>0 / 4</h3>
     </div>
 </div>
 <div class="energy-container">
@@ -712,8 +735,8 @@
 
         <div class="card-header pb-0">
             <h4>IoT 기기 전력량</h4>
-            <button onclick="filterIcons('all')">전체 보기</button>
-            <button onclick="filterIcons('lamp')">조명만 보기</button>
+            <button onclick="filterIcons('all')" style="margin-right: 10px">전체 보기</button>
+            <button onclick="filterIcons('lamp')" style="margin-right: 10px">조명만 보기</button>
             <%--      <div class="model-13">--%>
             <%--        <div class="checkbox">--%>
             <%--          <input type="checkbox" id="toggle-onoff" />--%>
@@ -721,7 +744,6 @@
             <%--        </div>--%>
             <%--      </div>--%>
             <button onclick="filterIcons('aircon')">에어컨만 보기</button>
-            <button onclick="filterIcons('11')">온습도 보기</button>
 
         </div>
         <div class="card-body px-0 pt-0 pb-2">
@@ -730,10 +752,10 @@
                     <thead>
                     <tr>
                         <%--            <th>IoT아이디</th>--%>
-                        <th>이름</th>
+                        <th style="text-align: center;">이름</th>
                         <%--            <th>사용전력</th>--%>
-                        <th>상태</th>
-                        <th>제어</th>
+                        <th style="text-align: center;">상태</th>
+                        <th style="text-align: center;">제어</th>
                     </tr>
                     </thead>
                     <tbody id="iotTableBody">
