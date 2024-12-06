@@ -124,13 +124,13 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navigation">
                         <ul class="navbar-nav mx-auto">
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center me-2 active" aria-current="page"
-                                   href="<c:url value="/"/> ">
-                                    <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-                                    메인 페이지
-                                </a>
-                            </li>
+<%--                            <li class="nav-item">--%>
+<%--                                <a class="nav-link d-flex align-items-center me-2 active" aria-current="page"--%>
+<%--                                   href="<c:url value="/"/> ">--%>
+<%--                                    <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>--%>
+<%--                                    메인 페이지--%>
+<%--                                </a>--%>
+<%--                            </li>--%>
 <%--                            <li class="nav-item">--%>
 <%--                                <a class="nav-link me-2" href="#">--%>
 <%--                                    <i class="fa fa-user opacity-6 text-dark me-1"></i>--%>

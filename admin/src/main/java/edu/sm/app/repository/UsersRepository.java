@@ -1,6 +1,5 @@
 package edu.sm.app.repository;
 
-import edu.sm.app.dto.NoticeDto;
 import edu.sm.app.dto.Search;
 import edu.sm.app.dto.UsersDto;
 import edu.sm.app.frame.SBRepository;

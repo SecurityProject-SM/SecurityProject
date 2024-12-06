@@ -21,7 +21,7 @@ class ChatbotTest {
     void contextLoads() throws Exception {
         String msg = "주차정산";
         String result = ChatBotUtil.getMsgUrl(url, key, msg);
-        log.info(result);
+        log.info("실행 결과 : " + result);
     }
 
 }
