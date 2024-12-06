@@ -355,6 +355,7 @@
             // }
             if (spotElement) {
               if(park.parkStat==true){
+                // spotElement.style.backgroundColor = "#32ec70";
                 spotElement.style.backgroundColor = "#32ec70";
                 spotElement.style.backgroundImage = ""; // 기존 이미지를 제거
                 spotElement.style.opacity = "0.6"; // 기존 투명도 초기화

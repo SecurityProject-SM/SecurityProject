@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -50,8 +47,8 @@ public class IotRestController {
 
 
             String iotStatus = iotService.getIotStatusById(iotId);
-            if (iotStatus.equals("1")) {
-                if (valueCategory.equals("E") && iotValue >= 50) {
+            if(iotStatus.equals("1")) {
+                if (valueCategory.equals("E") && iotValue >= 500) {
                     IotDto BreakIot = new IotDto();
                     BreakIot.setIotId(iotId);
                     BreakIot.setIotCategory(valueCategory);
