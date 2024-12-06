@@ -115,6 +115,22 @@
             color: #718096;
             font-size: 1.1rem;
         }
+
+
+        /* navbar 브랜드 스타일 강화 */
+        .navbar-brand {
+            display: flex !important;  /* !important로 강제 적용 */
+            align-items: center !important;
+            text-decoration: none;
+        }
+
+        .navbar-brand span {
+            display: inline-block !important;
+            vertical-align: middle !important;
+        }
+
+
+
     </style>
 </head>
 <body class="bg-gray-50">
