@@ -228,6 +228,7 @@
         object-fit: cover;
     }
 
+
     .camera-overlay {
         position: absolute;
         top: 0;
