@@ -169,6 +169,111 @@
 
 </style>
 
+<%--CCTV--%>
+<style>
+    .surveillance-dashboard {
+        background: #1a1f2d;
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .surveillance-dashboard .card-header {
+        background: #242a38;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .surveillance-dashboard .card-header h6 {
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #8a9ab0;
+        font-size: 0.875rem;
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        background: #00ff4c;
+        border-radius: 50%;
+        display: inline-block;
+        animation: pulse 2s infinite;
+    }
+
+    .camera-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .camera-feed {
+        position: relative;
+        aspect-ratio: 16/9;
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .camera-feed img,
+    .camera-feed .webcam-container {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .camera-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 8px;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        z-index: 1;
+    }
+
+    .camera-label {
+        color: #fff;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .timestamp {
+        color: #ff3a3a;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: rgba(255,0,0,0.2);
+        padding: 2px 8px;
+        border-radius: 4px;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0, 255, 76, 0.4);
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(0, 255, 76, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 255, 76, 0);
+        }
+    }
+
+    /* 다크 모드 스타일 */
+    .camera-feed:hover .camera-overlay {
+        background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 100%);
+    }
+</style>
+
 <script>
     let chart = {
         chartInstance: null,
@@ -546,26 +651,77 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-5">
-            <div class="card card-carousel overflow-hidden h-100 p-0">
-                <div class="card-header pb-0 pt-3 bg-transparent">
-                    <h6 class="text-capitalize">(여기 뭐라그래야 하냐)</h6>
-                </div>
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div style="width: 50%;">
-                            <jsp:include page="webcam.jsp"/>
-                        </div>
-                        <img src="/img/cctv3.jpeg" style="width: 50%">
-                    </div>
-                    <div class="row">
-                        <img src="/img/cctv1.gif" style="width: 50%">
-                        <img src="/img/cctv2.gif" style="width: 50%">
-                    </div>
-                </div>
+<%--        <div class="col-lg-5">--%>
+<%--            <div class="card card-carousel overflow-hidden h-100 p-0">--%>
+<%--                <div class="card-header pb-0 pt-3 bg-transparent">--%>
+<%--                    <h6 class="text-capitalize">(여기 뭐라그래야 하냐)</h6>--%>
+<%--                </div>--%>
+<%--                <div class="card-body p-3">--%>
+<%--                    <div class="row">--%>
+<%--                        <div style="width: 50%;">--%>
+<%--                            <jsp:include page="webcam.jsp"/>--%>
+<%--                        </div>--%>
+<%--                        <img src="/img/cctv3.jpeg" style="width: 50%">--%>
+<%--                    </div>--%>
+<%--                    <div class="row">--%>
+<%--                        <img src="/img/cctv1.gif" style="width: 50%">--%>
+<%--                        <img src="/img/cctv2.gif" style="width: 50%">--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
+<%--            </div>--%>
+<%--        </div>--%>
+        <div class="col-lg-5">
+            <div class="card surveillance-dashboard">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">실시간 보안 모니터링</h6>
+                            <small class="text-muted">Live Security Feed</small>
+                        </div>
+                        <div class="status-indicator">
+                            <span class="status-dot"></span>
+                            실시간 모니터링 중
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-2">
+                    <div class="camera-grid">
+                        <div class="camera-feed main-feed">
+                            <div class="camera-overlay">
+                                <span class="camera-label">CAM 01 - 정문</span>
+                                <span class="timestamp">LIVE</span>
+                            </div>
+                            <div class="webcam-container">
+                                <jsp:include page="webcam.jsp"/>
+                            </div>
+                        </div>
+                        <div class="camera-feed">
+                            <div class="camera-overlay">
+                                <span class="camera-label">CAM 02 - 복도</span>
+                                <span class="timestamp">LIVE</span>
+                            </div>
+                            <img src="/img/cctv3.jpeg" alt="CCTV Feed 2">
+                        </div>
+                        <div class="camera-feed">
+                            <div class="camera-overlay">
+                                <span class="camera-label">CAM 03 - 강의실 A</span>
+                                <span class="timestamp">LIVE</span>
+                            </div>
+                            <img src="/img/cctv1.gif" alt="CCTV Feed 3">
+                        </div>
+                        <div class="camera-feed">
+                            <div class="camera-overlay">
+                                <span class="camera-label">CAM 04 - 강의실 B</span>
+                                <span class="timestamp">LIVE</span>
+                            </div>
+                            <img src="/img/cctv2.gif" alt="CCTV Feed 4">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="row mt-4">
             <div class="col-lg-7 mb-lg-0 mb-4">
                 <div class="card">

@@ -230,11 +230,6 @@
         box-sizing: border-box;
     }
 
-    body {
-        text-align: center;
-        background: #eee;
-    }
-
     section {
         float: left;
         min-width: 150px;

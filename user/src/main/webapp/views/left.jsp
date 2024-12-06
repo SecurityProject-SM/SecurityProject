@@ -16,11 +16,6 @@
     <title>Title</title>
 </head>
 
-<style>
-    .ms-2 {
-        margin-left: -12.5rem !important;
-    }
-</style>
 
 <script>
 </script>
