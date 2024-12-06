@@ -427,6 +427,8 @@
     let currentFilter = 'all'; //현재 필터값을 위한 값
     let energy = {
 
+        totalLights: 8, // 전체 조명 수
+
         intervalId: null, // 반복 통신을 위한 ID
         isPowerBoxActive: false, // 클릭 상태 확인 변수
         init: function () {
@@ -445,9 +447,14 @@
                 dataType: "json",
                 success: function (data) {
 
-                    data.forEach(function (iot) {
-                        let element = document.getElementById(iot.iotId);
+                    let lightsOn = 0; // 켜진 조명의 갯수 초기화
 
+                    data.forEach(function (iot) {
+                        if (iot.deviceType === "LAMP" && iot.iotStatus === "1") {
+                            lightsOn++; // 켜진 조명 카운트 증가
+                        }
+
+                        let element = document.getElementById(iot.iotId);
                         if (element) {
 
                             let deviceType = element.classList.contains('iot-aircon') ? 'aircon'
@@ -470,6 +477,8 @@
                             console.warn(`Element with id ${iot.iotId} not found.`);
                         }
                     });
+                    // 켜진 조명 상태를 UI에 업데이트
+                    $("#lightsOn").text(lightsOn); // 켜진 조명 갯수 업데이트
                 },
                 error: function (error) {
                     console.error("IoT 상태 불러오기 오류:", error);
@@ -707,7 +716,7 @@
     <!-- 조명 상태 박스 -->
     <div class="data-box">
         <h5>조명 상태</h5>
-        <h3>0 / 4</h3>
+        <h3><span id="lightsOn"></span> / 8</h3>
     </div>
 </div>
 <div class="energy-container">
