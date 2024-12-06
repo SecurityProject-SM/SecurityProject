@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @Slf4j
@@ -29,8 +30,8 @@ public class ParkRestController {
         JSONObject obj = new JSONObject();
         LocalDateTime now = LocalDateTime.now();
         // {'ctime', '2023-12-12'}
-        obj.put("cday", DateTimeFormatter.ofPattern("yyyy-MM-dd EEEE").format(now));
-        obj.put("ctime", DateTimeFormatter.ofPattern("HH:mm:ss").format(now));
+        obj.put("cday", DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 EEEE").format(now));
+        obj.put("ctime", DateTimeFormatter.ofPattern("a hh:mm:ss").format(now));
         return obj;
     }
 
