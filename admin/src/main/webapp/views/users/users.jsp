@@ -14,6 +14,11 @@
 </head>
 
 <style>
+    .page_info {
+        border-right: 2px solid whitesmoke;
+        height: 200px;
+    }
+
     .room-header {
         display: flex;
         justify-content: space-between;
@@ -131,20 +136,28 @@
 
             <div class="row mt-3">
                 <div class="col-lg-10 mx-auto">
-                    <div class="alarm-container">
-                        <h3>알람 띄울거임</h3>
-                        <c:forEach var="d" items="${rentCalc}">
-                            <div class="rent_calc">
-                                <div class="row" style="margin-left: 10px; justify-content: space-between">
-                                    <h4>${d.room}호</h4>
-                                    <h4>${d.edday}</h4>
+                    <div class="row" style="justify-content: space-between">
+                        <div class="page_info">
+                            <h2 style="margin-top: 50px; margin-right: 300px">회원관리</h2>
+                        </div>
+                        <div class="alarm-container">
+                            <c:forEach var="d" items="${rentCalc}">
+                                <div class="rent_calc"
+                                     style="display: flex; margin: 10px; align-items: center; border: 1px solid #ccc; border-radius: 5px; overflow: hidden;">
+                                    <div style="background-color: yellow; width: 7px; height: 121px;"></div>
+
+                                    <div style="padding: 10px; flex: 1;">
+                                        <h4 style="margin: 0; font-weight: bold;">${d.room}호</h4>
+                                        <p style="margin: 5px 0 0 0;">${d.room}호 계약만료가 얼마 남지 않았습니다. <br> 계약
+                                            종료일: ${d.edday}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </c:forEach>
+                            </c:forEach>
+                        </div>
                     </div>
 
 
-                    <div class="container">
+                    <div class="container" style="margin-top: 100px">
                         <c:forEach var="floor" items="${ghtlf}">
                             <div class="floor-row">
                                 <div class="room-container">
