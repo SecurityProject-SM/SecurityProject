@@ -26,9 +26,8 @@
 
     .container {
         max-width: 1200px; /* 전체 컨테이너 최대 너비 설정 */
-        margin: ;
         padding: 1rem;
-        background-color: #8440aa;
+        background: linear-gradient(145deg, #eef2f7 0%, #dde4ec 100%);
         border-radius: 20px;
     }
 
@@ -808,7 +807,7 @@
                         </div>
                     </div>
 
-                    <!-- 입주자 설정 -->
+                    <%--<!-- 입주자 설정 -->
                     <div class="settings-section">
                         <h3>스마트홈 설정</h3>
                         <div class="settings-grid">
@@ -847,7 +846,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>--%>
 
                     <div class="form-actions">
                         <button type="button" id="update_btn" class="save-button">
