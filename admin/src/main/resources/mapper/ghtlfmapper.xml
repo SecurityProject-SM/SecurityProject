@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.sm.app.repository.GhtlfRepository">
+
+    <select id="select" resultType="edu.sm.app.dto.GhtlfDto">
+        SELECT * FROM ghtlf
+    </select>
+
+    <select id="selectOne" resultType="edu.sm.app.dto.GhtlfDto">
+        SELECT * FROM ghtlf WHERE ghtlfid=#{ghtlfid}
+    </select>
+
+    <update id="updateus" parameterType="edu.sm.app.dto.GhtlfDto">
+        UPDATE ghtlf
+        SET
+            bname = #{bname},
+            room = #{room},
+            dlfma = #{dlfma},
+            tel = #{tel}
+        WHERE
+            ghtlfid = #{ghtlfid}
+    </update>
+
+    <update id="updatect" parameterType="GhtlfDto">
+        UPDATE ghtlf
+        SET
+            stday = #{stday},
+            edday = #{edday},
+            deposit = #{deposit},
+            dnjftp = #{dnjftp}
+        WHERE
+            ghtlfid = #{ghtlfid}
+    </update>
+
+    <select id="rentcalc" resultType="edu.sm.app.dto.GhtlfDto">
+        SELECT room, edday FROM ghtlf WHERE edday &gt; CURRENT_DATE() AND edday &lt; DATE_ADD(CURRENT_DATE(), INTERVAL 2 MONTH)
+    </select>
+
+
+
+
+
+
+
+</mapper>

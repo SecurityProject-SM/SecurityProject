@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -47,8 +50,8 @@ public class IotRestController {
 
 
             String iotStatus = iotService.getIotStatusById(iotId);
-            if(iotStatus.equals("1")) {
-                if (valueCategory.equals("E") && iotValue >= 500) {
+            if (iotStatus.equals("1")) {
+                if (valueCategory.equals("E") && iotValue >= 50) {
                     IotDto BreakIot = new IotDto();
                     BreakIot.setIotId(iotId);
                     BreakIot.setIotCategory(valueCategory);
@@ -87,7 +90,7 @@ public class IotRestController {
                     .build();
             iotHistoryService.add(historyDto);
             return "Data saved successfully";
-        }catch(Exception e){
+        } catch (Exception e) {
             log.error("Error processing Iot data", e);
             return "Error processing Iot data";
         }
@@ -126,11 +129,11 @@ public class IotRestController {
     // IoT 상태 조회 API
     @RequestMapping("/getIotStatus")
     @ResponseBody
-    public List<Map<String,Object>> getIotStatus() throws Exception {
+    public List<Map<String, Object>> getIotStatus() throws Exception {
         List<IotDto> iotList = iotService.get(); // IoT 상태 조회
-        List<Map<String,Object>> result = new ArrayList<>();
+        List<Map<String, Object>> result = new ArrayList<>();
         for (IotDto iot : iotList) {
-            Map<String,Object> obj = new HashMap<>();
+            Map<String, Object> obj = new HashMap<>();
             obj.put("iotId", iot.getIotId());
             obj.put("iotStatus", iot.getIotStatus()); // 1:on 2:off 3:break
             result.add(obj);
@@ -139,8 +142,8 @@ public class IotRestController {
     }
 
     @RequestMapping("/latestData2")
-    public Map<String,Object> getLatestData2() throws Exception {
-        Map<String,Map<String,Map<String,Object>>> latestPowerData = new HashMap<>();
+    public Map<String, Object> getLatestData2() throws Exception {
+        Map<String, Map<String, Map<String, Object>>> latestPowerData = new HashMap<>();
         latestPowerData.put("T", new HashMap<>());
         latestPowerData.put("H", new HashMap<>());
         latestPowerData.put("E", new HashMap<>());
@@ -150,18 +153,16 @@ public class IotRestController {
         // 평균 습도 값 불러오기
         AvgTHDto avgTHData = iotHistoryService.selectAvgTH();
 
-
-
-        for(IotHistoryDto data : historyLatestData){
+        for (IotHistoryDto data : historyLatestData) {
             String category = data.getValueCategory();
-            if(!latestPowerData.containsKey(category)) continue;
+            if (!latestPowerData.containsKey(category)) continue;
 
             String iotId = data.getIotId();
-    //        if(latestPowerData.get(category).containsKey(iotId)) continue;
+            //        if(latestPowerData.get(category).containsKey(iotId)) continue;
 
             Map<String, Object> iotData = new HashMap<>();
             iotData.put("value", data.getIotValue());
-            iotData.put("name",data.getIotName());
+            iotData.put("name", data.getIotName());
             iotData.put("id", iotId);
             iotData.put("status", data.getIotStatus());
 
@@ -171,14 +172,14 @@ public class IotRestController {
 
         Float totalPower = latestPowerData.get("E").values().stream()
                 .map(data -> (Float) ((Double) data.get("value")).floatValue())
-                .reduce(0.0f,Float::sum);
+                .reduce(0.0f, Float::sum);
 
         DecimalFormat df = new DecimalFormat("#.##");
         Float formattedTotalPower = Float.parseFloat(df.format(totalPower));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("latestData",latestPowerData);
-        result.put("totalPower",formattedTotalPower);
+        result.put("latestData", latestPowerData);
+        result.put("totalPower", formattedTotalPower);
 
         // 평균 온도와 습도 데이터를 Map에 추가
         Map<String, Object> avgData = new HashMap<>();
@@ -188,8 +189,6 @@ public class IotRestController {
 
         return result;
     }
-
-
 
     @RequestMapping("/mainpage")
     public ResponseEntity<Double> getElec() throws Exception {
@@ -201,6 +200,7 @@ public class IotRestController {
     public ResponseEntity<Map<String, Object>> getChartData() {
         try {
             Map<String, Object> chartData = iotHistoryService.chartdata();
+            log.info("chartdata : " + chartData);
             return ResponseEntity.ok(chartData);
         } catch (Exception e) {
             log.error("Error fetching chart data", e);
@@ -208,4 +208,26 @@ public class IotRestController {
         }
     }
 
+
+    @RequestMapping("/monthelec")
+    public ResponseEntity<List<Map<String, Object>>> getMonthlyElectricityUsage() {
+        try {
+            List<Map<String, Object>> monthlyElectricityUsage = iotHistoryService.monthelec();
+            return ResponseEntity.ok(monthlyElectricityUsage); // JSON 반환
+        } catch (Exception e) {
+            log.error("Error fetching monthly electricity usage", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+    @RequestMapping("/hum")
+    public Double getCurrentHumidity() throws Exception {
+        return iotHistoryService.getCurHum();
+    }
+
+    @RequestMapping("temp")
+    public Double getCurrentTemperature() throws Exception {
+        return iotHistoryService.getCurTemp();
+    }
 }

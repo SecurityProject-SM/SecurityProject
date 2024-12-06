@@ -65,4 +65,16 @@ public class IotHistoryService implements SBService<Integer, IotHistoryDto> {
         return rawData;
     }
 
+    public List<Map<String, Object>> monthelec() throws Exception {
+        return iotHistoryRepository.monthelec();
+    }
+
+    public Double getCurTemp() throws Exception {
+        return iotHistoryRepository.curtemp();
+    }
+
+    public Double getCurHum() throws Exception {
+        return iotHistoryRepository.curhum();
+    }
+
 }
