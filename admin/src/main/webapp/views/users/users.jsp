@@ -133,7 +133,6 @@
 
     <div class="content-wrapper">
         <div class="container-fluid">
-            <h1 style="margin-left: 10px">회원 관리</h1>
             <div class="row mt-3">
                 <div class="col-lg-10 mx-auto">
                     <div class="row" style="justify-content: space-between">
