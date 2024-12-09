@@ -16,8 +16,6 @@
     <title>Title</title>
 </head>
 
-<style>
-</style>
 
 <script>
 </script>
@@ -41,7 +39,7 @@
             <li class="nav-item">
                 <a class="nav-link active" href="<c:url value="/"/>">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+                        <i class="bi bi-house text-dark text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">대시보드</span>
                 </a>
@@ -74,7 +72,7 @@
             <li class="nav-item">
                 <a class="nav-link " href="<c:url value="/energy/info"/> ">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="bi bi-asterisk text-dark text-sm opacity-10"></i> <!-- 공지사항 아이콘 -->
+                        <i class="bi bi-file-earmark-bar-graph-fill text-dark text-sm opacity-10"></i> <!-- 공지사항 아이콘 -->
                     </div>
                     <span class="nav-link-text ms-1">전월대비d</span>
                 </a>

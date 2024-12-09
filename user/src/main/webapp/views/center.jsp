@@ -61,8 +61,6 @@
 
 
     /* 날씨 */
-
-
     .weather-icon {
         width: 70px;
         height: 70px;
