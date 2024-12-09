@@ -490,7 +490,6 @@
             const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
             const message = `남은 일수: ${daysRemaining}`;
 
-            // 콘솔 출력
             console.log(message);
 
             // HTML 요소에 값 업데이트
