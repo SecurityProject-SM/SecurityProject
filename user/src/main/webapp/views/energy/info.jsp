@@ -160,6 +160,7 @@
             const ratePer100Kw = 10000; // 100kW당 비용
             const estimatedPrice = (latval / 100) * ratePer100Kw;
             const formattedPrice = estimatedPrice.toLocaleString();
+            console.log("전기세" + formattedPrice);
 
             $('#elecprice').html('예상 전기료: <strong>' + formattedPrice + '</strong>원');
         }
@@ -184,7 +185,7 @@
 
                     const months = data.map(item => item.month);
                     const values = data.map(item => parseFloat(item.total_value));
-                    electable.tb(months, values);
+                    // electable.tb(months, values);
 
                     const avg = values.reduce((acc, val) => acc + val, 0) / values.length;
                     const latval = values[values.length - 1];
@@ -497,7 +498,7 @@
 
             <div class="card-content">
                 <div class="usage-info">
-                    <div class="main-value">23,047.16 kWh</div>
+                    <div class="main-value" id="latestValue">-- kWh</div>
                     <div class="sub-value">이번달 사용량</div>
                 </div>
                 <div class="progress-container">
@@ -522,11 +523,11 @@
             <div class="card-content">
                 <div class="env-stats">
                     <div class="temp-stat">
-                        <div class="value" id="temp">22.4°C</div>
+                        <div class="value" id="temp">--°C</div>
                         <div class="label">온도</div>
                     </div>
                     <div class="humidity-stat">
-                        <div class="value" id="hum">46.0%</div>
+                        <div class="value" id="hum">--%</div>
                         <div class="label">습도</div>
                     </div>
                 </div>
@@ -541,7 +542,7 @@
                 </div>
             </div>
             <div class="card-content">
-                <div id="elecprice" class="cost-value">2,304,716원</div>
+                <div id="elecprice" class="cost-value"></div>
                 <div class="trend">
                     <span class="trend-icon2 up">↑</span>
                     <span class="trend-value">5.2% 전월 대비</span>
