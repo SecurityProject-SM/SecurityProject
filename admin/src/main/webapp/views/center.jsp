@@ -10,6 +10,12 @@
 <html>
 <head>
     <title>Title</title>
+    <meta charset='utf-8'/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.15/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales/ko.global.min.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <style>
@@ -137,10 +143,80 @@
         }
     };
 
+    // 캘린더 객체 정의
+    let calendar = {
+        init: function () {
+            // calendar div 요소를 가져옴
+            var calendarEl = document.getElementById('calendar');
+            // FullCalendar 인스턴스 생성
+            var calendarInstance = new FullCalendar.Calendar(calendarEl, {
+                // 캘린더 헤더 툴바 설정
+                headerToolbar: {
+                    left: '',  // 왼쪽 영역 비움
+                    center: 'title', // 중앙에 타이틀 표시
+                    right: 'prev,next myCustomButton' // 오른쪽에 이전/다음 버튼과 커스텀 버튼
+                },
+                // 새 일정 추가 버튼 설정
+                customButtons: {
+                    myCustomButton: {
+                        text: '➕ 새 일정',
+                        click: function () {
+                            // 구글 캘린더 일정 추가 페이지를 새 탭으로 열기
+                            const calendarId = '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com';
+                            window.open(`https://calendar.google.com/calendar/u/0/r/eventedit?cid=${calendarId}`, '_blank');
+                        }
+                    }
+                },
+                initialView: 'dayGridMonth', // 월간 뷰로 초기화
+                googleCalendarApiKey: 'AIzaSyAw5ATyRPtGDxeZLu5GoPjqZCENrKLoxuw', // 구글 캘린더 API 키
+                // 구글 캘린더 이벤트 소스 설정
+                eventSources: [{
+                    googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com',
+                    success: (events) => {
+                        console.log('구글 캘린더 이벤트 로드 성공:', events);  // 추가
+                        this.updateEventList(calendarInstance);
+                    },
+                    failure: function (error) {
+                        console.log('구글 캘린더 로드 실패:', error);  // 추가
+                    }
+                }],
+                locale: 'ko', // 한국어 설정
+            });
+
+            // 캘린더 렌더링
+            calendarInstance.render();
+            // DB 이벤트 로드
+            this.getEvents(calendarInstance);
+        },
+        // DB값 가져오기
+        getEvents: function (calendarInstance) {
+            $.ajax({
+                url: '/getrepairs',
+                type: 'GET',
+                success: (result) => {
+                    console.log(result);
+                    result.repairsData.forEach((repair) => {
+                        calendarInstance.addEvent({
+                            title: '[유지보수] ' + repair.repairLoc,
+                            start: repair.repairStart,
+                            backgroundColor: repair.repairStat === 'A' ? '#E74C3C' : '#3498DB',
+                            extendedProps: {
+                                isDBEvent: true,
+                                repairId: repair.repairId,
+                                repairStat: repair.repairStat
+                            }
+                        });
+                    });
+                    this.updateEventList(calendarInstance);
+                }
+            });
+        },
+    };
 
     $(function () {
         userchat.init();
-    })
+        calendar.init();
+    });
 </script>
 
 <body>
@@ -154,38 +230,46 @@
                 <div class="row row-group m-0">
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">9526 <span class="float-right"><i class="fa fa-shopping-cart"></i></span></h5>
+                            <h5 class="text-white mb-0">9526 <span class="float-right"><i
+                                    class="fa fa-shopping-cart"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Total Orders <span class="float-right">+4.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">Total Orders <span class="float-right">+4.2% <i
+                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">8323 <span class="float-right"><i class="fa fa-usd"></i></span></h5>
+                            <h5 class="text-white mb-0">8323 <span class="float-right"><i class="fa fa-usd"></i></span>
+                            </h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Total Revenue <span class="float-right">+1.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">Total Revenue <span class="float-right">+1.2% <i
+                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">6200 <span class="float-right"><i class="fa fa-eye"></i></span></h5>
+                            <h5 class="text-white mb-0">6200 <span class="float-right"><i class="fa fa-eye"></i></span>
+                            </h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Visitors <span class="float-right">+5.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">Visitors <span class="float-right">+5.2% <i
+                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">5630 <span class="float-right"><i class="fa fa-envira"></i></span></h5>
+                            <h5 class="text-white mb-0">5630 <span class="float-right"><i
+                                    class="fa fa-envira"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Messages <span class="float-right">+2.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">Messages <span class="float-right">+2.2% <i
+                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
                 </div>
@@ -198,15 +282,19 @@
                     <div class="card-header">Site Traffic
                         <div class="card-action">
                             <div class="dropdown">
-                                <a href="<c:url value="/javascript:void();"/>" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                                <a href="<c:url value="/javascript:void();"/>"
+                                   class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
                                     <i class="icon-options"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else here</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another
+                                        action</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else
+                                        here</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated link</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated
+                                        link</a>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +313,8 @@
                         <div class="col-12 col-lg-4">
                             <div class="p-3">
                                 <h5 class="mb-0">45.87M</h5>
-                                <small class="mb-0">Overall Visitor <span> <i class="fa fa-arrow-up"></i> 2.43%</span></small>
+                                <small class="mb-0">Overall Visitor <span> <i
+                                        class="fa fa-arrow-up"></i> 2.43%</span></small>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -237,7 +326,8 @@
                         <div class="col-12 col-lg-4">
                             <div class="p-3">
                                 <h5 class="mb-0">245.65</h5>
-                                <small class="mb-0">Pages/Visit <span> <i class="fa fa-arrow-up"></i> 5.62%</span></small>
+                                <small class="mb-0">Pages/Visit <span> <i
+                                        class="fa fa-arrow-up"></i> 5.62%</span></small>
                             </div>
                         </div>
                     </div>
@@ -250,15 +340,19 @@
                     <div class="card-header">Weekly sales
                         <div class="card-action">
                             <div class="dropdown">
-                                <a href="<c:url value="/javascript:void();"/>" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                                <a href="<c:url value="/javascript:void();"/>"
+                                   class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
                                     <i class="icon-options"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else here</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another
+                                        action</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else
+                                        here</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated link</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated
+                                        link</a>
                                 </div>
                             </div>
                         </div>
@@ -298,39 +392,22 @@
             </div>
         </div><!--End Row-->
 
+        <%--캘린더 영역 시작--%>
         <div class="row">
             <div class="col-12 col-lg-12">
                 <div class="card">
-                    <div class="card-header">Recent Order Tables
-
-                    </div>
-                    <div class="content-wrapper">
-                        <div class="row" style="display: flex; height: 100vh;">
-                            <!-- 캘린더 영역 -->
-                            <div class="col-sm-8">
-                                <div id='calendar' style="width: 90%; height: 90%; margin: 20px auto;"></div>
-                            </div>
-
-                            <!-- 예정된 일정 영역 -->
-                            <div class="col-sm-4" style="display: flex; align-items: center;">
-                                <div class="schedule-sidebar" style="width: 90%; height: 90%; margin: 20px auto;">
-                                    <div class="event-list-container">
-                                        <div class="schedule-title-container">
-                                            <h5 class="schedule-title">예정된 일정</h5>
-                                        </div>
-                                        <div class="schedule-list-container">
-                                            <div id="eventList" class="schedule-list">
-                                                <!-- 여기에 일정이 동적으로 추가됨 -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="card-header">유지보수 일정</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div id='calendar' style="width: 100%; min-height: 600px;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div><!--End Row-->
+        </div>
+        <%--캘린더 영역 끝--%>
 
         <div id="chat-button" class="floating-button">
             💬
@@ -341,7 +418,7 @@
                 <span>Chat</span>
                 <button id="close-chat">X</button>
             </div>
-            <div class="chat-body" >
+            <div class="chat-body">
                 <jsp:include page="chat.jsp"/>
             </div>
         </div>
