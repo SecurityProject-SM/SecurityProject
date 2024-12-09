@@ -78,6 +78,12 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+    .col-sm-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+        height: 90%;
+    }
+
 </style>
 
 <body>
