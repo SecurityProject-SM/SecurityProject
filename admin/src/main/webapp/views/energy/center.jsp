@@ -1,10 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
   <title>Building Floor Overlay</title>
+
+
   <style>
+
     /* 전체 컨테이너 */
     .main-container {
       display: flex;
@@ -12,20 +16,10 @@
       width: 100%;
       height: 100vh;
     }
+
     /* 오른쪽 정보 패널 */
     .info-panel {
-      /*position: relative;*/
-      /*display: -ms-flexbox;*/
-      /*display: flex;*/
-      /*-ms-flex-direction: column;*/
-      /*flex-direction: column;*/
-      /*min-width: 0;*/
-      /*word-wrap: break-word;*/
-      /*background-color: #fff;*/
-      /*background-clip: border-box;*/
-      /*border: 1px solid rgba(0, 0, 0, 0.125);*/
-      /*border-radius: 0.25rem;*/
-
+      overflow-y: auto; /* 내부 콘텐츠가 panel 크기를 초과할 경우 스크롤 생성 */
       margin-bottom: 25px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       border: none;
@@ -35,10 +29,7 @@
 
       width: 50%;
       padding: 20px;
-      /*background-color: #f9f9f9;*/
-      /*border-left: 1px solid #ddd;*/
-      /*overflow-y: auto;*/
-      height: 400px;
+      height: 500px;
     }
 
     .info-panel h2 {
@@ -238,126 +229,13 @@
       filter: invert(31%) sepia(97%) saturate(375%) hue-rotate(82deg) brightness(94%) contrast(92%);}
   </style>
 
+
+
   <script>
-    // let buildingEnergy = {
-    //   intervalId: null, // 주기적으로 데이터를 갱신하기 위한 Interval ID
-    //   selectedFloor: null, // 클릭한 층을 저장
-    //
-    //   init: function () {
-    //     this.initClickEvents(); // 클릭 이벤트 초기화
-    //     this.startRealTimeUpdates(); // 모든 층에 대해 실시간 업데이트 시작
-    //   },
-    //
-    //   startRealTimeUpdates: function () {
-    //     if (this.intervalId) {
-    //       clearInterval(this.intervalId); // 이전 interval 중지
-    //     }
-    //
-    //     this.fetchAllFloorData(); // 초기 데이터 로드
-    //     this.intervalId = setInterval(() => {
-    //       this.fetchAllFloorData(); // 주기적으로 데이터 갱신
-    //     }, 10000); // 3초마다 갱신
-    //   },
-    //
-    //   initClickEvents: function () {
-    //     const floors = document.querySelectorAll('.floor');
-    //     floors.forEach(floor => {
-    //       floor.addEventListener('click', () => {
-    //         this.selectedFloor = floor.dataset.floor; // 클릭한 층 저장
-    //         this.updateSelectedFloorData(); // 클릭한 층 데이터 업데이트
-    //       });
-    //     });
-    //   },
-    //
-    //   fetchAllFloorData: function () {
-    //     $.ajax({
-    //       url: '/getFloorStats',
-    //       method: 'GET',
-    //       dataType: 'json',
-    //       success: (data) => {
-    //         data.buildingStats.forEach(floorData => {
-    //           this.updateFloorColor(floorData.floor, floorData.totalPower); // 각 층의 색상 업데이트
-    //         });
-    //
-    //         // 클릭된 층이 있을 경우 해당 층 정보 업데이트
-    //         if (this.selectedFloor) {
-    //           const selectedFloorData = data.buildingStats.find(f => f.floor === this.selectedFloor);
-    //           if (selectedFloorData) {
-    //             this.renderFloorData(selectedFloorData);
-    //           }
-    //         }
-    //       },
-    //       error: (error) => {
-    //         console.error("층 데이터를 불러오는 중 오류 발생:", error);
-    //       }
-    //     });
-    //   },
-    //
-    //   updateFloorColor: function (floor, totalPower) {
-    //     const floorElements = document.querySelectorAll(`.floor[data-floor="\${floor}"]`);
-    //     const filterValue = this.getFilterValue(totalPower);
-    //
-    //     floorElements.forEach(element => {
-    //       element.style.filter = filterValue; // CSS filter 적용
-    //     });
-    //   },
-    //
-    //   updateSelectedFloorData: function () {
-    //     if (!this.selectedFloor) return;
-    //
-    //     $.ajax({
-    //       url: '/getFloorStats',
-    //       method: 'GET',
-    //       dataType: 'json',
-    //       success: (data) => {
-    //         const selectedFloorData = data.buildingStats.find(f => f.floor === this.selectedFloor);
-    //         if (selectedFloorData) {
-    //           this.renderFloorData(selectedFloorData);
-    //         } else {
-    //           console.error(`선택한 층(\${this.selectedFloor}) 데이터를 찾을 수 없습니다.`);
-    //         }
-    //       },
-    //       error: (error) => {
-    //         console.error("선택한 층 데이터를 불러오는 중 오류 발생:", error);
-    //       }
-    //     });
-    //   },
-    //
-    //   renderFloorData: function (data) {
-    //     const floorDataContainer = $('#floor-data');
-    //     floorDataContainer.html(`<h3 style="color: #000;">\${data.floor}층</h3>`);
-    //
-    //     const roomCards = data.rooms.map(room => `
-    //   <div class="room-card" data-status="\${room.status}">
-    //     <div class="room-title">\${room.roomId}</div>
-    //     <div class="room-info">전력: \${room.power}kW</div>
-    //     <div class="room-info">온도: \${room.temperature}</div>
-    //   </div>
-    // `).join('');
-    //
-    //     floorDataContainer.append(roomCards);
-    //
-    //     // 총 전력량 계산 및 표시
-    //     const totalPower = data.rooms.reduce((sum, room) => sum + room.power, 0);
-    //     floorDataContainer.append(`<div id="total-power" style="margin-top: 10px; font-weight: bold; color: #000;">총 전력: \${totalPower}kW</div>`);
-    //   },
-    //
-    //   getFilterValue: function (totalPower) {
-    //     // 전력량 기준으로 색상 결정
-    //     if (totalPower > 1400) {
-    //       return "invert(38%) sepia(81%) saturate(1362%) hue-rotate(332deg) brightness(110%) contrast(96%)"; // 빨간색
-    //     } else if (totalPower > 1200) {
-    //       return "invert(66%) sepia(89%) saturate(371%) hue-rotate(335deg) brightness(101%) contrast(96%)"; // 주황색
-    //     } else if (totalPower > 1000) {
-    //       return "invert(84%) sepia(39%) saturate(672%) hue-rotate(16deg) brightness(117%) contrast(96%)"; // 노란색
-    //     } else if (totalPower > 800) {
-    //       return "invert(99%) sepia(95%) saturate(3739%) hue-rotate(10deg) brightness(99%) contrast(96%)"; // 연두색
-    //     } else {
-    //       return "invert(31%) sepia(97%) saturate(375%) hue-rotate(82deg) brightness(94%) contrast(92%)"; // 초록색
-    //     }
-    //   }
-    // };
+
+
     let buildingEnergy = {
+      totalChart: null,
       intervalId: null, // 주기적 갱신을 위한 Interval ID
       buildingData: {}, // 최신 JSON 데이터를 저장
       selectedFloor: null, // 클릭한 층
@@ -429,20 +307,6 @@
           return;
         }
 
-    //     // 데이터 표시
-    //     const floorDataContainer = $('#floor-data');
-    //     // floorDataContainer.html(`<h3 style="color: #000;">\${floorData.floor}층</h3>`);
-    //     // info-header.html(`<h3 style="color: #000;">\${floorData.floor}층</h3>`);
-    //
-    //     const roomCards = floorData.rooms.map(room => `
-    //   <div class="room-card" data-status="\${room.status}">
-    //     <div class="room-title">\${room.roomId}</div>
-    //     <div class="room-info">전력: \${room.power}kW</div>
-    //     <div class="room-info">온도: \${room.temperature}</div>
-    //   </div>
-    // `).join('');
-    //
-    //     floorDataContainer.append(roomCards);
 
         // info-header에 층 정보와 총 전력량 표시
         const infoHeader = $('.info-header'); // info-header 선택
@@ -506,6 +370,10 @@
       }
     };
 
+
+
+
+
     // 페이지가 로드되었을 때 초기화
     $(function () {
       buildingEnergy.init();
@@ -529,6 +397,7 @@
       <div class="floor floor-left1f" data-floor="1F"></div>
       <div class="floor floor-right1f" data-floor="1F"></div>
     </div>
+
 
     <!-- 오른쪽 정보 패널 -->
     <div class="info-panel">
@@ -565,6 +434,8 @@
     </div>
   </div>
 </div>
+
+
 </body>
 </html>
 

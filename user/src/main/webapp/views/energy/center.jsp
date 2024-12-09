@@ -265,7 +265,7 @@
         position: relative;
         display: inline-block;
         border-radius: 46px;
-        transition: 0.4s;
+        /*transition: 0.4s;*/
     }
 
     .checkbox label:after {
@@ -279,7 +279,7 @@
         z-index: 2;
         background: #fff;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        transition: 0.4s;
+        /*transition: 0.4s;*/
     }
 
     .checkbox input {
@@ -328,11 +328,11 @@
         box-shadow: none;
         border-radius: 14px;
         transform: translateX(-50px);
-        -moz-transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;
-        -o-transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;
-        -webkit-transition: all 0.4s, width 0.2s linear, text-indent 0.4s linear;
-        -webkit-transition-delay: 0.2s, 0s, 0s;
-        transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;
+        /*-moz-transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;*/
+        /*-o-transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;*/
+        /*-webkit-transition: all 0.4s, width 0.2s linear, text-indent 0.4s linear;*/
+        /*-webkit-transition-delay: 0.2s, 0s, 0s;*/
+        /*transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;*/
         top: 3px;
         left: auto;
         right: 2px;
@@ -348,11 +348,11 @@
         background: #3fb454;
         left: auto;
         transform: translateX(0px);
-        -moz-transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;
-        -o-transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;
-        -webkit-transition: all 0.4s, width 0.2s linear, text-indent 0.3s linear;
-        -webkit-transition-delay: 0s, 0.4s, 0.4s;
-        transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;
+        /*-moz-transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;*/
+        /*-o-transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;*/
+        /*-webkit-transition: all 0.4s, width 0.2s linear, text-indent 0.3s linear;*/
+        /*-webkit-transition-delay: 0s, 0.4s, 0.4s;*/
+        /*transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;*/
         width: 80px;
         text-indent: 0;
     }
