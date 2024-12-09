@@ -29,6 +29,26 @@
     });
 </script>
 
+<style>
+    #myVideo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    /* 비디오 컨테이너 스타일 */
+    .col-sm-8 {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+</style>
 <div class="col-sm-8 text-left">
-    <video id="myVideo" width="150%" height="100%" style="border: 1px solid #ddd;"></video>
+    <video id="myVideo" width="160" height="120" style="border: 1px solid #ddd;"></video>
 </div>

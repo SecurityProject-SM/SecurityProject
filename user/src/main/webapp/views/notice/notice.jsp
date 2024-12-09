@@ -80,16 +80,6 @@
             background-color: #f7fafc;
         }
 
-        .notice-link {
-            color: #4299e1;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .notice-link:hover {
-            color: #2b6cb0;
-        }
-
         .pagination {
             margin-top: 2rem;
             display: flex;
@@ -132,6 +122,7 @@
 
 
     </style>
+
 </head>
 <body class="bg-gray-50">
 <div class="notice-container">
