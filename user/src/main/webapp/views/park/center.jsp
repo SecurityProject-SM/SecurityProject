@@ -10,6 +10,10 @@
 
 <%--구글 이모티콘--%>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<%--결제 SDK--%>
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
 
 <style>
 
@@ -474,7 +478,361 @@
     <a href="<c:url value="/park/parkset"/>" class="button btnPush btnOrange" role="button" style="text-align: center">정산하기</a>
     </div>
   </div>
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<!-- 모달 오버레이 및 컨테이너 -->
+<div id="parkingModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container">
+    <!-- 닫기 버튼 -->
+    <button class="close-button">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <!-- 정산 컨텐츠 -->
+    <div class="modal-content">
+      <div class="header">
+        주차 요금 정산
+      </div>
+
+      <div class="input-section">
+        <input type="text" class="input-field" placeholder="예: 12가3456">
+        <div class="button-group">
+          <button class="button search-button">
+            <i class="fas fa-search"></i> 조회하기
+          </button>
+          <button class="button pay-button" disabled>
+            <i class="fas fa-credit-card"></i> 결제하기
+          </button>
+        </div>
+      </div>
+
+      <div class="result-section"></div>
+
+      <div class="fee-section">
+        <div class="fee-header">주차요금 안내</div>
+        <div class="fee-row">
+          <span class="fee-label">최초 30분</span>
+          <span class="fee-amount">3,000원</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label">추가요금 (30분당)</span>
+          <span class="fee-amount">5,000원</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label">일일 최대요금</span>
+          <span class="fee-amount">60,000원</span>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+
+<style>
+  /* 모달 오버레이 스타일 */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-overlay.show {
+    opacity: 1;
+  }
+
+  /* 모달 컨테이너 스타일 */
+  .modal-container {
+    background: white;
+    width: 500px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+  }
+
+  .modal-overlay.show .modal-container {
+    transform: translateY(0);
+  }
+
+  /* 닫기 버튼 스타일 */
+  .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .close-button:hover {
+    transform: rotate(90deg);
+  }
+
+  /* 기존 스타일 유지하되 필요한 부분만 수정 */
+  .header {
+    background: #4a90e2;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .input-section {
+    padding: 30px 20px;
+  }
+
+  .input-field {
+    width: 100%;
+    height: 50px;
+    padding: 10px 15px;
+    border: 2px solid #e1e1e1;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  /* 버튼 스타일 */
+  .search-button {
+    background: #4a90e2;
+    color: white;
+  }
+
+  .search-button:hover {
+    background: #357abd;
+  }
+
+  .pay-button {
+    background: #2ecc71;
+    color: white;
+  }
+
+  .pay-button:hover:not(:disabled) {
+    background: #27ae60;
+  }
+
+  .pay-button:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+  }
+
+  /* 결과 섹션 스타일 */
+  .result-section {
+    padding: 15px 20px;
+    margin: 15px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 1rem;
+    display: none;
+  }
+
+  .result-section.visible {
+    display: block;
+  }
+
+  /* 요금 안내 섹션 스타일 */
+  .fee-section {
+    padding: 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .fee-header {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  .fee-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .fee-row:last-child {
+    border-bottom: none;
+  }
+
+  .fee-label {
+    color: #2c3e50;
+    font-weight: 500;
+  }
+
+  .fee-amount {
+    color: #4a90e2;
+    font-weight: 600;
+  }
+
+  /* ... 나머지 스타일은 이전과 동일 ... */
+</style>
+
+<script>
+  // 모달 관련 JavaScript
+  $(document).ready(function() {
+    // 정산하기 버튼 클릭 시 모달 표시
+    $('.btnOrange').click(function(e) {
+      e.preventDefault();
+      $('#parkingModal').css('display', 'flex');
+      setTimeout(() => {
+        $('#parkingModal').addClass('show');
+      }, 10);
+    });
+
+    // 닫기 버튼 및 오버레이 클릭 시 모달 닫기
+    // $('.close-button, .modal-overlay').click(function(e) {
+    //   if (e.target === this) {
+    //     $('#parkingModal').removeClass('show');
+    //     setTimeout(() => {
+    //       $('#parkingModal').css('display', 'none');
+    //     }, 300);
+    //   }
+    // });
+    // 닫기 버튼과 오버레이 클릭 시 모달 닫기 이벤트를 분리
+    $('.modal-overlay').click(function(e) {
+      if (e.target === this) {  // 오버레이 클릭 시에만 체크
+        closeModal();
+      }
+    });
+
+    $('.close-button').click(function() {  // 닫기 버튼은 무조건 닫기
+      closeModal();
+    });
+
+// 모달 닫기 함수
+    function closeModal() {
+      $('#parkingModal').removeClass('show');
+      setTimeout(() => {
+        $('#parkingModal').css('display', 'none');
+      }, 300);
+    }
+
+    // 기존의 AJAX 요청 및 결제 관련 코드는 그대로 유지
+    var totalFee = 0;
+
+    $('.search-button').click(function() {
+      var carNumber = $('.input-field').val();
+
+      $.ajax({
+        url: '/parksetsum',
+        method: 'GET',
+        data: { carNumber: carNumber },
+        success: function(response) {
+          if (response.error) {
+            $('.result-section')
+                    .html(`<div style="color: #e74c3c"><i class="fas fa-exclamation-circle"></i> \${response.error}</div>`)
+                    .addClass('visible');
+            $('.pay-button').prop('disabled', true);
+          } else {
+            $('.result-section')
+                    .html(`
+                            <div style="display: flex; justify-content: space-between; margin: 15px;">
+                                <span><i class="fas fa-clock"></i> 총 주차 시간</span>
+                                <strong>\${response.totalTime}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin: 15px;">
+                                <span><i class="fas fa-won-sign"></i> 정산 금액</span>
+                                <strong>\${response.totalFee.toLocaleString()}원</strong>
+                            </div>
+                        `)
+                    .addClass('visible');
+
+            totalFee = response.totalFee;
+            $('.pay-button').prop('disabled', false);
+          }
+        },
+        error: function() {
+          alert("요금 정보를 가져오는 중 오류가 발생했습니다.");
+          $('.pay-button').prop('disabled', true);
+        }
+      });
+    });
+
+    $('.pay-button').click(function() {
+      if (totalFee <= 0) {
+        alert("결제 금액이 유효하지 않습니다. 차량 번호를 다시 조회하세요.");
+        return;
+      }
+
+      const IMP = window.IMP;
+      IMP.init('imp84274542');
+
+      IMP.request_pay({
+        pg: 'tosspayments',
+        pay_method: 'card',
+        merchant_uid: 'order_' + new Date().getTime(),
+        name: '주차 정산 요금',
+        amount: totalFee
+      }, function(rsp) {
+        if (rsp.success) {
+          alert('결제가 완료되었습니다.\n결제 금액: ' + rsp.paid_amount.toLocaleString() + '원');
+
+          fetch('/park/payment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ impUid: rsp.imp_uid }),
+          })
+                  .then(response => response.text())
+                  .then(data => {
+                    alert(data);
+                    // 결제 완료 후 모달 닫기
+                    $('#parkingModal').removeClass('show');
+                    setTimeout(() => {
+                      $('#parkingModal').css('display', 'none');
+                    }, 300);
+                  })
+                  .catch(error => console.error('결제 검증 중 오류:', error));
+        } else {
+          alert('결제에 실패하였습니다.\n에러 메시지: ' + rsp.error_msg);
+        }
+      });
+    });
+  });
+</script>
+
+
 
 
 

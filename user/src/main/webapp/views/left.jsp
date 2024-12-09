@@ -74,7 +74,7 @@
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="bi bi-file-earmark-bar-graph-fill text-dark text-sm opacity-10"></i> <!-- 공지사항 아이콘 -->
                     </div>
-                    <span class="nav-link-text ms-1">전월대비d</span>
+                    <span class="nav-link-text ms-1">전월대비</span>
                 </a>
             </li>
 

@@ -118,7 +118,7 @@
         connect: function () {
             let sid = this.id;
             let userid = '${sessionScope.loginid.userId}';
-            let socket = new SockJS('https://210.119.34.210:82/ws');
+            let socket = new SockJS('http://210.119.34.211:82/ws');
             this.stompClient = Stomp.over(socket);
 
             this.stompClient.connect({}, function (frame) {

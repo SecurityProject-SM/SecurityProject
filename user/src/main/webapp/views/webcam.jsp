@@ -30,5 +30,5 @@
 </script>
 
 <div class="col-sm-8 text-left">
-    <video id="myVideo" width="160" height="120" style="border: 1px solid #ddd;"></video>
+    <video id="myVideo" width="150%" height="100%" style="border: 1px solid #ddd;"></video>
 </div>
