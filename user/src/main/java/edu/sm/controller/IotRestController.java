@@ -136,6 +136,7 @@ public class IotRestController {
             Map<String, Object> obj = new HashMap<>();
             obj.put("iotId", iot.getIotId());
             obj.put("iotStatus", iot.getIotStatus()); // 1:on 2:off 3:break
+            obj.put("deviceType",iot.getIotCategory()); // AIR, LAMP
             result.add(obj);
         }
         return result;

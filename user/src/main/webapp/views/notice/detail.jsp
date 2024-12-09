@@ -66,6 +66,18 @@
     .back-button svg {
         margin-right: 0.5rem;
     }
+
+    /* navbar 브랜드 스타일 강화 */
+    .navbar-brand {
+        display: flex !important;  /* !important로 강제 적용 */
+        align-items: center !important;
+        text-decoration: none;
+    }
+
+    .navbar-brand span {
+        display: inline-block !important;
+        vertical-align: middle !important;
+    }
 </style>
 
 <body class="bg-gray-50">
