@@ -5,41 +5,120 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 
 <style>
+    /* IoT 필터 버튼 스타일 */
+    button.전체보기,
+    button.조명만보기,
+    button.에어컨만보기 {
+        padding: 0.5rem 1rem;
+        background-color: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        color: #4b5563;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.25;
+    }
+
+    /* 호버 효과 */
+    button.전체보기:hover,
+    button.조명만보기:hover,
+    button.에어컨만보기:hover {
+        background-color: #f3f4f6;
+        border-color: #d1d5db;
+    }
+
+    /* 클릭 효과 */
+    button.전체보기:active,
+    button.조명만보기:active,
+    button.에어컨만보기:active {
+        transform: translateY(1px);
+    }
+
+    /* 선택된 상태 (pressed) */
+    button.전체보기.pressed,
+    button.조명만보기.pressed,
+    button.에어컨만보기.pressed {
+        background-color: #f3f4f6;
+        color: #090909;
+        border-color: #f3f4f6;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* 선택된 상태의 호버 효과 */
+    button.전체보기.pressed:hover,
+    button.조명만보기.pressed:hover,
+    button.에어컨만보기.pressed:hover {
+        background-color: #f3f4f6;
+        border-color: #f3f4f6;
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 640px) {
+        .card-header {
+            padding: 1rem;
+        }
+
+        button.전체보기,
+        button.조명만보기,
+        button.에어컨만보기 {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.813rem;
+        }
+    }
+
+
+    /* 주차현황 제목 스타일 개선 */
+    .에너지현황 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        position: relative;
+        padding-left: 20px;
+        letter-spacing: -0.5px;
+    }
+    .에너지현황::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 5px;
+        height: 28px;
+        background: linear-gradient(to bottom, #3498db, #2980b9);
+        border-radius: 3px;
+    }
+
+
+    .userEnergy-container{
+        display: flex;
+        align-items: flex-start;
+        margin-top: 100px; /* 상단 여백 줄임 */
+        padding: 30px;
+        background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        width: fit-content;
+        position: absolute;
+        left: 200px;
+        flex-direction: column;
+    }
     .energy-container {
         display: flex; /* Flexbox로 가로 배치 */
         align-items: flex-start; /* 위쪽 정렬 */
         margin-top: 10px;
         position: relative;
-        width: 1500px;
+        width: 1200px;
         height: 630px;
         /*background-color: #11c;*/
     }
 
-    .info-container {
-        display: flex;
-        flex-direction: column; /* 세로 배치 */
-        margin-top: 10px; /* 주차 도면과 같은 높이 맞추기 */
-        margin-left: 20px; /* 주차 도면과의 간격 조절 */
-        /*background-color: white; !* 뒷 배경이 겹치는 것을 방지 *!*/
-    }
 
-    .totaldata-box {
-        margin: 10px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        width: 400px;
-        height: fit-content; /* 내용에 맞게 높이 조정 */
-        background-color: white;
-    }
-
-    .iotlist-box {
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        width: 400px;
-        height: fit-content; /* 내용에 맞게 높이 조정 */
-    }
 
     .academy-lot {
         position: relative;
@@ -265,7 +344,7 @@
         position: relative;
         display: inline-block;
         border-radius: 46px;
-        transition: 0.4s;
+        /*transition: 0.4s;*/
     }
 
     .checkbox label:after {
@@ -279,7 +358,7 @@
         z-index: 2;
         background: #fff;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        transition: 0.4s;
+        /*transition: 0.4s;*/
     }
 
     .checkbox input {
@@ -328,11 +407,11 @@
         box-shadow: none;
         border-radius: 14px;
         transform: translateX(-50px);
-        -moz-transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;
-        -o-transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;
-        -webkit-transition: all 0.4s, width 0.2s linear, text-indent 0.4s linear;
-        -webkit-transition-delay: 0.2s, 0s, 0s;
-        transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;
+        /*-moz-transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;*/
+        /*-o-transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;*/
+        /*-webkit-transition: all 0.4s, width 0.2s linear, text-indent 0.4s linear;*/
+        /*-webkit-transition-delay: 0.2s, 0s, 0s;*/
+        /*transition: all 0.4s 0.2s, width 0.2s linear, text-indent 0.4s linear;*/
         top: 3px;
         left: auto;
         right: 2px;
@@ -348,11 +427,11 @@
         background: #3fb454;
         left: auto;
         transform: translateX(0px);
-        -moz-transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;
-        -o-transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;
-        -webkit-transition: all 0.4s, width 0.2s linear, text-indent 0.3s linear;
-        -webkit-transition-delay: 0s, 0.4s, 0.4s;
-        transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;
+        /*-moz-transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;*/
+        /*-o-transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;*/
+        /*-webkit-transition: all 0.4s, width 0.2s linear, text-indent 0.3s linear;*/
+        /*-webkit-transition-delay: 0s, 0.4s, 0.4s;*/
+        /*transition: all 0.4s, width 0.2s linear 0.4s, text-indent 0.3s linear 0.4s;*/
         width: 80px;
         text-indent: 0;
     }
@@ -407,94 +486,6 @@
         color: #28a745; /* 상태 텍스트 색상 */
     }
 
-
-
-    .card-header {
-        padding: 1.5rem;
-        background-color: white;
-        border-bottom: 1px solid #e5e7eb;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        align-items: center;
-    }
-
-    .card-header h4 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #1f2937;
-        width: 100%;
-        margin-bottom: 0.75rem;
-    }
-
-    /* IoT 필터 버튼 스타일 */
-    button.전체보기,
-    button.조명만보기,
-    button.에어컨만보기 {
-        padding: 0.5rem 1rem;
-        background-color: white;
-        border: 1px solid #e5e7eb;
-        border-radius: 0.375rem;
-        font-size: 0.875rem;
-        color: #4b5563;
-        cursor: pointer;
-        transition: all 0.15s ease;
-        font-weight: 500;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1.25;
-    }
-
-    /* 호버 효과 */
-    button.전체보기:hover,
-    button.조명만보기:hover,
-    button.에어컨만보기:hover {
-        background-color: #f3f4f6;
-        border-color: #d1d5db;
-    }
-
-    /* 클릭 효과 */
-    button.전체보기:active,
-    button.조명만보기:active,
-    button.에어컨만보기:active {
-        transform: translateY(1px);
-    }
-
-    /* 선택된 상태 (pressed) */
-    button.전체보기.pressed,
-    button.조명만보기.pressed,
-    button.에어컨만보기.pressed {
-        background-color: #f3f4f6;
-        color: #090909;
-        border-color: #f3f4f6;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    }
-
-    /* 선택된 상태의 호버 효과 */
-    button.전체보기.pressed:hover,
-    button.조명만보기.pressed:hover,
-    button.에어컨만보기.pressed:hover {
-        background-color: #f3f4f6;
-        border-color: #f3f4f6;
-    }
-
-    /* 반응형 디자인 */
-    @media (max-width: 640px) {
-        .card-header {
-            padding: 1rem;
-        }
-
-        button.전체보기,
-        button.조명만보기,
-        button.에어컨만보기 {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.813rem;
-        }
-    }
-
-
-
 </style>
 
 <script>
@@ -528,6 +519,7 @@
                 }
             }, 0);
         },
+
 
 
         // iot상태 불러와서 이미지 업데이트
@@ -788,92 +780,75 @@
         });
     });
 </script>
-<%--<div class="row" style="margin-top: 16px;">--%>
-<%--    <div class="totaldata-box" id="totalPowerBox">--%>
-<%--        <h5>총 전력량 <i class="bi bi-power"></i></h5>--%>
-<%--        <h3><span id="totalPower"></span> kW</h3>--%>
-<%--    </div>--%>
-<%--    <div class="totaldata-box">--%>
-<%--        <h5>평균 온도/습도</h5>--%>
-<%--        <div style="display: flex; gap: 50px">--%>
-<%--            <p>온도</p>--%>
-<%--            <p>습도</p>--%>
-<%--        </div>--%>
-<%--        <h3><span id="avgTemp"></span>°C <span id="avgHumidity"></span>%</h3>--%>
-
-<%--    </div>--%>
-<%--    <div class="totaldata-box">--%>
-<%--        <h5>조명</h5>--%>
-<%--        <h3 style="">4 / 8</h3>--%>
-<%--        &lt;%&ndash;    <span id=></span> 개 켜짐&ndash;%&gt;--%>
-<%--    </div>--%>
-<%--</div>--%>
-<div class="data-container">
-    <!-- 전력량 박스 -->
-    <div class="data-box">
-        <h5>총 전력량 <i class="icon fa fa-bolt"></i></h5>
-        <h3><span id="totalPower"></span> kW</h3>
-    </div>
-
-    <!-- 온도/습도 박스 -->
-    <div class="data-box">
-        <h5>평균 온도/습도</h5>
-        <h3><span id="avgTemp"></span>°C <span id="avgHumidity" style="margin-left: 20px"></span>%</h3>
-    </div>
-
-    <!-- 조명 상태 박스 -->
-    <div class="data-box">
-        <h5>조명 상태</h5>
-        <h3><span id="lightsOn"></span> / 8</h3>
-    </div>
-</div>
-<div class="energy-container">
-    <div class="academy-lot">
-        <%--    에어컨  --%>
-        <div class="iot-aircon" id="IOT1"></div>
-        <div class="iot-aircon" id="IOT2"></div>
-        <div class="iot-aircon" id="IOT3"></div>
-        <div class="iot-aircon" id="IOT4"></div>
-        <div class="iot-aircon" id="IOT5"></div>
-        <div class="iot-aircon" id="IOT6"></div>
-        <div class="iot-aircon" id="IOT7"></div>
-
-        <%--    조명 --%>
-        <div class="iot-lamp" id="IOT8"></div>
-        <div class="iot-lamp" id="IOT9"></div>
-        <div class="iot-lamp" id="IOT10"></div>
-        <div class="iot-lamp" id="IOT11"></div>
-        <div class="iot-lamp" id="IOT12"></div>
-        <div class="iot-lamp" id="IOT13"></div>
-        <div class="iot-lamp" id="IOT14"></div>
-        <div class="iot-lamp" id="IOT15"></div>
-    </div>
-    <div class="card mb-4" style="margin-left: 32px">
-
-        <div class="card-header pb-0">
-            <h4>IoT 기기 전력량</h4>
-            <button class="전체보기"   onclick="filterIcons('all')" style="margin-right: 10px">전체 보기</button>
-            <button class="조명만보기"   onclick="filterIcons('lamp')" style="margin-right: 10px">조명만 보기</button>
-            <button class="에어컨만보기"  onclick="filterIcons('aircon')">에어컨만 보기</button>
-
+<div class="userEnergy-container">
+    <h2 class="에너지현황">에너지 현황</h2>
+    <div class="data-container">
+        <!-- 전력량 박스 -->
+        <div class="data-box">
+            <h5>총 전력량 <i class="icon fa fa-bolt"></i></h5>
+            <h3><span id="totalPower"></span> kW</h3>
         </div>
-        <div class="card-body px-0 pt-0 pb-2">
-            <div class="table-responsive p-0">
-                <table class="table align-items-center justify-content-center mb-0">
-                    <thead>
-                    <tr>
-                        <%--            <th>IoT아이디</th>--%>
-                        <th style="text-align: center;">이름</th>
-                        <%--            <th>사용전력</th>--%>
-                        <th style="text-align: center;">상태</th>
-                        <th style="text-align: center;">제어</th>
-                    </tr>
-                    </thead>
-                    <tbody id="iotTableBody">
-                    </tbody>
-                </table>
+
+        <!-- 온도/습도 박스 -->
+        <div class="data-box">
+            <h5>평균 온도/습도</h5>
+            <h3><span id="avgTemp"></span>°C <span id="avgHumidity" style="margin-left: 20px"></span>%</h3>
+        </div>
+
+        <!-- 조명 상태 박스 -->
+        <div class="data-box">
+            <h5>조명 상태</h5>
+            <h3><span id="lightsOn"></span> / 8</h3>
+        </div>
+    </div>
+    <div class="energy-container">
+        <div class="academy-lot">
+            <%--    에어컨  --%>
+            <div class="iot-aircon" id="IOT1"></div>
+            <div class="iot-aircon" id="IOT2"></div>
+            <div class="iot-aircon" id="IOT3"></div>
+            <div class="iot-aircon" id="IOT4"></div>
+            <div class="iot-aircon" id="IOT5"></div>
+            <div class="iot-aircon" id="IOT6"></div>
+            <div class="iot-aircon" id="IOT7"></div>
+
+            <%--    조명 --%>
+            <div class="iot-lamp" id="IOT8"></div>
+            <div class="iot-lamp" id="IOT9"></div>
+            <div class="iot-lamp" id="IOT10"></div>
+            <div class="iot-lamp" id="IOT11"></div>
+            <div class="iot-lamp" id="IOT12"></div>
+            <div class="iot-lamp" id="IOT13"></div>
+            <div class="iot-lamp" id="IOT14"></div>
+            <div class="iot-lamp" id="IOT15"></div>
+        </div>
+        <div class="card mb-4" style="margin-left: 32px">
+
+            <div class="card-header pb-0">
+                <h4>IoT 기기 전력량</h4>
+                <button class="전체보기" onclick="filterIcons('all')" style="margin-right: 10px">전체 보기</button>
+                <button class="조명만보기" onclick="filterIcons('lamp')" style="margin-right: 10px">조명만 보기</button>
+                <button class="에어컨만보기" onclick="filterIcons('aircon')">에어컨만 보기</button>
+
             </div>
-        </div>
+            <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center justify-content-center mb-0">
+                        <thead>
+                        <tr>
+                            <%--            <th>IoT아이디</th>--%>
+                            <th style="text-align: center;">이름</th>
+                            <%--            <th>사용전력</th>--%>
+                            <th style="text-align: center;">상태</th>
+                            <th style="text-align: center;">제어</th>
+                        </tr>
+                        </thead>
+                        <tbody id="iotTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
+        </div>
     </div>
 </div>
