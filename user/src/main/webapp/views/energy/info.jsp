@@ -40,7 +40,7 @@
             }
 
             $("#averageValue").text("평균 사용량: " + avg.toFixed(2) + " kWh");
-            $("#latestValue").text("이번달 사용량: " + latval.toFixed(2) + " kWh");
+            $("#latestValue").text(latval.toFixed(2) + " kWh");
             $("#differencePercent").text("현재 사용량이 평균값 대비 " + percentageDifference.toFixed(2) + "% 입니다.");
         }
     };
@@ -378,7 +378,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- 테이블 데이터가 동적으로 추가됩니다. -->
+                <!-- 테이블 데이터 js로 추가 -->
                 </tbody>
             </table>
         </div>
