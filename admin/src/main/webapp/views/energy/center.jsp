@@ -8,117 +8,6 @@
 
 
     <style>
-
-        /* 현재 사용량 차트 CSS */
-        .highcharts-figure,
-        .highcharts-data-table table {
-            min-width: 310px;
-            max-width: 500px;
-            margin: 1em auto;
-        }
-
-        .highcharts-data-table table {
-            font-family: Verdana, sans-serif;
-            border-collapse: collapse;
-            border: 1px solid #ebebeb;
-            margin: 10px auto;
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .highcharts-data-table caption {
-            padding: 1em 0;
-            font-size: 1.2em;
-            color: #555;
-        }
-
-        .highcharts-data-table th {
-            font-weight: 600;
-            padding: 0.5em;
-        }
-
-        .highcharts-data-table td,
-        .highcharts-data-table th,
-        .highcharts-data-table caption {
-            padding: 0.5em;
-        }
-
-        .highcharts-data-table thead tr,
-        .highcharts-data-table tr:nth-child(even) {
-            background: #f8f8f8;
-        }
-
-        .highcharts-data-table tr:hover {
-            /*background: #f1f7ff;*/
-            background: #f8f8f8;
-        }
-
-        .highcharts-description {
-            margin: 0.3rem 10px;
-        }
-
-
-        /*월별 차트 CSS*/
-        .highcharts-figure,
-        .highcharts-data-table table {
-            min-width: 310px;
-            max-width: 800px;
-            margin: 1em auto;
-        }
-
-        #datatable {
-            font-family: Verdana, sans-serif;
-            border-collapse: collapse;
-            border: 1px solid #ebebeb;
-            margin: 10px auto;
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        #datatable caption {
-            padding: 1em 0;
-            font-size: 1.2em;
-            color: #555;
-        }
-
-        #datatable th {
-            font-weight: 600;
-            padding: 0.5em;
-        }
-
-        #datatable td,
-        #datatable th,
-        #datatable caption {
-            padding: 0.5em;
-        }
-
-        #datatable thead tr,
-        #datatable tr:nth-child(even) {
-            background: #f8f8f8;
-        }
-
-        #datatable tr:hover {
-            background: #f1f7ff;
-        }
-
-        .highcharts-description {
-            margin: 0.3rem 10px;
-        }
-
-
-        #totalContainer {
-            width: 400px;
-            height: 300px;
-            /*border: 2px solid red;*/
-        }
-
-        #monthContainer {
-            width: 1000px;
-            height: 600px;
-        }
-
         /* 전체 컨테이너 */
         .main-container {
             display: flex;
@@ -402,35 +291,78 @@
             background-image: url('<c:url value="/img/building/right1f.png"/>');
             filter: invert(31%) sepia(97%) saturate(375%) hue-rotate(82deg) brightness(94%) contrast(92%);
         }
+
+        .datatable{
+
+        }
     </style>
 
+
+<%--    차트 컨테이너 CSS --%>
     <style>
-        .button-container button {
-            padding: 10px 20px;
-            margin: 5px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        /* 건물과 정보 패널 컨테이너 */
+        .chart-container:first-of-type {
+            display: grid;
+            grid-template-columns: minmax(800px, 1.5fr) minmax(400px, 1fr);
+            gap: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            min-height: 600px;
         }
 
-        .button-container button:disabled {
-            background-color: #a5d6a7;
-            cursor: not-allowed;
+        /* 차트 컨테이너 */
+        .chart-container:last-of-type {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        #monthTableContainer table {
+        #totalContainer {
             width: 100%;
-            border-collapse: collapse;
+            height: 300px;
+            max-height: 300px;
         }
 
-        #monthTableContainer th, #monthTableContainer td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
+        #monthContainer {
+            /*width: 100%;*/
+            width:100%;
+            height: 300px;
+        }
+
+        /* 데이터 테이블 숨김 처리 */
+        #datatable {
+            position: absolute;
+            visibility: hidden;
+        }
+
+        /* 반응형 처리 */
+        @media (max-width: 1400px) {
+            .chart-container:first-of-type,
+            .chart-container:last-of-type {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .building-container {
+                margin: 0 auto;
+            }
+
+            #totalContainer,
+            #monthContainer {
+                width: 100%;
+                margin: 0 auto;
+            }
         }
     </style>
+
+
     <script>
 
 
@@ -593,25 +525,6 @@
             });
         };
 
-        function toggleMonthView(view) {
-            const chart = document.getElementById('monthContainer');
-            const table = document.getElementById('monthTableContainer');
-            const chartButton = document.getElementById('showChart');
-            const tableButton = document.getElementById('showTable');
-
-            if (view === 'chart') {
-                chart.style.display = 'block';
-                table.style.display = 'none';
-                chartButton.disabled = true;
-                tableButton.disabled = false;
-            } else {
-                chart.style.display = 'none';
-                table.style.display = 'block';
-                chartButton.disabled = false;
-                tableButton.disabled = true;
-            }
-        };
-
         // 페이지가 로드되었을 때 초기화
         $(function () {
             buildingEnergy.init();
@@ -619,6 +532,12 @@
 
             // 건물 총 전체 사용량 차트
             Highcharts.chart("totalContainer", {
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
                 chart: {
                     type: "gauge",
                     plotBackgroundColor: null,
@@ -629,7 +548,7 @@
                 },
 
                 title: {
-                    text: "건물 전력 사용량",
+                    text: "건물 전력 실시간 사용량",
                 },
 
                 pane: {
@@ -679,6 +598,7 @@
                             thickness: 20,
                         },
                     ],
+
                 },
 
                 series: [
@@ -719,6 +639,12 @@
 
             // 월별 에너지 사용량 차트
             Highcharts.chart('monthContainer', {
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
                 data: {
                     table: 'datatable'
                 },
@@ -740,9 +666,18 @@
                     title: {
                         text: '에너지사용량'
                     }
-                }
+                },
+                series: [
+                    {
+                        name: '2023년',
+                        color: '#ced4da' // 2023년 데이터 색상 (연한 회색)
+                    },
+                    {
+                        name: '2024년',
+                        color: '#ff7f0e' // 2024년 데이터 색상 (주황색)
+                    }
+                ]
             });
-            toggleMonthView('chart'); // 기본으로 차트 표시
 
         });
     </script>
@@ -800,92 +735,80 @@
             </div>
         </div>
     </div>
-    <div class="main-container">
+    <div class="chart-container">
         <div id="totalContainer"></div>
-        <div id="monthChartTableContainer" style="text-align: center; margin: 20px auto; max-width: 800px;">
-            <!-- 전환 버튼 -->
-            <div class="button-container" style="margin-bottom: 20px;">
-                <button id="showChart" onclick="toggleMonthView('chart')">차트 보기</button>
-                <button id="showTable" onclick="toggleMonthView('table')">테이블 보기</button>
-            </div>
-
-            <!-- 차트 영역 -->
-            <div id="monthContainer" style="display: block;"></div>
-
-            <!-- 테이블 영역 -->
-            <div id="monthTableContainer" style="display: none;">
-                <table id="datatable">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>2023년</th>
-                        <th>2024년</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>1월</th>
-                        <td>28 430</td>
-                        <td>26 690</td>
-                    </tr>
-                    <tr>
-                        <th>2월</th>
-                        <td>28 042</td>
-                        <td>26 453</td>
-                    </tr>
-                    <tr>
-                        <th>3월</th>
-                        <td>27 063</td>
-                        <td>25 916</td>
-                    </tr>
-                    <tr>
-                        <th>4월</th>
-                        <td>28 684</td>
-                        <td>27 376</td>
-                    </tr>
-                    <tr>
-                        <th>5월</th>
-                        <td>26 445</td>
-                        <td>25 035</td>
-                    </tr>
-                    <tr>
-                        <th>6월</th>
-                        <td>26 564</td>
-                        <td>25 416</td>
-                    </tr>
-                    <tr>
-                        <th>7월</th>
-                        <td>28 430</td>
-                        <td>26 690</td>
-                    </tr>
-                    <tr>
-                        <th>8월</th>
-                        <td>28 042</td>
-                        <td>26 453</td>
-                    </tr>
-                    <tr>
-                        <th>9월</th>
-                        <td>27 063</td>
-                        <td>25 916</td>
-                    </tr>
-                    <tr>
-                        <th>10월</th>
-                        <td>28 684</td>
-                        <td>27 376</td>
-                    </tr>
-                    <tr>
-                        <th>11월</th>
-                        <td>26 445</td>
-                        <td>25 035</td>
-                    </tr>
-                    <tr>
-                        <th>12월</th>
-                        <td>26 564</td>
-                        <td>15 416</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <!-- 차트 영역 -->
+        <div id="monthContainer" style="display: block;"></div>
+        <table id="datatable">
+            <thead>
+            <tr>
+                <th></th>
+                <th>2023년</th>
+                <th>2024년</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>1월</th>
+                <td>28 430</td>
+                <td>26 690</td>
+            </tr>
+            <tr>
+                <th>2월</th>
+                <td>28 042</td>
+                <td>26 453</td>
+            </tr>
+            <tr>
+                <th>3월</th>
+                <td>27 063</td>
+                <td>25 916</td>
+            </tr>
+            <tr>
+                <th>4월</th>
+                <td>28 684</td>
+                <td>27 376</td>
+            </tr>
+            <tr>
+                <th>5월</th>
+                <td>26 445</td>
+                <td>25 035</td>
+            </tr>
+            <tr>
+                <th>6월</th>
+                <td>26 564</td>
+                <td>25 416</td>
+            </tr>
+            <tr>
+                <th>7월</th>
+                <td>28 430</td>
+                <td>26 690</td>
+            </tr>
+            <tr>
+                <th>8월</th>
+                <td>28 042</td>
+                <td>26 453</td>
+            </tr>
+            <tr>
+                <th>9월</th>
+                <td>27 063</td>
+                <td>25 916</td>
+            </tr>
+            <tr>
+                <th>10월</th>
+                <td>28 684</td>
+                <td>27 376</td>
+            </tr>
+            <tr>
+                <th>11월</th>
+                <td>26 445</td>
+                <td>25 035</td>
+            </tr>
+            <tr>
+                <th>12월</th>
+                <td>26 564</td>
+                <td>15 416</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
