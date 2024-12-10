@@ -13,9 +13,7 @@
     <meta charset='utf-8'/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.15/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales/ko.global.min.js'></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <style>
@@ -117,6 +115,7 @@
 </style>
 
 <script>
+    // 챗봇?
     let userchat = {
         init: function () {
             this.cacheDom();
@@ -154,63 +153,14 @@
                 headerToolbar: {
                     left: '',  // 왼쪽 영역 비움
                     center: 'title', // 중앙에 타이틀 표시
-                    right: 'prev,next myCustomButton' // 오른쪽에 이전/다음 버튼과 커스텀 버튼
-                },
-                // 새 일정 추가 버튼 설정
-                customButtons: {
-                    myCustomButton: {
-                        text: '➕ 새 일정',
-                        click: function () {
-                            // 구글 캘린더 일정 추가 페이지를 새 탭으로 열기
-                            const calendarId = '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com';
-                            window.open(`https://calendar.google.com/calendar/u/0/r/eventedit?cid=${calendarId}`, '_blank');
-                        }
-                    }
+                    right: '' //오른쪽 영역 비움
                 },
                 initialView: 'dayGridMonth', // 월간 뷰로 초기화
-                googleCalendarApiKey: 'AIzaSyAw5ATyRPtGDxeZLu5GoPjqZCENrKLoxuw', // 구글 캘린더 API 키
-                // 구글 캘린더 이벤트 소스 설정
-                eventSources: [{
-                    googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com',
-                    success: (events) => {
-                        console.log('구글 캘린더 이벤트 로드 성공:', events);  // 추가
-                        this.updateEventList(calendarInstance);
-                    },
-                    failure: function (error) {
-                        console.log('구글 캘린더 로드 실패:', error);  // 추가
-                    }
-                }],
                 locale: 'ko', // 한국어 설정
             });
-
             // 캘린더 렌더링
             calendarInstance.render();
-            // DB 이벤트 로드
-            this.getEvents(calendarInstance);
-        },
-        // DB값 가져오기
-        getEvents: function (calendarInstance) {
-            $.ajax({
-                url: '/getrepairs',
-                type: 'GET',
-                success: (result) => {
-                    console.log(result);
-                    result.repairsData.forEach((repair) => {
-                        calendarInstance.addEvent({
-                            title: '[유지보수] ' + repair.repairLoc,
-                            start: repair.repairStart,
-                            backgroundColor: repair.repairStat === 'A' ? '#E74C3C' : '#3498DB',
-                            extendedProps: {
-                                isDBEvent: true,
-                                repairId: repair.repairId,
-                                repairStat: repair.repairStat
-                            }
-                        });
-                    });
-                    this.updateEventList(calendarInstance);
-                }
-            });
-        },
+        }
     };
 
     $(function () {
