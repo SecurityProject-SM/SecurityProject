@@ -806,48 +806,6 @@
                             <input id="name" name="userName" type="text" value="${user.userName}">
                         </div>
                     </div>
-
-                    <%--<!-- 입주자 설정 -->
-                    <div class="settings-section">
-                        <h3>스마트홈 설정</h3>
-                        <div class="settings-grid">
-                            <div class="settings-group">
-                                <label>알림 설정</label>
-                                <div class="checkbox-group">
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" checked>
-                                        <span>택배 알림</span>
-                                    </label>
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" checked>
-                                        <span>주차 알림</span>
-                                    </label>
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" checked>
-                                        <span>에너지 사용량 알림</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="settings-group">
-                                <label>자동화 설정</label>
-                                <div class="checkbox-group">
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" checked>
-                                        <span>실내온도 자동조절</span>
-                                    </label>
-                                    <label class="checkbox-label">
-                                        <input type="checkbox">
-                                        <span>조명 자동제어</span>
-                                    </label>
-                                    <label class="checkbox-label">
-                                        <input type="checkbox">
-                                        <span>환기 자동제어</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>--%>
-
                     <div class="form-actions">
                         <button type="button" id="update_btn" class="save-button">
                             저장하기

@@ -27,4 +27,11 @@ public class MainController {
         log.info("Started register,,,,");
         return "register";
     }
+
+    @RequestMapping("/mypage")
+    public String mypage(Model model) {
+        model.addAttribute("center", "mypage");
+        log.info("Started mypage,,,,");
+        return "index";
+    }
 }
