@@ -373,7 +373,7 @@
 
         parkstat: function () {
             $.ajax({
-                url: "/getparkstat",
+                url: "<c:url value="/getparkstat"/>",
                 method: "GET",
                 dataType: "json",
                 success: function (data) {

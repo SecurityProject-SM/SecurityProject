@@ -8,115 +8,6 @@
 
 
     <style>
-        /* 현재 사용량 차트 CSS */
-        .highcharts-figure,
-        .highcharts-data-table table {
-            min-width: 310px;
-            max-width: 500px;
-            margin: 1em auto;
-        }
-
-        .highcharts-data-table table {
-            font-family: Verdana, sans-serif;
-            border-collapse: collapse;
-            border: 1px solid #ebebeb;
-            margin: 10px auto;
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .highcharts-data-table caption {
-            padding: 1em 0;
-            font-size: 1.2em;
-            color: #555;
-        }
-
-        .highcharts-data-table th {
-            font-weight: 600;
-            padding: 0.5em;
-        }
-
-        .highcharts-data-table td,
-        .highcharts-data-table th,
-        .highcharts-data-table caption {
-            padding: 0.5em;
-        }
-
-        .highcharts-data-table thead tr,
-        .highcharts-data-table tr:nth-child(even) {
-            background: #f8f8f8;
-        }
-
-        .highcharts-data-table tr:hover {
-            background: #f1f7ff;
-        }
-
-        .highcharts-description {
-            margin: 0.3rem 10px;
-        }
-
-
-        /*월별 차트 CSS*/
-        .highcharts-figure,
-        .highcharts-data-table table {
-            min-width: 310px;
-            max-width: 800px;
-            margin: 1em auto;
-        }
-
-        #datatable {
-            font-family: Verdana, sans-serif;
-            border-collapse: collapse;
-            border: 1px solid #ebebeb;
-            margin: 10px auto;
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        #datatable caption {
-            padding: 1em 0;
-            font-size: 1.2em;
-            color: #555;
-        }
-
-        #datatable th {
-            font-weight: 600;
-            padding: 0.5em;
-        }
-
-        #datatable td,
-        #datatable th,
-        #datatable caption {
-            padding: 0.5em;
-        }
-
-        #datatable thead tr,
-        #datatable tr:nth-child(even) {
-            background: #f8f8f8;
-        }
-
-        #datatable tr:hover {
-            background: #f1f7ff;
-        }
-
-        .highcharts-description {
-            margin: 0.3rem 10px;
-        }
-
-
-        #totalContainer {
-            width: 400px;
-            height: 300px;
-            /*border: 2px solid red;*/
-        }
-
-        #monthContainer {
-            width: 1000px;
-            height: 600px;
-        }
-
         /* 전체 컨테이너 */
         .main-container {
             display: flex;
@@ -400,6 +291,75 @@
             background-image: url('<c:url value="/img/building/right1f.png"/>');
             filter: invert(31%) sepia(97%) saturate(375%) hue-rotate(82deg) brightness(94%) contrast(92%);
         }
+
+        .datatable{
+
+        }
+    </style>
+
+
+<%--    차트 컨테이너 CSS --%>
+    <style>
+        /* 건물과 정보 패널 컨테이너 */
+        .chart-container:first-of-type {
+            display: grid;
+            grid-template-columns: minmax(800px, 1.5fr) minmax(400px, 1fr);
+            gap: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            min-height: 600px;
+        }
+
+        /* 차트 컨테이너 */
+        .chart-container:last-of-type {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #totalContainer {
+            width: 100%;
+            height: 300px;
+            max-height: 300px;
+        }
+
+        #monthContainer {
+            /*width: 100%;*/
+            width:100%;
+            height: 300px;
+        }
+
+        /* 데이터 테이블 숨김 처리 */
+        #datatable {
+            position: absolute;
+            visibility: hidden;
+        }
+
+        /* 반응형 처리 */
+        @media (max-width: 1400px) {
+            .chart-container:first-of-type,
+            .chart-container:last-of-type {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .building-container {
+                margin: 0 auto;
+            }
+
+            #totalContainer,
+            #monthContainer {
+                width: 100%;
+                margin: 0 auto;
+            }
+        }
     </style>
 
 
@@ -528,26 +488,56 @@
 
             getFilterValue: function (totalPower) {
                 // 전력량 기준으로 색상 결정
-                if (totalPower > 2200) {
+                if (totalPower > 700) {
                     return "invert(38%) sepia(81%) saturate(1362%) hue-rotate(332deg) brightness(110%) contrast(96%)"; // 빨간색
-                } else if (totalPower > 2000) {
+                } else if (totalPower > 560) {
                     return "invert(66%) sepia(89%) saturate(371%) hue-rotate(335deg) brightness(101%) contrast(96%)"; // 주황색
-                } else if (totalPower > 1800) {
-                    return "invert(84%) sepia(39%) saturate(672%) hue-rotate(16deg) brightness(117%) contrast(96%)"; // 노란색
-                } else if (totalPower > 1600) {
-                    return "invert(99%) sepia(95%) saturate(3739%) hue-rotate(10deg) brightness(99%) contrast(96%)"; // 연두색
+                } else if (totalPower > 460) {
+                    // return "invert(84%) sepia(39%) saturate(672%) hue-rotate(16deg) brightness(117%) contrast(96%)"; // 노란색
+                    return "invert(99%) sepia(95%) saturate(3739%) hue-rotate(10deg) brightness(99%) contrast(96%)"; // 노란색
+                } else if (totalPower > 440) {
+                    // return "invert(99%) sepia(95%) saturate(3739%) hue-rotate(10deg) brightness(99%) contrast(96%)"; // 연두색
+                    return "invert(76%) sepia(30%) saturate(741%) hue-rotate(40deg) brightness(93%) contrast(104%)"; // 연두색
                 } else {
                     return "invert(31%) sepia(97%) saturate(375%) hue-rotate(82deg) brightness(94%) contrast(92%)"; // 초록색
                 }
             }
         };
 
+        function fetchBuildingStatsAndUpdateChart() {
+            $.ajax({
+                url: "/getFloorStats",
+                type: "GET",
+                success: function (data) {
+                    const buildingData = data.buildingStats;
+                    const totalPower = data.buildingTotalPower; // 건물 전체 전력량
+
+                    // 차트 업데이트
+                    const chart = Highcharts.charts[0];
+                    if (chart && !chart.renderer.forExport) {
+                        const point = chart.series[0].points[0];
+                        point.update(totalPower); // 합계로 차트 업데이트
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("데이터 요청 실패:", error);
+                },
+            });
+        };
 
         // 페이지가 로드되었을 때 초기화
         $(function () {
             buildingEnergy.init();
 
+
+            // 건물 총 전체 사용량 차트
             Highcharts.chart("totalContainer", {
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
                 chart: {
                     type: "gauge",
                     plotBackgroundColor: null,
@@ -558,7 +548,7 @@
                 },
 
                 title: {
-                    text: "Speedometer",
+                    text: "건물 전력 실시간 사용량",
                 },
 
                 pane: {
@@ -572,7 +562,7 @@
                 // the value axis
                 yAxis: {
                     min: 0,
-                    max: 200,
+                    max: 4000,
                     tickPixelInterval: 72,
                     tickPosition: "inside",
                     tickColor: Highcharts.defaultOptions.chart.backgroundColor || "#FFFFFF",
@@ -589,36 +579,37 @@
                     plotBands: [
                         {
                             from: 0,
-                            to: 130,
+                            to: 2600,
                             color: "#55BF3B", // green
                             thickness: 20,
                             borderRadius: "50%",
                         },
                         {
-                            from: 150,
-                            to: 200,
+                            from: 3000,
+                            to: 4000,
                             color: "#DF5353", // red
                             thickness: 20,
                             borderRadius: "50%",
                         },
                         {
-                            from: 120,
-                            to: 160,
+                            from: 2400,
+                            to: 3200,
                             color: "#DDDF0D", // yellow
                             thickness: 20,
                         },
                     ],
+
                 },
 
                 series: [
                     {
-                        name: "Speed",
-                        data: [80],
+                        name: "전력량",
+                        data: [0],
                         tooltip: {
-                            valueSuffix: " km/h",
+                            valueSuffix: " kW",
                         },
                         dataLabels: {
-                            format: "{y} kw",
+                            format: "{y} kW",
                             borderWidth: 0,
                             color:
                                 (Highcharts.defaultOptions.title &&
@@ -643,24 +634,17 @@
                     },
                 ],
             })
-// Add some life
-            setInterval(() => {
-                const chart = Highcharts.charts[0]
-                if (chart && !chart.renderer.forExport) {
-                    const point = chart.series[0].points[0],
-                        inc = Math.round((Math.random() - 0.5) * 20)
+            // 데이터 주기적 갱신
+            setInterval(fetchBuildingStatsAndUpdateChart, 3000);
 
-                    let newVal = point.y + inc
-                    if (newVal < 0 || newVal > 200) {
-                        newVal = point.y - inc
-                    }
-
-                    point.update(newVal)
-                }
-            }, 3000)
-
-
+            // 월별 에너지 사용량 차트
             Highcharts.chart('monthContainer', {
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
                 data: {
                     table: 'datatable'
                 },
@@ -682,7 +666,17 @@
                     title: {
                         text: '에너지사용량'
                     }
-                }
+                },
+                series: [
+                    {
+                        name: '2023년',
+                        color: '#ced4da' // 2023년 데이터 색상 (연한 회색)
+                    },
+                    {
+                        name: '2024년',
+                        color: '#ff7f0e' // 2024년 데이터 색상 (주황색)
+                    }
+                ]
             });
 
         });
@@ -741,9 +735,10 @@
             </div>
         </div>
     </div>
-    <div class="main-container">
+    <div class="chart-container">
         <div id="totalContainer"></div>
-        <div id="monthContainer"></div>
+        <!-- 차트 영역 -->
+        <div id="monthContainer" style="display: block;"></div>
         <table id="datatable">
             <thead>
             <tr>
@@ -811,15 +806,9 @@
             <tr>
                 <th>12월</th>
                 <td>26 564</td>
-                <td>25 416</td>
+                <td>15 416</td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-</body>
-</html>
-
-
-
