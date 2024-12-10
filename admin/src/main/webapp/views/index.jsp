@@ -1,29 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- 추가 스크립트-->
-<!-- jQuery CDN -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="<c:url value='/js/jquery.min.js'/>"></script>
-<!-- simplebar js -->
-<script src="<c:url value='/plugins/simplebar/js/simplebar.js'/>"></script>
-<!-- sidebar-menu js -->
-<script src="<c:url value='/js/sidebar-menu.js'/>"></script>
-<!-- loader scripts -->
-<%--<script src="<c:url value='/js/jquery.loading-indicator.js'/>"></script>--%>
-<!-- Custom scripts -->
-<script src="<c:url value='/js/app-script.js'/>"></script>
-<!-- Chart js -->
-<script src="<c:url value='/plugins/Chart.js/Chart.min.js'/>"></script>
-<!-- Index js -->
-<%--<script src="<c:url value='/js/index.js'/>"></script>--%>
-<!-- HighCharts -->
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-more.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<script src="https://code.highcharts.com/modules/data.js"></script>
+
+
 
 <style>
     /* 알림 아이콘 컨테이너 */
@@ -205,6 +184,28 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- HighCharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+
+    <!-- 추가 스크립트-->
+    <!-- simplebar js -->
+    <script src="<c:url value='/plugins/simplebar/js/simplebar.js'/>"></script>
+    <!-- sidebar-menu js -->
+    <script src="<c:url value='/js/sidebar-menu.js'/>"></script>
+    <!-- loader scripts -->
+    <%--<script src="<c:url value='/js/jquery.loading-indicator.js'/>"></script>--%>
+    <!-- Custom scripts -->
+    <script src="<c:url value='/js/app-script.js'/>"></script>
+    <!-- Chart js -->
+    <script src="<c:url value='/plugins/Chart.js/Chart.min.js'/>"></script>
+    <!-- Index js -->
+    <%--<script src="<c:url value='/js/index.js'/>"></script>--%>
 </head>
 
 

@@ -58,6 +58,7 @@ public class EnergyRestController {
     public Object getFloorStats() throws Exception {
         Random random = new Random();
         JSONArray floorArray = new JSONArray(); // 전체 층 배열
+        int buildingTotalPower = 0; // 건물 전체 전력량
 
         // 1층부터 5층까지 반복
         for (int i = 1; i <= 5; i++) {
@@ -70,8 +71,22 @@ public class EnergyRestController {
             // 각 층별 5개의 호실 정보 생성
             for (int j = 1; j <= 8; j++) {
                 JSONObject roomObject = new JSONObject();
-                int power = random.nextInt(300); // 0 ~ 299kW 랜덤 전력량
-                double temp = 20 + random.nextDouble() * 10; // 20~30°C 랜덤 온도
+
+                int power;
+                if(i==5) {
+                    power = 70 + random.nextInt(60);
+                }else {
+                    if (j == 2 || j == 8) {
+                        power = 60 + random.nextInt(41); // 60 ~ 100 사이의 랜덤 전력량
+                    } else if (j == 6) {
+                        power = 100 + random.nextInt(21); // 100 ~ 120 사이의 랜덤 전력량
+                    } else {
+                        power = 20 + random.nextInt(25); // 20 ~ 45 사이의 랜덤 전력량
+                    }
+                }
+
+
+                double temp = 22 + random.nextDouble() * 5; // 20~30°C 랜덤 온도
 
                 roomObject.put("roomId", floorName + String.format("%02d", j) + "호");
                 roomObject.put("power", power);
@@ -81,7 +96,7 @@ public class EnergyRestController {
 
                 totalPower += power; // 층의 전체 전력량 누적
             }
-
+            buildingTotalPower += totalPower; // 건물 전체 전력량 누적
             // 층 정보 구성
             floorObject.put("floor", floorName);
             floorObject.put("totalPower", totalPower);
@@ -94,14 +109,15 @@ public class EnergyRestController {
         // 최종 결과 반환
         JSONObject result = new JSONObject();
         result.put("buildingStats", floorArray);
+        result.put("buildingTotalPower", buildingTotalPower); // 건물 전체 전력량 추가
         return result;
     }
 
     // 전력량에 따른 상태 계산
     private String getStatus(int power) {
-        if (power > 250) {
+        if (power > 100) {
             return "critical"; // 빨강
-        } else if (power > 200) {
+        } else if (power > 60) {
             return "warning"; // 주황
         } else {
             return "normal"; // 초록
