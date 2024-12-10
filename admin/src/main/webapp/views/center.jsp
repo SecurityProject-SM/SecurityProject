@@ -18,6 +18,7 @@
 </head>
 
 <style>
+<%--    챗봇 스타일 시작 --%>
     #chat-button {
         position: fixed;
         bottom: 20px;
@@ -35,7 +36,6 @@
         font-size: 24px;
         z-index: 1000;
     }
-
     #chat-window {
         position: fixed;
         bottom: 80px;
@@ -50,7 +50,6 @@
         flex-direction: column;
         z-index: 1000;
     }
-
     #chat-window .chat-header {
         background-color: #007bff;
         color: white;
@@ -61,7 +60,6 @@
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
     }
-
     #close-chat {
         background: none;
         border: none;
@@ -69,7 +67,6 @@
         font-size: 16px;
         cursor: pointer;
     }
-
     #chat-window .chat-body {
         padding: 10px;
         flex-grow: 1;
@@ -77,7 +74,6 @@
         font-size: 14px;
         line-height: 1.5;
     }
-
     #chat-button {
         position: fixed;
         bottom: 20px;
@@ -94,13 +90,11 @@
         z-index: 1000;
         transition: all 0.3s;
     }
-
     #chat-button.new-message {
         background-color: #ff0000;
         transform: scale(1.2);
         animation: pulse 1s infinite;
     }
-
     @keyframes pulse {
         0% {
             transform: scale(1.2);
@@ -112,7 +106,7 @@
             transform: scale(1.2);
         }
     }
-
+<%--    챗봇 스타일 끝 --%>
 </style>
 
 <script>
@@ -144,7 +138,7 @@
 
     // 캘린더 객체 정의
     let calendar = {
-        init: function () {
+        init: function() {
             // calendar div 요소를 가져옴
             var calendarEl = document.getElementById('calendar');
             // FullCalendar 인스턴스 생성
@@ -153,18 +147,7 @@
                 headerToolbar: {
                     left: '',  // 왼쪽 영역 비움
                     center: 'title', // 중앙에 타이틀 표시
-                    right: 'prev,next myCustomButton' // 오른쪽에 이전/다음 버튼과 커스텀 버튼
-                },
-                // 새 일정 추가 버튼 설정
-                customButtons: {
-                    myCustomButton: {
-                        text: '➕ 새 일정',
-                        click: function () {
-                            // 구글 캘린더 일정 추가 페이지를 새 탭으로 열기
-                            const calendarId = '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com';
-                            window.open(`https://calendar.google.com/calendar/u/0/r/eventedit?cid=${calendarId}`, '_blank');
-                        }
-                    }
+                    right: '' // 오른쪽 영역 비움
                 },
                 initialView: 'dayGridMonth', // 월간 뷰로 초기화
                 googleCalendarApiKey: 'AIzaSyAw5ATyRPtGDxeZLu5GoPjqZCENrKLoxuw', // 구글 캘린더 API 키
@@ -172,14 +155,17 @@
                 eventSources: [{
                     googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com',
                     success: (events) => {
-                        console.log('구글 캘린더 이벤트 로드 성공:', events);  // 추가
-                        this.updateEventList(calendarInstance);
+                        console.log('구글 캘린더 이벤트 로드 성공:', events);
                     },
-                    failure: function (error) {
-                        console.log('구글 캘린더 로드 실패:', error);  // 추가
+                    failure: function(error) {
+                        console.log('구글 캘린더 로드 실패:', error);
                     }
                 }],
                 locale: 'ko', // 한국어 설정
+                // 이벤트 클릭 핸들러
+                eventClick: function(info) {
+                    info.jsEvent.preventDefault(); // 기본 동작 방지
+                }
             });
 
             // 캘린더 렌더링
@@ -187,8 +173,9 @@
             // DB 이벤트 로드
             this.getEvents(calendarInstance);
         },
+
         // DB값 가져오기
-        getEvents: function (calendarInstance) {
+        getEvents: function(calendarInstance) {
             $.ajax({
                 url: '/getrepairs',
                 type: 'GET',
@@ -206,10 +193,9 @@
                             }
                         });
                     });
-                    this.updateEventList(calendarInstance);
                 }
             });
-        },
+        }
     };
 
     $(function () {
@@ -392,22 +378,17 @@
         </div><!--End Row-->
 
         <%--캘린더 영역 시작--%>
-        <div class="row">
-            <div class="col-12 col-lg-12">
-                <div class="card">
-                    <div class="card-header">유지보수 일정</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div id='calendar' style="width: 100%; min-height: 600px;"></div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="card">
+        <div class="content-wrapper">
+            <div class="row" style="display: flex; height: 100vh;">
+                <!-- 캘린더 영역 -->
+                <div class="col-sm-12">
+                    <div id='calendar' style="width: 90%; height: 90%; margin: 20px auto;"></div>
                 </div>
             </div>
         </div>
         <%--캘린더 영역 끝--%>
-
+        </div>
         <div id="chat-button" class="floating-button">
             💬
         </div>
