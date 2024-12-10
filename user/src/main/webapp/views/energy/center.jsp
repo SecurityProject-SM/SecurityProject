@@ -447,7 +447,7 @@
         align-items: center;
         width: 1116px;
         margin-left: 30px;
-        background-color: #f8f9fa; /* 배경색 */
+        background-color: #ffff; /* 배경색 */
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */

@@ -10,9 +10,15 @@
 <html>
 <head>
     <title>Title</title>
+    <meta charset='utf-8'/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.15/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales/ko.global.min.js'></script>
 </head>
 
 <style>
+<%--    챗봇 스타일 시작 --%>
     #chat-button {
         position: fixed;
         bottom: 20px;
@@ -30,7 +36,6 @@
         font-size: 24px;
         z-index: 1000;
     }
-
     #chat-window {
         position: fixed;
         bottom: 80px;
@@ -45,7 +50,6 @@
         flex-direction: column;
         z-index: 1000;
     }
-
     #chat-window .chat-header {
         background-color: #007bff;
         color: white;
@@ -56,7 +60,6 @@
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
     }
-
     #close-chat {
         background: none;
         border: none;
@@ -64,7 +67,6 @@
         font-size: 16px;
         cursor: pointer;
     }
-
     #chat-window .chat-body {
         padding: 10px;
         flex-grow: 1;
@@ -72,7 +74,6 @@
         font-size: 14px;
         line-height: 1.5;
     }
-
     #chat-button {
         position: fixed;
         bottom: 20px;
@@ -89,13 +90,11 @@
         z-index: 1000;
         transition: all 0.3s;
     }
-
     #chat-button.new-message {
         background-color: #ff0000;
         transform: scale(1.2);
         animation: pulse 1s infinite;
     }
-
     @keyframes pulse {
         0% {
             transform: scale(1.2);
@@ -107,7 +106,7 @@
             transform: scale(1.2);
         }
     }
-
+<%--    챗봇 스타일 끝 --%>
 </style>
 
 <script>
@@ -137,10 +136,72 @@
         }
     };
 
+    // 캘린더 객체 정의
+    let calendar = {
+        init: function() {
+            // calendar div 요소를 가져옴
+            var calendarEl = document.getElementById('calendar');
+            // FullCalendar 인스턴스 생성
+            var calendarInstance = new FullCalendar.Calendar(calendarEl, {
+                // 캘린더 헤더 툴바 설정
+                headerToolbar: {
+                    left: '',  // 왼쪽 영역 비움
+                    center: 'title', // 중앙에 타이틀 표시
+                    right: '' // 오른쪽 영역 비움
+                },
+                initialView: 'dayGridMonth', // 월간 뷰로 초기화
+                googleCalendarApiKey: 'AIzaSyAw5ATyRPtGDxeZLu5GoPjqZCENrKLoxuw', // 구글 캘린더 API 키
+                // 구글 캘린더 이벤트 소스 설정
+                eventSources: [{
+                    googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com',
+                    success: (events) => {
+                        console.log('구글 캘린더 이벤트 로드 성공:', events);
+                    },
+                    failure: function(error) {
+                        console.log('구글 캘린더 로드 실패:', error);
+                    }
+                }],
+                locale: 'ko', // 한국어 설정
+                // 이벤트 클릭 핸들러
+                eventClick: function(info) {
+                    info.jsEvent.preventDefault(); // 기본 동작 방지
+                }
+            });
+
+            // 캘린더 렌더링
+            calendarInstance.render();
+            // DB 이벤트 로드
+            this.getEvents(calendarInstance);
+        },
+
+        // DB값 가져오기
+        getEvents: function(calendarInstance) {
+            $.ajax({
+                url: '/getrepairs',
+                type: 'GET',
+                success: (result) => {
+                    console.log(result);
+                    result.repairsData.forEach((repair) => {
+                        calendarInstance.addEvent({
+                            title: '[유지보수] ' + repair.repairLoc,
+                            start: repair.repairStart,
+                            backgroundColor: repair.repairStat === 'A' ? '#E74C3C' : '#3498DB',
+                            extendedProps: {
+                                isDBEvent: true,
+                                repairId: repair.repairId,
+                                repairStat: repair.repairStat
+                            }
+                        });
+                    });
+                }
+            });
+        }
+    };
 
     $(function () {
         userchat.init();
-    })
+        calendar.init();
+    });
 </script>
 
 <body>
@@ -154,38 +215,46 @@
                 <div class="row row-group m-0">
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">9526 <span class="float-right"><i class="fa fa-shopping-cart"></i></span></h5>
+                            <h5 class="text-white mb-0">9526 <span class="float-right"><i
+                                    class="fa fa-shopping-cart"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Total Orders <span class="float-right">+4.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">Total Orders <span class="float-right">+4.2% <i
+                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">8323 <span class="float-right"><i class="fa fa-usd"></i></span></h5>
+                            <h5 class="text-white mb-0">8323 <span class="float-right"><i class="fa fa-usd"></i></span>
+                            </h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Total Revenue <span class="float-right">+1.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">Total Revenue <span class="float-right">+1.2% <i
+                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">6200 <span class="float-right"><i class="fa fa-eye"></i></span></h5>
+                            <h5 class="text-white mb-0">6200 <span class="float-right"><i class="fa fa-eye"></i></span>
+                            </h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Visitors <span class="float-right">+5.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">Visitors <span class="float-right">+5.2% <i
+                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">5630 <span class="float-right"><i class="fa fa-envira"></i></span></h5>
+                            <h5 class="text-white mb-0">5630 <span class="float-right"><i
+                                    class="fa fa-envira"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Messages <span class="float-right">+2.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">Messages <span class="float-right">+2.2% <i
+                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
                 </div>
@@ -198,15 +267,19 @@
                     <div class="card-header">Site Traffic
                         <div class="card-action">
                             <div class="dropdown">
-                                <a href="<c:url value="/javascript:void();"/>" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                                <a href="<c:url value="/javascript:void();"/>"
+                                   class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
                                     <i class="icon-options"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else here</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another
+                                        action</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else
+                                        here</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated link</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated
+                                        link</a>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +298,8 @@
                         <div class="col-12 col-lg-4">
                             <div class="p-3">
                                 <h5 class="mb-0">45.87M</h5>
-                                <small class="mb-0">Overall Visitor <span> <i class="fa fa-arrow-up"></i> 2.43%</span></small>
+                                <small class="mb-0">Overall Visitor <span> <i
+                                        class="fa fa-arrow-up"></i> 2.43%</span></small>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -237,7 +311,8 @@
                         <div class="col-12 col-lg-4">
                             <div class="p-3">
                                 <h5 class="mb-0">245.65</h5>
-                                <small class="mb-0">Pages/Visit <span> <i class="fa fa-arrow-up"></i> 5.62%</span></small>
+                                <small class="mb-0">Pages/Visit <span> <i
+                                        class="fa fa-arrow-up"></i> 5.62%</span></small>
                             </div>
                         </div>
                     </div>
@@ -250,15 +325,19 @@
                     <div class="card-header">Weekly sales
                         <div class="card-action">
                             <div class="dropdown">
-                                <a href="<c:url value="/javascript:void();"/>" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                                <a href="<c:url value="/javascript:void();"/>"
+                                   class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
                                     <i class="icon-options"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else here</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another
+                                        action</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else
+                                        here</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated link</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated
+                                        link</a>
                                 </div>
                             </div>
                         </div>
@@ -298,109 +377,18 @@
             </div>
         </div><!--End Row-->
 
-        <div class="row">
-            <div class="col-12 col-lg-12">
-                <div class="card">
-                    <div class="card-header">Recent Order Tables
-                        <div class="card-action">
-                            <div class="dropdown">
-                                <a href="<c:url value="/javascript:void();"/>" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
-                                    <i class="icon-options"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated link</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table align-items-center table-flush table-borderless">
-                            <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Photo</th>
-                                <th>Product ID</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Shipping</th>
-                            </tr>
-                            </thead>
-                            <tbody><tr>
-                                <td>Iphone 5</td>
-                                <td><img src="https://via.placeholder.com/110x110" class="product-img" alt="product img"></td>
-                                <td>#9405822</td>
-                                <td>$ 1250.00</td>
-                                <td>03 Aug 2017</td>
-                                <td><div class="progress shadow" style="height: 3px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 90%"></div>
-                                </div></td>
-                            </tr>
-
-                            <tr>
-                                <td>Earphone GL</td>
-                                <td><img src="https://via.placeholder.com/110x110" class="product-img" alt="product img"></td>
-                                <td>#9405820</td>
-                                <td>$ 1500.00</td>
-                                <td>03 Aug 2017</td>
-                                <td><div class="progress shadow" style="height: 3px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 60%"></div>
-                                </div></td>
-                            </tr>
-
-                            <tr>
-                                <td>HD Hand Camera</td>
-                                <td><img src="https://via.placeholder.com/110x110" class="product-img" alt="product img"></td>
-                                <td>#9405830</td>
-                                <td>$ 1400.00</td>
-                                <td>03 Aug 2017</td>
-                                <td><div class="progress shadow" style="height: 3px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 70%"></div>
-                                </div></td>
-                            </tr>
-
-                            <tr>
-                                <td>Clasic Shoes</td>
-                                <td><img src="https://via.placeholder.com/110x110" class="product-img" alt="product img"></td>
-                                <td>#9405825</td>
-                                <td>$ 1200.00</td>
-                                <td>03 Aug 2017</td>
-                                <td><div class="progress shadow" style="height: 3px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 100%"></div>
-                                </div></td>
-                            </tr>
-
-                            <tr>
-                                <td>Hand Watch</td>
-                                <td><img src="https://via.placeholder.com/110x110" class="product-img" alt="product img"></td>
-                                <td>#9405840</td>
-                                <td>$ 1800.00</td>
-                                <td>03 Aug 2017</td>
-                                <td><div class="progress shadow" style="height: 3px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 40%"></div>
-                                </div></td>
-                            </tr>
-
-                            <tr>
-                                <td>Clasic Shoes</td>
-                                <td><img src="https://via.placeholder.com/110x110" class="product-img" alt="product img"></td>
-                                <td>#9405825</td>
-                                <td>$ 1200.00</td>
-                                <td>03 Aug 2017</td>
-                                <td><div class="progress shadow" style="height: 3px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 100%"></div>
-                                </div></td>
-                            </tr>
-
-                            </tbody></table>
-                    </div>
+        <%--캘린더 영역 시작--%>
+        <div class="card">
+        <div class="content-wrapper">
+            <div class="row" style="display: flex; height: 100vh;">
+                <!-- 캘린더 영역 -->
+                <div class="col-sm-12">
+                    <div id='calendar' style="width: 90%; height: 90%; margin: 20px auto;"></div>
                 </div>
             </div>
-        </div><!--End Row-->
-
+        </div>
+        <%--캘린더 영역 끝--%>
+        </div>
         <div id="chat-button" class="floating-button">
             💬
         </div>
@@ -410,7 +398,7 @@
                 <span>Chat</span>
                 <button id="close-chat">X</button>
             </div>
-            <div class="chat-body" >
+            <div class="chat-body">
                 <jsp:include page="chat.jsp"/>
             </div>
         </div>

@@ -10,8 +10,8 @@ import java.util.Random;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        String url = "http://127.0.0.1/iot/data";
-//        String url = "http://210.119.34.211:81/iot/data";
+//        String url = "http://127.0.0.1/iot/data";
+        String url = "http://210.119.34.210:81/iot/data";
         String buildingId = "B001";
         String floor = "3";
         String houseId = "H001";
