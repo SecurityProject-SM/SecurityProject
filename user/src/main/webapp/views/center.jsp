@@ -488,7 +488,7 @@
 
             // 남은 일수를 계산
             const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-            const message = `남은 일수: ${daysRemaining}`;
+            const message = `남은 일수: \${daysRemaining}`;
 
             console.log(message);
 

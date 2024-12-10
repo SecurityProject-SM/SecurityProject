@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- 추가 스크립트-->
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="<c:url value='/js/jquery.min.js'/>"></script>
 <!-- simplebar js -->
 <script src="<c:url value='/plugins/simplebar/js/simplebar.js'/>"></script>
 <!-- sidebar-menu js -->
@@ -13,7 +16,14 @@
 <!-- Chart js -->
 <script src="<c:url value='/plugins/Chart.js/Chart.min.js'/>"></script>
 <!-- Index js -->
-<script src="<c:url value='/js/index.js'/>"></script>
+<%--<script src="<c:url value='/js/index.js'/>"></script>--%>
+<!-- HighCharts -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
 
 <html>
 <head>
@@ -209,8 +219,10 @@
             this.onclick();
             this.initEventHandlers();
             this.loadNotifications();
-            this.markAsRead();
+            // this.markAsRead();
         },
+
+
 
         // 알림 아이콘 클릭 이벤트
         onclick: function() {
