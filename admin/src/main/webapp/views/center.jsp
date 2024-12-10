@@ -36,6 +36,7 @@
         font-size: 24px;
         z-index: 1000;
     }
+
     #chat-window {
         position: fixed;
         bottom: 80px;
@@ -50,6 +51,7 @@
         flex-direction: column;
         z-index: 1000;
     }
+
     #chat-window .chat-header {
         background-color: #007bff;
         color: white;
@@ -60,6 +62,7 @@
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
     }
+
     #close-chat {
         background: none;
         border: none;
@@ -67,6 +70,7 @@
         font-size: 16px;
         cursor: pointer;
     }
+
     #chat-window .chat-body {
         padding: 10px;
         flex-grow: 1;
@@ -74,6 +78,7 @@
         font-size: 14px;
         line-height: 1.5;
     }
+
     #chat-button {
         position: fixed;
         bottom: 20px;
@@ -90,11 +95,13 @@
         z-index: 1000;
         transition: all 0.3s;
     }
+
     #chat-button.new-message {
         background-color: #ff0000;
         transform: scale(1.2);
         animation: pulse 1s infinite;
     }
+
     @keyframes pulse {
         0% {
             transform: scale(1.2);
@@ -197,10 +204,115 @@
             });
         }
     };
+    let park_progress = {
+        get: function () {
+            this.parkstat()
+            setInterval(this.parkstat, 1000000);
+        },
+
+        parkstat: function () {
+            $.ajax({
+                url: "/getparkstat",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    let totalParking = 24;
+                    let availableCount = data.availableCount;
+                    let parkingCount = totalParking - availableCount;
+                    let usagePercent = (parkingCount / totalParking) * 100;
+
+                    $("#availableCount").contents().filter(function() {
+                        return this.nodeType === 3;
+                    }).first().replaceWith(availableCount);
+
+                    $("#parkingCount").text(parkingCount);
+                    $(".progress-bar").css("width", usagePercent + "%");
+                },
+                error: function (error) {
+                    console.error("주차 상태를 불러오는 중 오류 발생:", error);
+                }
+            });
+        }
+    };
+
+    let monthchart = {
+        chart: null,
+
+        init: function () {
+            this.fetchData();
+        },
+
+        // 데이터 로드
+        fetchData: function () {
+            $.ajax({
+                url: '/iot/monthelec',
+                method: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    const formattedData = data.map(item => [item.month, parseFloat(item.total_value)]);
+                    this.renderChart(formattedData);
+
+                    const months = data.map(item => item.month);
+                    const values = data.map(item => parseFloat(item.total_value));
+                    electable.tb(months, values);
+
+                    const avg = values.reduce((acc, val) => acc + val, 0) / values.length;
+                    const latval = values[values.length - 1];
+                    progress.ave(avg, latval);
+                    price.calc(latval);
+                },
+                error: (xhr, status, error) => {
+                    console.error('Failed to load data from monthelec service:', error);
+                }
+            });
+        },
+    };
+
+    let elec_progress = {
+        fetchData: function () {
+            $.ajax({
+                url: '/iot/monthelec',
+                method: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    const values = data.map(item => parseFloat(item.total_value));
+                    const avg = values.reduce((acc, val) => acc + val, 0) / values.length;
+                    const latval = values[values.length - 1];
+                    this.ave(avg, latval);
+                },
+                error: (xhr, status, error) => {
+                    console.error('Failed to load data from monthelec service:', error);
+                }
+            });
+        },
+
+        ave: function (avg, latval) {
+            let percentageDifference;
+
+            if (latval >= avg) {
+                percentageDifference = 100 + ((latval - avg) / avg) * 100;
+            } else {
+                percentageDifference = (latval / avg) * 100;
+            }
+
+            $("#elec_progress").css("width", percentageDifference + "%");
+
+            $("#latestValue").contents().filter(function() {
+                return this.nodeType === 3;
+            }).first().replaceWith(latval.toFixed(2) + " kWh ");
+
+            $("#elec_percent").contents().filter(function() {
+                return this.nodeType === 3;
+            }).first().replaceWith(percentageDifference.toFixed(2) + "% ");
+        },
+    }
+
 
     $(function () {
         userchat.init();
         calendar.init();
+        park_progress.get();
+        elec_progress.fetchData();
     });
 </script>
 
@@ -210,51 +322,48 @@
 
         <!--Start Dashboard Content-->
 
+        <%-- 상단 progress bar 4개 --%>
         <div class="card mt-3">
             <div class="card-content">
                 <div class="row row-group m-0">
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">9526 <span class="float-right"><i
-                                    class="fa fa-shopping-cart"></i></span></h5>
+                            <h5 class="text-white mb-0" id="latestValue">9526 <span class="float-right"><i class="fa fa-bolt" aria-hidden="true"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
-                                <div class="progress-bar" style="width:55%"></div>
+                                <div class="progress-bar" id="elec_progress"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Total Orders <span class="float-right">+4.2% <i
-                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">전력 사용량 <span class="float-right" id="elec_percent">+4.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
+
+
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">8323 <span class="float-right"><i class="fa fa-usd"></i></span>
-                            </h5>
+                            <h5 class="text-white mb-0" id="availableCount"> <span class="float-right"><i class="fa fa-car" aria-hidden="true"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Total Revenue <span class="float-right">+1.2% <i
-                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">주차 대수 <span class="float-right" id="parkingCount"></span></p>
                         </div>
                     </div>
+
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">6200 <span class="float-right"><i class="fa fa-eye"></i></span>
-                            </h5>
+                            <h5 class="text-white mb-0">4 <span class="float-right"><i class="fa fa-users" aria-hidden="true"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
-                                <div class="progress-bar" style="width:55%"></div>
+                                <div class="progress-bar" style="width:25%"></div>4
                             </div>
-                            <p class="mb-0 text-white small-font">Visitors <span class="float-right">+5.2% <i
-                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">공실률 <span class="float-right">+25% </span></p>
                         </div>
                     </div>
+
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">5630 <span class="float-right"><i
-                                    class="fa fa-envira"></i></span></h5>
+                            <h5 class="text-white mb-0">5630 <span class="float-right"><i class="fa fa-envira"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Messages <span class="float-right">+2.2% <i
-                                    class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">Messages <span class="float-right">+2.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
                 </div>
@@ -267,19 +376,15 @@
                     <div class="card-header">Site Traffic
                         <div class="card-action">
                             <div class="dropdown">
-                                <a href="<c:url value="/javascript:void();"/>"
-                                   class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                                <a href="<c:url value="/javascript:void();"/>" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
                                     <i class="icon-options"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another
-                                        action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else
-                                        here</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another action</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else here</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated
-                                        link</a>
+                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated link</a>
                                 </div>
                             </div>
                         </div>
@@ -298,8 +403,7 @@
                         <div class="col-12 col-lg-4">
                             <div class="p-3">
                                 <h5 class="mb-0">45.87M</h5>
-                                <small class="mb-0">Overall Visitor <span> <i
-                                        class="fa fa-arrow-up"></i> 2.43%</span></small>
+                                <small class="mb-0">Overall Visitor <span> <i class="fa fa-arrow-up"></i> 2.43%</span></small>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -311,8 +415,7 @@
                         <div class="col-12 col-lg-4">
                             <div class="p-3">
                                 <h5 class="mb-0">245.65</h5>
-                                <small class="mb-0">Pages/Visit <span> <i
-                                        class="fa fa-arrow-up"></i> 5.62%</span></small>
+                                <small class="mb-0">Pages/Visit <span> <i class="fa fa-arrow-up"></i> 5.62%</span></small>
                             </div>
                         </div>
                     </div>
@@ -322,56 +425,18 @@
 
             <div class="col-12 col-lg-4 col-xl-4">
                 <div class="card">
-                    <div class="card-header">Weekly sales
+                    <div class="card-header">CCTV 들어갈 자리
                         <div class="card-action">
                             <div class="dropdown">
-                                <a href="<c:url value="/javascript:void();"/>"
-                                   class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
                                     <i class="icon-options"></i>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another
-                                        action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else
-                                        here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated
-                                        link</a>
-                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="chart-container-2">
-                            <canvas id="chart2"></canvas>
+                        <div class="cctv_container">
+
                         </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table align-items-center">
-                            <tbody>
-                            <tr>
-                                <td><i class="fa fa-circle text-white mr-2"></i> Direct</td>
-                                <td>$5856</td>
-                                <td>+55%</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-circle text-light-1 mr-2"></i>Affiliate</td>
-                                <td>$2602</td>
-                                <td>+25%</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-circle text-light-2 mr-2"></i>E-mail</td>
-                                <td>$1802</td>
-                                <td>+15%</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-circle text-light-3 mr-2"></i>Other</td>
-                                <td>$1105</td>
-                                <td>+5%</td>
-                            </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>

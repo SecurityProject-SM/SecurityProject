@@ -53,4 +53,8 @@ public class GhtlfService implements SBService<Integer, GhtlfDto> {
     public List<GhtlfDto> rentcalc() {
         return ghtlfRepository.rentcalc();
     }
+
+    public int vacancy() {
+        return ghtlfRepository.vacancy();
+    }
 }
