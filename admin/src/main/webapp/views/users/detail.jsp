@@ -314,7 +314,7 @@
     })
 </script>
 
-<body class="bg-theme bg-theme1">
+<body class="bg-theme bg-theme9">
 
 <!-- start loader -->
 <div id="pageloader-overlay" class="visible incoming">

@@ -708,7 +708,7 @@
     }
 </script>
 
-<body class="bg-theme bg-theme1">
+<body class="bg-theme bg-theme9">
 <!-- 로딩 스피너 HTML 추가 -->
 <div class="loading-wrap">
     <div class="loading-spinner"></div>
