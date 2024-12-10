@@ -137,9 +137,114 @@
         }
     };
 
+    let park_progress = {
+        get: function () {
+            this.parkstat()
+            setInterval(this.parkstat, 1000000);
+        },
+
+        parkstat: function () {
+            $.ajax({
+                url: "/getparkstat",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    let totalParking = 24;
+                    let availableCount = data.availableCount;
+                    let parkingCount = totalParking - availableCount;
+                    let usagePercent = (parkingCount / totalParking) * 100;
+
+                    $("#availableCount").contents().filter(function() {
+                        return this.nodeType === 3;
+                    }).first().replaceWith(availableCount);
+
+                    $("#parkingCount").text(parkingCount);
+                    $(".progress-bar").css("width", usagePercent + "%");
+                },
+                error: function (error) {
+                    console.error("주차 상태를 불러오는 중 오류 발생:", error);
+                }
+            });
+        }
+    };
+
+    let monthchart = {
+        chart: null,
+
+        init: function () {
+            this.fetchData();
+        },
+
+        // 데이터 로드
+        fetchData: function () {
+            $.ajax({
+                url: '/iot/monthelec',
+                method: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    const formattedData = data.map(item => [item.month, parseFloat(item.total_value)]);
+                    this.renderChart(formattedData);
+
+                    const months = data.map(item => item.month);
+                    const values = data.map(item => parseFloat(item.total_value));
+                    electable.tb(months, values);
+
+                    const avg = values.reduce((acc, val) => acc + val, 0) / values.length;
+                    const latval = values[values.length - 1];
+                    progress.ave(avg, latval);
+                    price.calc(latval);
+                },
+                error: (xhr, status, error) => {
+                    console.error('Failed to load data from monthelec service:', error);
+                }
+            });
+        },
+    };
+
+    let elec_progress = {
+        fetchData: function () {
+            $.ajax({
+                url: '/iot/monthelec',
+                method: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    const values = data.map(item => parseFloat(item.total_value));
+                    const avg = values.reduce((acc, val) => acc + val, 0) / values.length;
+                    const latval = values[values.length - 1];
+                    this.ave(avg, latval);
+                },
+                error: (xhr, status, error) => {
+                    console.error('Failed to load data from monthelec service:', error);
+                }
+            });
+        },
+
+        ave: function (avg, latval) {
+            let percentageDifference;
+
+            if (latval >= avg) {
+                percentageDifference = 100 + ((latval - avg) / avg) * 100;
+            } else {
+                percentageDifference = (latval / avg) * 100;
+            }
+
+            $("#elec_progress").css("width", percentageDifference + "%");
+
+            $("#latestValue").contents().filter(function() {
+                return this.nodeType === 3;
+            }).first().replaceWith(latval.toFixed(2) + " kWh ");
+
+            $("#elec_percent").contents().filter(function() {
+                return this.nodeType === 3;
+            }).first().replaceWith(percentageDifference.toFixed(2) + "% ");
+        },
+    }
+
 
     $(function () {
         userchat.init();
+        park_progress.get();
+        elec_progress.fetchData();
     })
 </script>
 
@@ -149,36 +254,41 @@
 
         <!--Start Dashboard Content-->
 
+        <%-- 상단 progress bar 4개 --%>
         <div class="card mt-3">
             <div class="card-content">
                 <div class="row row-group m-0">
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">9526 <span class="float-right"><i class="fa fa-shopping-cart"></i></span></h5>
+                            <h5 class="text-white mb-0" id="latestValue">9526 <span class="float-right"><i class="fa fa-bolt" aria-hidden="true"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
-                                <div class="progress-bar" style="width:55%"></div>
+                                <div class="progress-bar" id="elec_progress"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Total Orders <span class="float-right">+4.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">전력 사용량 <span class="float-right" id="elec_percent">+4.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
                         </div>
                     </div>
+
+
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">8323 <span class="float-right"><i class="fa fa-usd"></i></span></h5>
+                            <h5 class="text-white mb-0" id="availableCount"> <span class="float-right"><i class="fa fa-car" aria-hidden="true"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
                                 <div class="progress-bar" style="width:55%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font">Total Revenue <span class="float-right">+1.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">주차 대수 <span class="float-right" id="parkingCount"></span></p>
                         </div>
                     </div>
+
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                            <h5 class="text-white mb-0">6200 <span class="float-right"><i class="fa fa-eye"></i></span></h5>
+                            <h5 class="text-white mb-0">4 <span class="float-right"><i class="fa fa-users" aria-hidden="true"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
-                                <div class="progress-bar" style="width:55%"></div>
+                                <div class="progress-bar" style="width:25%"></div>4
                             </div>
-                            <p class="mb-0 text-white small-font">Visitors <span class="float-right">+5.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                            <p class="mb-0 text-white small-font">공실률 <span class="float-right">+25% </span></p>
                         </div>
                     </div>
+
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
                             <h5 class="text-white mb-0">5630 <span class="float-right"><i class="fa fa-envira"></i></span></h5>

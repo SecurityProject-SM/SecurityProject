@@ -6,11 +6,13 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
 public interface IotHistoryRepository extends SBRepository<Integer, IotHistoryDto> {
     List<IotHistoryDto> selectLatestIotHistory();
+    List<Map<String, Object>> monthelec();
 
     Double getElec();
 
