@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 
 <style>
+
+
     /* IoT 필터 버튼 스타일 */
     button.전체보기,
     button.조명만보기,
@@ -150,7 +152,7 @@
         position: absolute;
         width: 100px; /* 에어컨 아이콘 크기 */
         height: 100px;
-        background-image: url("<c:url value="/img/iot/aircon-off.png"/>");
+        background-image: url("<c:url value="/img/iot/aircon-off3.png"/>");
         background-size: contain; /* 이미지 크기를 컨테이너에 맞춤 */
         background-repeat: no-repeat; /* 이미지 반복 방지 */
         background-position: center; /* 이미지 중앙 정렬 */
@@ -163,7 +165,7 @@
         position: absolute;
         width: 100px; /* 에어컨 아이콘 크기 */
         height: 100px;
-        background-image: url("<c:url value="/img/iot/lamp-off.png"/>");
+        background-image: url("<c:url value="/img/iot/lamp-off3.png"/>");
         background-size: contain; /* 이미지 크기를 컨테이너에 맞춤 */
         background-repeat: no-repeat; /* 이미지 반복 방지 */
         background-position: center; /* 이미지 중앙 정렬 */
@@ -490,11 +492,11 @@
 
 <script>
     const imagePath = {
-        airconOn: "<c:url value="/img/iot/aircon-on.png"/>",
-        airconOff: "<c:url value="/img/iot/aircon-off.png"/>",
+        airconOn: "<c:url value="/img/iot/aircon-on2.png"/>",
+        airconOff: "<c:url value="/img/iot/aircon-off3.png"/>",
         airconBreak: "<c:url value="/img/iot/aircon-break.png"/>",
-        lampOn: "<c:url value="/img/iot/lamp-on.png"/>",
-        lampOff: "<c:url value="/img/iot/lamp-off.png"/>",
+        lampOn: "<c:url value="/img/iot/lamp-on2.png"/>",
+        lampOff: "<c:url value="/img/iot/lamp-off3.png"/>",
         lampBreak: "<c:url value="/img/iot/lamp-break.png"/>"
     };
     console.log("imagePath 객체:", imagePath);
@@ -768,16 +770,6 @@
     }
     $(function () {
         energy.init();
-
-        // 제어 버튼 레이블에 이벤트 핸들러 추가
-        const checkboxInputs = document.querySelectorAll('.checkbox input');
-        checkboxInputs.forEach(input => {
-            const iotId = input.id.replace('toggle-', ''); // toggle-IOT1 -> IOT1
-            if (iotId) {
-                input.addEventListener('mouseenter', () => highlightIcon(iotId));
-                input.addEventListener('mouseleave', () => resetIcon(iotId));
-            }
-        });
     });
 </script>
 <div class="userEnergy-container">
