@@ -1,7 +1,7 @@
 
   # tomcat server setting
 server:
-  port: 80
+  port: 81
   servlet:
     encoding:
       charset: UTF-8
@@ -48,7 +48,7 @@ logging:
 # 위까지는 spring꺼 아래부터는 팀, 개인의 변수들
 app:
   url:
-    server-url: http://210.119.34.210:81
+    server-url: http://210.119.34.211:81
 #    server-url: http://210.119.34.211:82
     chatbot: https://3vd0tljt1i.apigw.ntruss.com/custom/v1/16306/2ff9d4e7ae8c78eccb95f0cc246199873c652301b5ef2390e613074339289a77
   dir:

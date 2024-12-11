@@ -14,12 +14,15 @@
             justify-content: space-between;
             width: 100%;
             height: 550px;
+            background : linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
 
         /* 오른쪽 정보 패널 */
         .info-panel {
             overflow-y: auto; /* 내부 콘텐츠가 panel 크기를 초과할 경우 스크롤 생성 */
-            margin-bottom: 25px;
+            margin: 25px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border: none;
 
@@ -113,7 +116,7 @@
             color: #000; /* 검은색 글씨 */
             gap: 5px;
             /*background-color: rgba(255, 255, 255); !* 흰색 배경 + 50% 투명도 *!*/
-            background: linear-gradient(135deg, #93c5fd, #c4b5fd);
+            background: linear-gradient(135deg, #495057, #c4b5fd);
             border-radius: 10px;
             border: 2px solid gray;
             padding: 1px 6px; /* 위아래 5px, 좌우 10px 여백 추가 */
@@ -151,7 +154,7 @@
             justify-content: center;
             /*background-color: #4caf50; !* 초록색 배경 *!*/
             /*background-color: #7c3aed;*/
-            background: linear-gradient(135deg, #93c5fd, #7c3aed);
+            background: linear-gradient(135deg, #495057, #7c3aed);
             color: white; /* 흰색 글씨 */
             font-size: 1.5rem; /* 글씨 크기 */
             font-weight: bold; /* 굵은 글씨 */
@@ -174,10 +177,8 @@
             width: 800px;
             height: 600px;
             background-image: url('<c:url value="/img/building/image.png"/>'); /* 건물 배경 이미지 */
-            /*background-size: cover;*/
             background-size: contain; /* 비율 유지하면서 div에 맞추기 */
             background-repeat: no-repeat; /* 반복 제거 */
-            /*background-position: center;*/
         }
 
         /* 층 이미지 스타일 */
@@ -292,9 +293,6 @@
             filter: invert(31%) sepia(97%) saturate(375%) hue-rotate(82deg) brightness(94%) contrast(92%);
         }
 
-        .datatable{
-
-        }
     </style>
 
 
@@ -305,7 +303,7 @@
             display: grid;
             grid-template-columns: minmax(800px, 1.5fr) minmax(400px, 1fr);
             gap: 2rem;
-            background: white;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -318,7 +316,7 @@
             display: grid;
             grid-template-columns: 400px 1fr;
             gap: 2rem;
-            background: white;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -328,12 +326,14 @@
             width: 100%;
             height: 300px;
             max-height: 300px;
+            border-radius: 12px;
         }
 
         #monthContainer {
             /*width: 100%;*/
             width:100%;
             height: 300px;
+            border-radius: 12px;
         }
 
         /* 데이터 테이블 숨김 처리 */
@@ -457,8 +457,8 @@
                     \${floorData.floor}
                 </div>
                 <div class="floor-details">
-                    <h3 style="margin: 0; color: #000;">\${floorData.floor}층</h3>
-                    <div id="total-power" style="margin-top: 5px; font-weight: bold; color: #000;">
+                    <h3 style="margin: 0; color: #FFFFFF;">\${floorData.floor}층</h3>
+                    <div id="total-power" style="margin-top: 5px; font-weight: bold; color: #FFFFFF;">
                         총 전력: \${floorData.totalPower}kW
                     </div>
                 </div>
@@ -685,21 +685,22 @@
 <div class="content-wrapper">
     <h1>에너지 관리</h1>
     <div class="main-container">
-        <div class="building-container">
+        <div class="building-panel">
+            <div class="building-container">
 
-            <!-- 층을 나타내는 div -->
-            <div class="floor floor-left5f" data-floor="5F"></div>
-            <div class="floor floor-right5f" data-floor="5F"></div>
-            <div class="floor floor-left4f" data-floor="4F"></div>
-            <div class="floor floor-right4f" data-floor="4F"></div>
-            <div class="floor floor-left3f" data-floor="3F"></div>
-            <div class="floor floor-right3f" data-floor="3F"></div>
-            <div class="floor floor-left2f" data-floor="2F"></div>
-            <div class="floor floor-right2f" data-floor="2F"></div>
-            <div class="floor floor-left1f" data-floor="1F"></div>
-            <div class="floor floor-right1f" data-floor="1F"></div>
+                <!-- 층을 나타내는 div -->
+                <div class="floor floor-left5f" data-floor="5F"></div>
+                <div class="floor floor-right5f" data-floor="5F"></div>
+                <div class="floor floor-left4f" data-floor="4F"></div>
+                <div class="floor floor-right4f" data-floor="4F"></div>
+                <div class="floor floor-left3f" data-floor="3F"></div>
+                <div class="floor floor-right3f" data-floor="3F"></div>
+                <div class="floor floor-left2f" data-floor="2F"></div>
+                <div class="floor floor-right2f" data-floor="2F"></div>
+                <div class="floor floor-left1f" data-floor="1F"></div>
+                <div class="floor floor-right1f" data-floor="1F"></div>
+            </div>
         </div>
-
 
         <!-- 오른쪽 정보 패널 -->
         <div class="info-panel">
@@ -708,7 +709,7 @@
             <div class="info-header">
                 <%--      <div class="card-header">--%>
                 <div class="info-title">
-                    <h2>층별 정보</h2>
+                    <h2 style="color: white">층별 정보</h2>
                     <div class="subtitle" style="color: white">실시간 에너지 사용 현황</div>
                 </div>
                 <div class="status-indicators">
@@ -726,8 +727,9 @@
                     </div>
                 </div>
             </div>
+<%--                linear-gradient(135deg, #495057, #c4b5fd);--%>
             <!-- 데이터 표시 영역 -->
-            <div class="card-body" style="background: linear-gradient(135deg, #93c5fd, #c4b5fd); border-radius: 8px;">
+            <div class="card-body" style="background:linear-gradient(135deg, #495057, #c4b5fd); border-radius: 8px;">
                 <div id="floor-data" class="floor-data-container">
                     <h2>층을 클릭하면 정보가 표시됩니다.</h2>
                     <div id="total-power" style="margin-top: 10px; font-weight: bold; color: #000;">총 전력: -- kW</div>
