@@ -1,13 +1,11 @@
 package edu.sm.controller;
 
+import edu.sm.app.service.GhtlfService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -15,6 +13,9 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class EnergyRestController {
+
+    final GhtlfService ghtlfService;
+
 
 //    @GetMapping("/getFloorEnergy")
 //    public Map<String, Object> getFloorEnergy(@RequestParam("floor") String floor) {
@@ -122,5 +123,11 @@ public class EnergyRestController {
         } else {
             return "normal"; // 초록
         }
+    }
+
+
+    @RequestMapping("/vacancy")
+    public int vacancy() {
+        return ghtlfService.vacancy();
     }
 }

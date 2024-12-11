@@ -28,6 +28,22 @@
         WHERE DATE(log_date) = CURDATE();
     </select>
 
+    <select id="monthelec" resultType="map">
+        SELECT
+            DATE_FORMAT(log_date, '%Y-%m') AS month,
+        ROUND(SUM(iot_value), 2) AS total_value
+        FROM
+            iothistory
+        WHERE
+            log_date >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -6 MONTH), '%Y-%m-01')
+          AND log_date &lt; DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL 1 MONTH)
+          AND value_category = 'E'
+        GROUP BY
+            DATE_FORMAT(log_date, '%Y-%m')
+        ORDER BY
+            month ASC;
+    </select>
+
 
 
 </mapper>

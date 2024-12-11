@@ -16,7 +16,7 @@ public interface GhtlfRepository extends SBRepository<Integer, GhtlfDto> {
     void updatect(GhtlfDto ghtlfDto);
 
     List<GhtlfDto> rentcalc();
-
+    int vacancy();
 
 }
 

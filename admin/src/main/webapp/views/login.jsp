@@ -10,9 +10,6 @@
 <html>
 <head>
     <title>Title</title>
-    <!-- loader-->
-    <link href="<c:url value="/css/pace.min.css"/>" rel="stylesheet"/>
-    <script src="<c:url value="/js/pace.min.js"/>"></script>
     <!--favicon-->
     <link rel="icon" href="<c:url value="/images/favicon.ico"/>" type="image/x-icon">
     <!-- Vector CSS -->
@@ -83,17 +80,7 @@
 </script>
 
 
-<body class="bg-theme bg-theme1">
-
-<!-- start loader -->
-<div id="pageloader-overlay" class="visible incoming">
-    <div class="loader-wrapper-outer">
-        <div class="loader-wrapper-inner">
-            <div class="loader"></div>
-        </div>
-    </div>
-</div>
-<!-- end loader -->
+<body class="bg-theme bg-theme9">
 
 <!-- Start wrapper-->
 <div id="wrapper">
@@ -109,17 +96,17 @@
     <div class="card card-authentication1 mx-auto my-5">
         <div class="card-body">
             <div class="card-content p-2">
-                <div class="text-center">
-                    <img src="<c:url value="/assets/images/logo-icon.png"/>" alt="logo icon">
+                <div class="text-center" >
+                    <img style="width: 50px" src="<c:url value="/img/gunamul2.jpeg"/>">
                 </div>
-                <div class="card-title text-uppercase text-center py-3">Sign In</div>
+                <div class="card-title text-uppercase text-center py-3">로그인</div>
                 <form id="login_form" method="post" action="/loginimpl">
                     <div class="form-group">
                         <label for="id" class="sr-only">Username</label>
                         <div class="position-relative has-icon-right">
                             <input type="text" id="id" class="form-control input-shadow" value="admin01" name="id"
                                    placeholder="Enter Username">
-                            <div class="form-control-position">
+                            <div class="form-control-position" style="top: 11px">
                                 <i class="icon-user"></i>
                             </div>
                         </div>
@@ -129,7 +116,7 @@
                         <div class="position-relative has-icon-right">
                             <input type="password" id="pwd" class="form-control input-shadow" value="adminpass1" name="pwd"
                                    placeholder="Enter Password">
-                            <div class="form-control-position">
+                            <div class="form-control-position"  style="top: 11px">
                                 <i class="icon-lock"></i>
                             </div>
                         </div>
@@ -150,7 +137,7 @@
             </div>
         </div>
         <div class="card-footer text-center py-3">
-            <p class="text-warning mb-0">Do not have an account? <a href="<c:url value="//register"/>"> Sign Up here</a></p>
+            <p class="text-warning mb-0">계정이 없으신가요? <a href="<c:url value="/register"/>"> 회원가입</a></p>
         </div>
     </div>
 

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +46,10 @@ public class IotHistoryService implements SBService<Integer, IotHistoryDto> {
 
     public Double getElec() throws Exception {
         return iotHistoryRepository.getElec();
+    }
+
+    public List<Map<String, Object>> monthelec() throws Exception {
+        return iotHistoryRepository.monthelec();
     }
 // --------------------------------------------- 추가
 }
