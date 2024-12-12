@@ -142,7 +142,7 @@ public class ChatBotUtil {
     }
 
     public static String getMsgUrl(String apiUrl, String secretKey, String msg) throws Exception {
-        URL url = new URL(apiUrl);
+        URL url = new URL(apiUrl); // 여기서 URL 객체 변수 url이 이미 선언됨
         String chatMessage = msg;
         String message = getReqMessage(chatMessage);
         String encodeBase64String = makeSignature(message, secretKey);
@@ -171,66 +171,36 @@ public class ChatBotUtil {
 
                 System.out.println("Raw JSON Response: " + jsonString);
 
+                // Parse JSON
                 JSONParser jsonparser = new JSONParser();
                 JSONObject json = (JSONObject) jsonparser.parse(jsonString.toString());
 
+                // Extract bubbles
                 JSONArray bubbles = (JSONArray) json.get("bubbles");
                 if (bubbles == null || bubbles.isEmpty()) {
-                    return "Default response: No bubbles in response";
+                    return "Default response: No information found in the response.";
                 }
 
                 JSONObject firstBubble = (JSONObject) bubbles.get(0);
                 JSONObject bubbleData = (JSONObject) firstBubble.get("data");
                 if (bubbleData == null) {
-                    return "Default response: No data in bubbles";
+                    return "Default response: Missing data in bubbles.";
                 }
 
-                // Extract description
-                String description = null;
-                JSONObject cover = (JSONObject) bubbleData.get("cover");
-                if (cover != null) {
-                    JSONObject coverData = (JSONObject) cover.get("data");
-                    if (coverData != null) {
-                        description = (String) coverData.get("description");
-                    }
-                }
-                if (description == null && bubbleData.containsKey("description")) {
-                    description = (String) bubbleData.get("description");
-                }
-
-                // Extract URLs if available
-                StringBuilder linkMessages = new StringBuilder();
-                JSONArray contentTable = (JSONArray) bubbleData.get("contentTable");
-                if (contentTable != null && !contentTable.isEmpty()) {
-                    JSONArray firstRow = (JSONArray) contentTable.get(0);
-                    for (Object item : firstRow) {
-                        JSONObject cell = (JSONObject) item;
-                        JSONObject cellData = (JSONObject) cell.get("data");
-                        if (cellData != null) {
-                            String title = (String) cellData.get("title");
-                            JSONObject actionData = (JSONObject) ((JSONObject) cellData.get("data")).get("action");
-                            if (actionData != null) {
-                                JSONObject linkData = (JSONObject) actionData.get("data");
-                                if (linkData != null) {
-                                    String urlLink = (String) linkData.get("url");
-                                    linkMessages.append("\n").append(title).append(": ").append(urlLink);
-                                }
-                            }
-                        }
-                    }
-                }
+                // Extract description and URL
+                String description = (String) bubbleData.get("description");
+                String linkUrl = (String) bubbleData.get("url"); // 변수 이름을 linkUrl로 변경
 
                 // Combine description and URL
+                StringBuilder finalMessage = new StringBuilder();
                 if (description != null) {
-                    chatMessage = description;
+                    finalMessage.append(description);
                 }
-                if (linkMessages.length() > 0) {
-                    chatMessage = (chatMessage != null ? chatMessage + "\n" : "") + linkMessages.toString();
-                }
-                if (chatMessage == null) {
-                    chatMessage = "No content available";
+                if (linkUrl != null) {
+                    finalMessage.append("\nLink: ").append(linkUrl);
                 }
 
+                chatMessage = finalMessage.toString();
                 System.out.println("Parsed Response: " + chatMessage);
             }
         } else {

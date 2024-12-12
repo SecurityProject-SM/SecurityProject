@@ -36,12 +36,12 @@ public class MsgController {
 
     @MessageMapping("/send/user") // 사용자가 메시지를 보낼 때
     public void receiveUserMessage(Msg msg) {
-        template.convertAndSend("/receive/user/", msg); // 특정 사용자에게 전송
+        template.convertAndSend("/receive/user/", msg);
     }
 
     @MessageMapping("/send/admin") // 관리자가 메시지를 보낼 때
     public void receiveAdminMessage(Msg msg) {
-        template.convertAndSend("/receive/admin", msg); // 모든 관리자가 구독 중인 경로에 전송
+        template.convertAndSend("/receive/admin", msg);
     }
 
     @MessageMapping("/receiveme") // 나에게만 전송 ex)Chatbot

@@ -281,7 +281,7 @@
             this.getdata();
             setInterval(() => {
                 this.getdata();
-            }, 5000000);
+            }, 5000);
         },
         initchart: function () {
             this.chartInstance = Highcharts.chart('container3', {
@@ -345,7 +345,7 @@
     let elec = {
         init: function () {
             this.getelec();
-            setInterval(this.getelec, 500000);
+            setInterval(this.getelec, 5000);
         },
 
         getelec: function () {
@@ -626,7 +626,7 @@
                     <div class="row">
                         <div class="col-8">
                             <h3>월세 납부일</h3>
-                            <div id="remainingDays">남은 일수:</div>
+                            <div id="remainingDays">남은 일수: 20</div>
                         </div>
 
                         <div class="col-4">
