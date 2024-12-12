@@ -208,7 +208,7 @@
             width: 392px;
             height: 159px;
             background-image: url('<c:url value="/img/building/left5f3.png"/>');
-            filter: invert(31%) sepia(97%) saturate(375%) hue-rotate(82deg) brightness(94%) contrast(92%);
+            filter: invert(38%) sepia(81%) saturate(1362%) hue-rotate(332deg) brightness(110%) contrast(96%);
         }
 
         .floor-right5f {
@@ -217,7 +217,7 @@
             width: 209px;
             height: 102px;
             background-image: url('<c:url value="/img/building/right5f.png"/>');
-            filter: invert(31%) sepia(97%) saturate(375%) hue-rotate(82deg) brightness(94%) contrast(92%);
+            filter:invert(38%) sepia(81%) saturate(1362%) hue-rotate(332deg) brightness(110%) contrast(96%);
         }
 
         .floor-left4f {
