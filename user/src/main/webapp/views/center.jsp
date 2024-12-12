@@ -347,7 +347,7 @@
     let elec = {
         init: function () {
             this.getelec();
-            setInterval(this.getelec, 500000);
+            setInterval(this.getelec, 5000);
         },
 
         getelec: function () {
@@ -370,7 +370,7 @@
     let park = {
         init: function () {
             this.parkstat()
-            setInterval(this.parkstat, 1000000);
+            // setInterval(this.parkstat, 1000000);
         },
 
         parkstat: function () {

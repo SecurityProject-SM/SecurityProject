@@ -16,7 +16,7 @@
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.15/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales/ko.global.min.js'></script>
 </head>
-
+<%--챗봇 스타일--%>
 <style>
 <%--    챗봇 스타일 시작 --%>
     #chat-button {
@@ -478,7 +478,7 @@
                                 }
                             },
                             title: {
-                                text: '층별 전력 사용량',
+                                text: '층별 전력 실시간 사용량',
                                 style: {
                                     color: '#ffffff'
                                 }
@@ -697,68 +697,6 @@
 
 
     };
-
-    // 캘린더 객체 정의
-    let calendar = {
-        init: function() {
-            // calendar div 요소를 가져옴
-            var calendarEl = document.getElementById('calendar');
-            // FullCalendar 인스턴스 생성
-            var calendarInstance = new FullCalendar.Calendar(calendarEl, {
-                // 캘린더 헤더 툴바 설정
-                headerToolbar: {
-                    left: '',  // 왼쪽 영역 비움
-                    center: 'title', // 중앙에 타이틀 표시
-                    right: '' // 오른쪽 영역 비움
-                },
-                initialView: 'dayGridMonth', // 월간 뷰로 초기화
-                googleCalendarApiKey: 'AIzaSyAw5ATyRPtGDxeZLu5GoPjqZCENrKLoxuw', // 구글 캘린더 API 키
-                // 구글 캘린더 이벤트 소스 설정
-                eventSources: [{
-                    googleCalendarId: '457db7e99562960f71fa24849c40b96f5151eee93309bb77281efe4876fc89b2@group.calendar.google.com',
-                    success: (events) => {
-                        console.log('구글 캘린더 이벤트 로드 성공:', events);
-                    },
-                    failure: function(error) {
-                        console.log('구글 캘린더 로드 실패:', error);
-                    }
-                }],
-                locale: 'ko', // 한국어 설정
-                // 이벤트 클릭 핸들러
-                eventClick: function(info) {
-                    info.jsEvent.preventDefault(); // 기본 동작 방지
-                }
-            });
-
-            // 캘린더 렌더링
-            calendarInstance.render();
-            // DB 이벤트 로드
-            this.getEvents(calendarInstance);
-        },
-
-        // DB값 가져오기
-        getEvents: function(calendarInstance) {
-            $.ajax({
-                url: '/getrepairs',
-                type: 'GET',
-                success: (result) => {
-                    console.log(result);
-                    result.repairsData.forEach((repair) => {
-                        calendarInstance.addEvent({
-                            title: '[유지보수] ' + repair.repairLoc,
-                            start: repair.repairStart,
-                            backgroundColor: repair.repairStat === 'A' ? '#E74C3C' : '#3498DB',
-                            extendedProps: {
-                                isDBEvent: true,
-                                repairId: repair.repairId,
-                                repairStat: repair.repairStat
-                            }
-                        });
-                    });
-                }
-            });
-        }
-    };
     let park_progress = {
         get: function () {
             this.parkstat()
@@ -789,40 +727,6 @@
             });
         }
     };
-
-    let monthchart = {
-        chart: null,
-
-        init: function () {
-            this.fetchData();
-        },
-
-        // 데이터 로드
-        fetchData: function () {
-            $.ajax({
-                url: '/iot/monthelec',
-                method: 'GET',
-                dataType: 'json',
-                success: (data) => {
-                    const formattedData = data.map(item => [item.month, parseFloat(item.total_value)]);
-                    this.renderChart(formattedData);
-
-                    const months = data.map(item => item.month);
-                    const values = data.map(item => parseFloat(item.total_value));
-                    electable.tb(months, values);
-
-                    const avg = values.reduce((acc, val) => acc + val, 0) / values.length;
-                    const latval = values[values.length - 1];
-                    progress.ave(avg, latval);
-                    price.calc(latval);
-                },
-                error: (xhr, status, error) => {
-                    console.error('Failed to load data from monthelec service:', error);
-                }
-            });
-        },
-    };
-
     let elec_progress = {
         fetchData: function () {
             $.ajax({
@@ -866,7 +770,6 @@
     $(function () {
         maincard.init();
         userchat.init();
-        calendar.init();
         park_progress.get();
         elec_progress.fetchData();
     });
@@ -927,22 +830,7 @@
         <div class="row">
             <div class="col-12 col-lg-8 col-xl-8">
                 <div class="card">
-                    <div class="card-header">Site Traffic
-                        <div class="card-action">
-                            <div class="dropdown">
-                                <a href="<c:url value="/javascript:void();"/>" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
-                                    <i class="icon-options"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Another action</a>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="<c:url value="/javascript:void();"/>">Separated link</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="card-header">에너지 사용량 모니터링=</div>
                     <div class="card-body">
                         <div class="row">
                             <div class="building-panel">
@@ -968,20 +856,20 @@
                     <div class="row m-0 row-group text-center border-top border-light-3">
                         <div class="col-12 col-lg-4">
                             <div class="p-3">
-                                <h5 class="mb-0">45.87M</h5>
-                                <small class="mb-0">Overall Visitor <span> <i class="fa fa-arrow-up"></i> 2.43%</span></small>
+                                <h5 class="mb-0">일일 방문자수 : 126명</h5>
+                                <small class="mb-0">전일 대비 <span> <i class="fa fa-arrow-up" STYLE="color: indianred"></i> 12%</span></small>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="p-3">
-                                <h5 class="mb-0">15:48</h5>
-                                <small class="mb-0">Visitor Duration <span> <i class="fa fa-arrow-up"></i> 12.65%</span></small>
+                                <h5 class="mb-0">외부온도 : 4°C</h5>
+                                <small class="mb-0">전일 대비 <span> <i class="fa fa-arrow-down" STYLE="color: deepskyblue"></i> 2°C</span></small>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="p-3">
-                                <h5 class="mb-0">245.65</h5>
-                                <small class="mb-0">Pages/Visit <span> <i class="fa fa-arrow-up"></i> 5.62%</span></small>
+                                <h5 class="mb-0">외부습도 : 32%</h5>
+                                <small class="mb-0">전일 대비 <span> <i class="fa fa-arrow-down" STYLE="color: deepskyblue"></i> 3%</span></small>
                             </div>
                         </div>
                     </div>
@@ -1016,35 +904,35 @@
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 02 - 복도</span>
+                                    <span class="camera-label">CAM 02 - 후문</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
 <%--                                <img src="/img/cctv3.jpeg" alt="CCTV Feed 2">--%>
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 03 - 강의실 A</span>
+                                    <span class="camera-label">CAM 03 - 로비</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
 <%--                                <img src="/img/cctv1.gif" alt="CCTV Feed 3">--%>
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 04 - 강의실 B</span>
+                                    <span class="camera-label">CAM 04 - 2층 복도</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
 <%--                                <img src="/img/cctv2.gif" alt="CCTV Feed 4">--%>
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 05 - 강의실 A</span>
+                                    <span class="camera-label">CAM 05 - 주차장 A</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
 <%--                                <img src="/img/cctv1.gif" alt="CCTV Feed 3">--%>
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 06 - 강의실 B</span>
+                                    <span class="camera-label">CAM 06 - 주차장 B</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
 <%--                                <img src="/img/cctv2.gif" alt="CCTV Feed 4">--%>
@@ -1055,13 +943,63 @@
             </div>
         </div><!--End Row-->
 
-        <%--캘린더 영역 시작--%>
+        <%--유지보수 일정  영역 시작--%>
         <div class="card">
-            <!-- 캘린더 영역 -->
             <div class="col-sm-12">
-                <div id='calendar' style="width: 90%; height: 90%; margin: 20px auto;"></div>
+                <!-- 유지보수 일정 테이블 -->
+                <div style="width: 90%; margin: 20px auto;">
+                    <h5 class="text-white" style="margin-bottom: 15px;">유지보수 일정</h5>
+                    <table class="table table-bordered" style="background-color: #2a3441">
+                        <thead>
+                        <tr style="background-color: #1F2937">
+                            <th scope="col">날짜</th>
+                            <th scope="col">시간</th>
+                            <th scope="col">위치</th>
+                            <th scope="col">내용</th>
+                            <th scope="col">상태</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>2024-12-01</td>
+                            <td>오전 10:00</td>
+                            <td>3층 회의실</td>
+                            <td>에어컨 점검</td>
+                            <td><span class="badge bg-success">완료</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-12-03</td>
+                            <td>오후 2:30</td>
+                            <td>5층 강의실 A</td>
+                            <td>전등 교체</td>
+                            <td><span class="badge bg-warning">진행 중</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-12-05</td>
+                            <td>오전 11:00</td>
+                            <td>1층 로비</td>
+                            <td>화재 경보기 점검</td>
+                            <td><span class="badge bg-danger">대기</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-12-06</td>
+                            <td>오후 3:00</td>
+                            <td>2층 복도</td>
+                            <td>습기 제거</td>
+                            <td><span class="badge bg-warning">진행 중</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-12-07</td>
+                            <td>오전 9:30</td>
+                            <td>4층 연구실</td>
+                            <td>전력 점검</td>
+                            <td><span class="badge bg-success">완료</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        <%--캘린더 영역 끝--%>
+        <%--유지보수 일정 영역 끝--%>
         </div>
         <div id="chat-button" class="floating-button">
             💬
