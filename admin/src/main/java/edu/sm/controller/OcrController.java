@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -72,36 +73,40 @@ public class OcrController {
 
             if (carNumber == null) {
                 // 차량 번호 인식 실패
-                return ResponseEntity.ok(Map.of(
-                        "message", "차량 번호를 인식하지 못했습니다.",
-                        "carNumber", null,
-                        "entryTime", null
-                ));
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "차량 번호를 인식하지 못했습니다.");
+                response.put("carNumber", null);
+                response.put("entryTime", null);
+                response.put("exitTime", null);
+                return ResponseEntity.ok(response);
             }
 
             // 3. DB에서 차량 번호로 입차 시간 조회
             ParkLogDto parkLog = parkLogService.findByCarNumber(carNumber);
             if (parkLog != null) {
-                return ResponseEntity.ok(Map.of(
-                        "message", "차량 번호가 확인되었습니다.",
-                        "carNumber", carNumber,
-                        "entryTime", parkLog.getCarIn()
-                ));
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "차량 번호가 확인되었습니다.");
+                response.put("carNumber", carNumber);
+                response.put("entryTime", parkLog.getCarIn());
+                response.put("exitTime", parkLog.getCarOut());
+                return ResponseEntity.ok(response);
             } else {
-                return ResponseEntity.ok(Map.of(
-                        "message", "차량 번호가 일치하지 않습니다.",
-                        "carNumber", carNumber,
-                        "entryTime", null
-                ));
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "차량 번호가 일치하지 않습니다.");
+                response.put("carNumber", carNumber);
+                response.put("entryTime", null);
+                response.put("exitTime", null);
+                return ResponseEntity.ok(response);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
-                    "message", "서버 오류가 발생했습니다.",
-                    "carNumber", null,
-                    "entryTime", null
-            ));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "서버 오류가 발생했습니다.");
+            response.put("carNumber", null);
+            response.put("entryTime", null);
+            response.put("exitTime", null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }
