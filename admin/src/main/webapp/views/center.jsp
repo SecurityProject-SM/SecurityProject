@@ -830,7 +830,7 @@
         <div class="row">
             <div class="col-12 col-lg-8 col-xl-8">
                 <div class="card">
-                    <div class="card-header">에너지 사용량 모니터링=</div>
+                    <div class="card-header">에너지 사용량 모니터링</div>
                     <div class="card-body">
                         <div class="row">
                             <div class="building-panel">
