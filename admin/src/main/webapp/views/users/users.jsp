@@ -310,7 +310,7 @@
                                         <c:otherwise>공실</c:otherwise>
                                     </c:choose>
                                 </span>
-                                <a href="/users/detail?ghtlfid=${item.ghtlfid}" class="user-room-number">
+                                <a href="/users/detailud?ghtlfid=${item.ghtlfid}" class="user-room-number">
                                         ${item.room}호
                                 </a>
                             </div>

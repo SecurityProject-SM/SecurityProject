@@ -895,47 +895,48 @@
                         <div class="camera-grid">
                             <div class="camera-feed main-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 01 - 정문</span>
+                                    <span class="camera-label">CAM 01 - 로비 A</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
+                                <img src="/img/cctv/lobby2.png" alt="CCTV Feed 1">
 <%--                                <div class="webcam-container">--%>
 <%--                                    <jsp:include page="webcam.jsp"/>--%>
 <%--                                </div>--%>
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 02 - 후문</span>
+                                    <span class="camera-label">CAM 02 - 로비 B</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
-<%--                                <img src="/img/cctv3.jpeg" alt="CCTV Feed 2">--%>
+                                <img src="/img/cctv/lobby.png" alt="CCTV Feed 2">
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 03 - 로비</span>
+                                    <span class="camera-label">CAM 03 - 2층계단</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
-<%--                                <img src="/img/cctv1.gif" alt="CCTV Feed 3">--%>
+                                <img src="/img/cctv/gedan.png" alt="CCTV Feed 3">
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 04 - 2층 복도</span>
+                                    <span class="camera-label">CAM 04 - 2층복도</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
-<%--                                <img src="/img/cctv2.gif" alt="CCTV Feed 4">--%>
+                                <img src="/img/cctv/bokdo.png" alt="CCTV Feed 4">
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
                                     <span class="camera-label">CAM 05 - 주차장 A</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
-<%--                                <img src="/img/cctv1.gif" alt="CCTV Feed 3">--%>
+                                <img src="/img/cctv/parkA.jpg" alt="CCTV Feed 5">
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
                                     <span class="camera-label">CAM 06 - 주차장 B</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
-<%--                                <img src="/img/cctv2.gif" alt="CCTV Feed 4">--%>
+                                <img src="/img/cctv/parkC.png" alt="CCTV Feed 6">
                             </div>
                         </div>
                     </div>

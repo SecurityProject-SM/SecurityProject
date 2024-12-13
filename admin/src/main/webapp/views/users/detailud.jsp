@@ -79,28 +79,28 @@
                                     <input type="hidden" name="usersId" value="${ghtlf.ghtlfid}">
 
                                     <div class="form-group">
-                                        <label for="userPwd">password</label>
+                                        <label for="userPwd">상호명</label>
                                         <input type="text" class="form-control form-control-rounded" id="bname"
                                                name="bname"
                                                value="${ghtlf.bname}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="userPwd">password</label>
+                                        <label for="userPwd">호실</label>
                                         <input type="text" class="form-control form-control-rounded" id="userPwd"
                                                name="userPwd"
                                                value="${ghtlf.room}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="userMail">Mail</label>
+                                        <label for="userMail">이름</label>
                                         <input type="email" class="form-control form-control-rounded" id="userMail"
                                                name="userMail"
                                                value="${ghtlf.dlfma}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="userName">Name</label>
+                                        <label for="userName">전화번호</label>
                                         <input type="text" class="form-control form-control-rounded" id="userName"
                                                name="userName"
                                                value="${ghtlf.tel}">
@@ -135,28 +135,28 @@
                                     <input type="hidden" name="usersId" value="${ghtlf.ghtlfid}">
 
                                     <div class="form-group">
-                                        <label for="userPwd">password</label>
+                                        <label for="userPwd">계약일자</label>
                                         <input type="text" class="form-control form-control-rounded" id="stday"
                                                name="userPwd"
                                                value="${ghtlf.stday}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="userTel">Tel</label>
+                                        <label for="userTel">만료일자</label>
                                         <input type="text" class="form-control form-control-rounded" id="edday"
                                                name="userTel"
                                                value="${ghtlf.edday}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="userMail">Mail</label>
+                                        <label for="userMail">보증금</label>
                                         <input type="email" class="form-control form-control-rounded" id="deposit"
                                                name="userMail"
                                                value="${ghtlf.deposit}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="userName">Name</label>
+                                        <label for="userName">월세</label>
                                         <input type="text" class="form-control form-control-rounded" id="dnjftp"
                                                name="userName"
                                                value="${ghtlf.dnjftp}">
