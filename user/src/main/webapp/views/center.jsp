@@ -43,10 +43,10 @@
         position: relative;
         padding: 0 5px;
         display: flex;
-        height: 20px;
+        /*height: 20px;*/
         width: 100%;
         max-width: 600px;
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     .progress-value {
@@ -70,13 +70,15 @@
 
     #weatherContainer {
         display: flex;
+        position: relative;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
         overflow: hidden;
         white-space: normal;
-        font-size: 1rem;
+        /*font-size: 1rem;*/
         padding: 10px;
+        top: -8px;
     }
 
     #imgContainer {
@@ -302,6 +304,24 @@
                         text: '전력 값 (W)'
                     }
                 },
+                plotOptions: {
+                    areaspline: {
+                        color: '#63a0ef',
+                        fillColor: {
+                            linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                            stops: [
+                                [0, '#63a0ef'],
+                                [1, '#63a0ef00']
+                            ]
+                        },
+                        threshold: null,
+                        marker: {
+                            lineWidth: 1,
+                            lineColor: null,
+                            fillColor: 'white'
+                        }
+                    }
+                },
                 series: [
                     {
                         name: 'IoT 데이터',
@@ -350,7 +370,7 @@
 
         getelec: function () {
             $.ajax({
-                url: '/iot/mainpage',
+                url: '<c:url value="/iot/mainpage"/>',
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -368,12 +388,12 @@
     let park = {
         init: function () {
             this.parkstat()
-            setInterval(this.parkstat, 1000000);
+            // setInterval(this.parkstat, 1000000);
         },
 
         parkstat: function () {
             $.ajax({
-                url: "/getparkstat",
+                url: "<c:url value="/getparkstat"/>",
                 method: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -462,8 +482,8 @@
             let formattedTime = time.substring(11, 16); // 시간만 잘라내기 (HH:mm)
 
             let weatherHTML =
-                '<h4>' + '현재 온도' + '</h4><br>' +
-                '<h4>기온: ' + temp + '°C</h4>';
+                '<h5>' + '현재 온도' + '</h5><br>' +
+                '<h3>기온: ' + temp + '°C</h3>';
 
             let weatherImg =
                 '<img src="https://openweathermap.org/img/wn/' + icon + '.png" alt="' + des + '" class="weather-icon">';
@@ -488,7 +508,7 @@
 
             // 남은 일수를 계산
             const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-            const message = `남은 일수: ${daysRemaining}`;
+            const message = `남은 일수: \${daysRemaining}`;
 
             console.log(message);
 
@@ -568,11 +588,11 @@
     <div class="row">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
-                <div class="card-body p-3">
+                <div class="card-body p-3" style="height: 160px">
                     <div class="row">
                         <div class="col-8">
-                            <h4>금일 사용 전력</h4>
-                            <h3 id="elec"></h3>
+                            <h5>금일 사용 전력</h5>
+                            <h2 id="elec" style="margin-top: 15px"></h2>
                         </div>
                         <div class="col-4">
                             <img src="img/electric.png" style="width: 90%">
@@ -584,7 +604,7 @@
         <%-- 주차 --%>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
-                <div class="card-body p-3">
+                <div class="card-body p-3" style="height: 160px">
                     <div class="row">
                         <div class="col-8">
                             <div class="status-box" id="park_stat">
@@ -607,7 +627,7 @@
         </div>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
-                <div class="card-body p-3">
+                <div class="card-body p-3" style="height: 160px">
                     <div class="row">
                         <div class="col-8">
                             <pre class="card-body" id="weatherContainer">날씨 데이터를 불러오는 중...</pre>
@@ -622,11 +642,11 @@
 
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
-                <div class="card-body p-3">
+                <div class="card-body p-3" style="height: 160px">
                     <div class="row">
                         <div class="col-8">
-                            <h3>월세 납부일</h3>
-                            <div id="remainingDays">남은 일수: 20</div>
+                            <h5>월세 납부일</h5>
+                            <h4><div id="remainingDays" style="margin-top: 30px;">남은 일수:</div></h4>
                         </div>
 
                         <div class="col-4">
@@ -649,26 +669,26 @@
                 </div>
             </div>
         </div>
-<%--        <div class="col-lg-5">--%>
-<%--            <div class="card card-carousel overflow-hidden h-100 p-0">--%>
-<%--                <div class="card-header pb-0 pt-3 bg-transparent">--%>
-<%--                    <h6 class="text-capitalize">(여기 뭐라그래야 하냐)</h6>--%>
-<%--                </div>--%>
-<%--                <div class="card-body p-3">--%>
-<%--                    <div class="row">--%>
-<%--                        <div style="width: 50%;">--%>
-<%--                            <jsp:include page="webcam.jsp"/>--%>
-<%--                        </div>--%>
-<%--                        <img src="/img/cctv3.jpeg" style="width: 50%">--%>
-<%--                    </div>--%>
-<%--                    <div class="row">--%>
-<%--                        <img src="/img/cctv1.gif" style="width: 50%">--%>
-<%--                        <img src="/img/cctv2.gif" style="width: 50%">--%>
-<%--                    </div>--%>
-<%--                </div>--%>
+        <%--        <div class="col-lg-5">--%>
+        <%--            <div class="card card-carousel overflow-hidden h-100 p-0">--%>
+        <%--                <div class="card-header pb-0 pt-3 bg-transparent">--%>
+        <%--                    <h6 class="text-capitalize">(여기 뭐라그래야 하냐)</h6>--%>
+        <%--                </div>--%>
+        <%--                <div class="card-body p-3">--%>
+        <%--                    <div class="row">--%>
+        <%--                        <div style="width: 50%;">--%>
+        <%--                            <jsp:include page="webcam.jsp"/>--%>
+        <%--                        </div>--%>
+        <%--                        <img src="/img/cctv3.jpeg" style="width: 50%">--%>
+        <%--                    </div>--%>
+        <%--                    <div class="row">--%>
+        <%--                        <img src="/img/cctv1.gif" style="width: 50%">--%>
+        <%--                        <img src="/img/cctv2.gif" style="width: 50%">--%>
+        <%--                    </div>--%>
+        <%--                </div>--%>
 
-<%--            </div>--%>
-<%--        </div>--%>
+        <%--            </div>--%>
+        <%--        </div>--%>
         <div class="col-lg-5">
             <div class="card surveillance-dashboard">
                 <div class="card-header">

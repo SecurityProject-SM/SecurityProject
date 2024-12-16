@@ -411,34 +411,34 @@
 <%--  주차 현황 그림--%>
   <div>
     <h2 class="주차현황">주차장 현황</h2>
-  <div class="parking-lot">
-    <!-- 주차 공간을 표시할 개별 박스들 -->
-    <div class="parking-spot" id="spot1"></div>
-    <div class="parking-spot" id="spot2"></div>
-    <div class="parking-spot" id="spot3"></div>
-    <div class="parking-spot" id="spot4"></div>
-    <div class="parking-spot" id="spot5"></div>
-    <div class="parking-spot" id="spot6"></div>
-    <div class="parking-spot" id="spot7"></div>
-    <div class="parking-spot" id="spot8"></div>
-    <div class="parking-spot" id="spot9"></div>
-    <div class="parking-spot" id="spot10"></div>
-    <div class="parking-spot" id="spot11"></div>
-    <div class="parking-spot" id="spot12"></div>
-    <div class="parking-spot" id="spot13"></div>
-    <div class="parking-spot" id="spot14"></div>
-    <div class="parking-spot" id="spot15"></div>
-    <div class="parking-spot" id="spot16"></div>
-    <div class="parking-spot" id="spot17"></div>
-    <div class="parking-spot" id="spot18"></div>
-    <div class="parking-spot" id="spot19"></div>
-    <div class="parking-spot" id="spot20"></div>
-    <div class="parking-spot" id="spot21"></div>
-    <div class="parking-spot" id="spot22"></div>
-    <div class="parking-spot" id="spot23"></div>
-    <div class="parking-spot" id="spot24"></div>
-    <!-- 필요한 만큼 주차 공간을 추가 -->
-  </div>
+    <div class="parking-lot">
+      <!-- 주차 공간을 표시할 개별 박스들 -->
+      <div class="parking-spot" id="spot1"></div>
+      <div class="parking-spot" id="spot2"></div>
+      <div class="parking-spot" id="spot3"></div>
+      <div class="parking-spot" id="spot4"></div>
+      <div class="parking-spot" id="spot5"></div>
+      <div class="parking-spot" id="spot6"></div>
+      <div class="parking-spot" id="spot7"></div>
+      <div class="parking-spot" id="spot8"></div>
+      <div class="parking-spot" id="spot9"></div>
+      <div class="parking-spot" id="spot10"></div>
+      <div class="parking-spot" id="spot11"></div>
+      <div class="parking-spot" id="spot12"></div>
+      <div class="parking-spot" id="spot13"></div>
+      <div class="parking-spot" id="spot14"></div>
+      <div class="parking-spot" id="spot15"></div>
+      <div class="parking-spot" id="spot16"></div>
+      <div class="parking-spot" id="spot17"></div>
+      <div class="parking-spot" id="spot18"></div>
+      <div class="parking-spot" id="spot19"></div>
+      <div class="parking-spot" id="spot20"></div>
+      <div class="parking-spot" id="spot21"></div>
+      <div class="parking-spot" id="spot22"></div>
+      <div class="parking-spot" id="spot23"></div>
+      <div class="parking-spot" id="spot24"></div>
+      <!-- 필요한 만큼 주차 공간을 추가 -->
+    </div>
   </div>
     <!-- 주차장 도면 오른쪽에 시간 및 현황판 배치 -->
   <div class="info-container" >

@@ -10,7 +10,8 @@ import java.util.Random;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        String url = "http://127.0.0.1/iot/data";
+//        String url = "http://127.0.0.1/iot/data";
+        String url = "http://210.119.34.211:80/iot/data";
         String buildingId = "B001";
         String floor = "3";
         String houseId = "H001";
@@ -41,7 +42,15 @@ public class Main {
 
             // ======== 전력량 데이터 ========
             for (int j = 0; j < iotIds.length; j++) {
-                float value = 25.00f + r.nextFloat() * 24.00f; // 랜덤 값 생성
+                float value;
+                // 에어컨인지 조명인지에 따라 값 범위 설정
+                if (iotNames[j].contains("에어컨")) {
+                    value = 5.00f + r.nextFloat() * 5.00f; // 5 ~ 10 사이의 값
+                } else if (iotNames[j].contains("조명")) {
+                    value = 1.00f + r.nextFloat() * 1.00f; // 1 ~ 2 사이의 값
+                } else {
+                    value = 25.00f + r.nextFloat() * 24.00f; // 기본 범위 (기타 장치)
+                }
                 String formattedValue = df.format(value);
                 // JSON 데이터 생성
                 JSONObject jsonData = new JSONObject();

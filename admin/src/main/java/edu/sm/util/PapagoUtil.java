@@ -53,9 +53,21 @@ public class PapagoUtil {
             JSONParser jsonparser = new JSONParser();
             try {
                 JSONObject json = (JSONObject)jsonparser.parse(response.toString());
-                JSONObject message = (JSONObject)json.get("message");
-                JSONObject jresult = (JSONObject)message.get("result");
-                result = (String)jresult.get("translatedText");
+
+                // 응답의 유효성 검사
+                if (json.containsKey("message")) {
+                    JSONObject message = (JSONObject) json.get("message");
+                    JSONObject resultObj = (JSONObject) message.get("result");
+                    result = (String) resultObj.get("translatedText");
+                } else {
+                    // 오류 응답일 경우 로그 출력
+                    System.err.println("Papago API Error Response: " + response);
+                    result = "번역 오류 발생 (Papago API 응답 오류)";
+                }
+
+//                JSONObject message = (JSONObject)json.get("message");
+//                JSONObject jresult = (JSONObject)message.get("result");
+//                result = (String)jresult.get("translatedText");
             } catch (Exception e) {
                 System.out.println("error");
                 e.printStackTrace();

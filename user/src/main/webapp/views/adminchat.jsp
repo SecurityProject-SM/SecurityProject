@@ -106,7 +106,7 @@
                 let msg = JSON.stringify({
                     'content1': $("#alltext").val()
                 });
-                this.stompClient.send("/send/user", {}, msg);
+                this.stompClient.send('/receive/user', {}, msg);
             });
             $("#alltext").keydown((event) => {
                 if (event.key === "Enter") {
@@ -117,15 +117,15 @@
         },
         connect: function () {
             let sid = this.id;
-            let userid = '${sessionScope.loginid.userId}';
-            let socket = new SockJS('http://210.119.34.211:82/ws');
+            let userid = '\${sessionScope.loginid.userId}';
+            let socket = new SockJS('https://210.119.34.211:82/ws');
             this.stompClient = Stomp.over(socket);
 
             this.stompClient.connect({}, function (frame) {
                 websocket.setConnected(true);
                 console.log('Connected: ' + frame);
 
-                this.subscribe('/send/user', function (msg) {
+                this.subscribe('/send/userme', function (msg) {
                     $("#all").prepend(
                         "<h5 class='user-massage'>" +
                         JSON.parse(msg.body).content1

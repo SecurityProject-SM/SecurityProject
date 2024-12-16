@@ -212,7 +212,8 @@
                     <!-- 오른쪽 이미지 (배경) -->
                     <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
                         <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
-                             style="background-image: url('https://raw.githubusercontent.com/HosikKim/SmartBuilding-Management-System/refs/heads/cmlee/user/src/main/resources/static/img/photo-1478186014654-5a7e3898daa5.jpg?token=GHSAT0AAAAAAC2OQ7SK6V7QA3H3VYAZMXBKZZVTOSQ');
+<%--                             style="background-image: url('https://raw.githubusercontent.com/HosikKim/SmartBuilding-Management-System/refs/heads/cmlee/user/src/main/resources/static/img/photo-1478186014654-5a7e3898daa5.jpg?token=GHSAT0AAAAAAC2OQ7SK6V7QA3H3VYAZMXBKZZVTOSQ');--%>
+                             style="background-image: url('https://raw.githubusercontent.com/HosikKim/SmartBuilding-Management-System/refs/heads/hosik/user/src/main/resources/static/img/photo-1478186014654-5a7e3898daa5.jpg');
                                     background-size: contain;">
                             <span class="mask bg-gradient-primary opacity-6"></span>
                             <h4 class="mt-5 text-white font-weight-bolder position-relative" style="text-shadow:3px 3px #a8b8d8">"지능형 스마트 빌딩 관리, 지금 시작하세요."</h4>

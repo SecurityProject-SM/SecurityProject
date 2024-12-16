@@ -104,15 +104,18 @@
                         // 차량 번호와 입차 시간 DOM에 삽입
                         $('#detected-car-number').text(response.carNumber || '없음');
                         $('#detected-entry-time').text(response.entryTime || '없음');
+                        $('#detected-exit-time').text(response.exitTime || '없음');
                     } else {
                         $('#detected-car-number').text('일치하는 차량 번호가 없습니다');
                         $('#detected-entry-time').text('N/A');
+                        $('#detected-exit-time').text('N/A');
                     }
                 },
                 error: function (xhr, status, error) {
                     alert('OCR 처리 실패: ' + error);
                     $('#detected-car-number').text('처리 실패');
                     $('#detected-entry-time').text('N/A');
+                    $('#detected-exit-time').text('N/A');
                 }
             });
         },

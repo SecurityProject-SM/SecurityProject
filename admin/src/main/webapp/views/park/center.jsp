@@ -12,6 +12,7 @@
     <title>Title</title>
 </head>
 
+
 <style>
 
     /*주차장 박스 시작*/
@@ -190,8 +191,10 @@
 
     .park-container {
         position: relative;
+        flex-wrap: wrap;
         left: 121px;
-        height: 57px;
+        width: 1400px;
+        height: 100%;
         display: flex;
         align-items: stretch; /* 자식 요소들의 높이를 컨테이너에 맞춤 */
         gap: 2rem; /* 요소들 사이의 간격 */
@@ -204,6 +207,8 @@
         margin: 1rem;
         min-height: calc(100vh - 150px); /* 헤더 높이를 고려한 최소 높이 */
         transition: all 0.3s ease;
+
+
     }
 
     .park-container:hover {
@@ -625,6 +630,115 @@
 
 </style>
 
+<%--차트 CSS--%>
+<style>
+    .chart-container {
+        width: 100%;
+        max-width: 800px; /* 차트 최대 너비 */
+        text-align: center;
+        margin-top: 20px; /* 위 요소와 간격 */
+    }
+    #monthContainer {
+        /*width: 100%;*/
+        /*width:100%;*/
+        width: 700px;
+        height: 300px;
+        border-radius: 12px;
+    }
+
+    /* 데이터 테이블 숨김 처리 */
+    #datatable {
+        position: absolute;
+        visibility: hidden;
+    }
+
+    /* 반응형 처리 */
+    @media (max-width: 1400px) {
+        .chart-container:first-of-type,
+        .chart-container:last-of-type {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .building-container {
+            margin: 0 auto;
+        }
+    }
+</style>
+
+<%--입출차 현황 CSS--%>
+<style>
+    .entry-exit-container {
+        margin-left: 30px;
+        padding: 20px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(8px);
+    }
+
+    .entry-exit-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #ffffff;
+        text-align: center;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .entry-exit-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .entry-exit-table thead {
+        background-color: rgba(66, 153, 225, 0.3);
+        color: #ffffff;
+    }
+
+    .entry-exit-table th,
+    .entry-exit-table td {
+        padding: 10px;
+        font-size: 1rem;
+        color: #e0e0e0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .entry-exit-table tbody tr:hover {
+        background-color: rgba(66, 153, 225, 0.2);
+        transition: background-color 0.3s ease;
+    }
+
+    .entry-exit-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .entry-exit-table th {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .entry-exit-table td {
+        font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+        .entry-exit-table th, .entry-exit-table td {
+            font-size: 0.85rem;
+            padding: 8px;
+        }
+
+        .entry-exit-title {
+            font-size: 1.25rem;
+        }
+    }
+</style>
+
 <script>
     let park = {
         loadingShown: false, // 로딩이 처음 한 번만 나타나도록 제어하는 플래그
@@ -632,6 +746,7 @@
             // this.init();  // 초기 로드
             setInterval(this.parkstat, 1000);  // 5초마다 상태 갱신
             setInterval(this.getTime, 1000);
+            this.getMonthChart();
         },
         getTime:function(){
             $.ajax({
@@ -640,6 +755,117 @@
                     $('#cday').html(result.cday);
                     $('#ctime').html(result.ctime);
                 }
+            });
+        },
+        getMonthChart: function(){
+            Highcharts.theme = {
+                colors: ['#3B82F6'],
+                chart: {
+                    backgroundColor: '#1F2937',
+                    style: {
+                        fontFamily: '"Noto Sans KR", sans-serif'
+                    }
+                },
+                title: {
+                    style: {
+                        color: '#ffffff'
+                    }
+                },
+                xAxis: {
+                    gridLineColor: '#374151',
+                    labels: {
+                        style: {
+                            color: '#9CA3AF',
+                            fontSize: '20px'  /* X축 레이블 글자 크기 */
+                        }
+                    },
+                    lineColor: '#4B5563'
+                },
+                yAxis: {
+                    gridLineColor: '#374151',
+                    labels: {
+                        style: {
+                            color: '#9CA3AF'
+                        }
+                    },
+                    title: {
+                        style: {
+                            color: '#9CA3AF'
+                        }
+                    }
+                },
+                legend: {
+                    itemStyle: {
+                        color: '#9CA3AF'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#374151',
+                    style: {
+                        color: '#ffffff'
+                    }
+                }
+            };
+
+            Highcharts.setOptions(Highcharts.theme);
+            // 월별 주차요금 차트
+            Highcharts.chart('monthContainer', {
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                data: {
+                    table: 'datatable'
+                },
+                chart: {
+                    backgroundColor: '#1F2937',
+                    type: 'column'
+                },
+                title: {
+                    style: {
+                        color: '#ffffff',
+                    },
+                    text: '월별 주차요금 합계'
+                },
+                xAxis: {
+                    type: 'category',
+                    gridLineColor: '#374151',
+                    labels: {
+                        style: {
+                            color: '#9CA3AF'
+                        }
+                    },
+                    lineColor: '#4B5563'
+                },
+                yAxis: {
+                    gridLineColor: '#374151',
+                    labels: {
+                        style: {
+                            color: '#9CA3AF'
+                        }
+                    },
+                    title: {
+                        style: {
+                            color: '#9CA3AF'
+                        }
+                    },
+                    allowDecimals: false,
+                    title: {
+                        text: '주차요금 (단위: 원)'
+                    }
+                },
+                series: [
+                    {
+                        name: '2023년',
+                        color: '#ced4da' // 2023년 데이터 색상 (연한 회색)
+                    },
+                    {
+                        name: '2024년',
+                        color: '#81c147' // 2024년 데이터 색상 (초록색)
+                    }
+                ]
             });
         },
 
@@ -777,6 +1003,122 @@
                     </div>
                 </div>
             </div>
+            <!-- 차트 영역 -->
+                <div class="row mt-3" style="margin-left: 30px">
+                    <div id="monthContainer" style="display: block;"></div>
+                    <table id="datatable">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>2023년</th>
+                            <th>2024년</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>1월</th>
+                            <td>250 000</td>
+                            <td>260 000</td>
+                        </tr>
+                        <tr>
+                            <th>2월</th>
+                            <td>240 000</td>
+                            <td>250 000</td>
+                        </tr>
+                        <tr>
+                            <th>3월</th>
+                            <td>150 000</td>
+                            <td>155 000</td>
+                        </tr>
+                        <tr>
+                            <th>4월</th>
+                            <td>140 000</td>
+                            <td>145 000</td>
+                        </tr>
+                        <tr>
+                            <th>5월</th>
+                            <td>130 000</td>
+                            <td>135 000</td>
+                        </tr>
+                        <tr>
+                            <th>6월</th>
+                            <td>120 000</td>
+                            <td>125 000</td>
+                        </tr>
+                        <tr>
+                            <th>7월</th>
+                            <td>130 000</td>
+                            <td>135 000</td>
+                        </tr>
+                        <tr>
+                            <th>8월</th>
+                            <td>300 000</td>
+                            <td>320 000</td>
+                        </tr>
+                        <tr>
+                            <th>9월</th>
+                            <td>290 000</td>
+                            <td>310 000</td>
+                        </tr>
+                        <tr>
+                            <th>10월</th>
+                            <td>150 000</td>
+                            <td>155 000</td>
+                        </tr>
+                        <tr>
+                            <th>11월</th>
+                            <td>140 000</td>
+                            <td>145 000</td>
+                        </tr>
+                        <tr>
+                            <th>12월</th>
+                            <td>310 000</td>
+                            <td>160 000</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="entry-exit-container">
+                        <h2 class="entry-exit-title">금일 입출차 현황</h2>
+                        <table class="entry-exit-table">
+                            <thead>
+                            <tr>
+                                <th>차량 번호</th>
+                                <th>입차 시간</th>
+                                <th>출차 시간</th>
+                                <th>이용 시간</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>12가1234</td>
+                                <td>2024-12-13 08:00</td>
+                                <td>2024-12-13 11:00</td>
+                                <td>3시간</td>
+                            </tr>
+                            <tr>
+                                <td>34나5678</td>
+                                <td>2024-12-13 09:30</td>
+                                <td>2024-12-13 12:30</td>
+                                <td>3시간</td>
+                            </tr>
+                            <tr>
+                                <td>56다7890</td>
+                                <td>2024-12-13 10:15</td>
+                                <td>2024-12-13 13:45</td>
+                                <td>3시간 30분</td>
+                            </tr>
+                            <tr>
+                                <td>78라0123</td>
+                                <td>2024-12-13 07:45</td>
+                                <td>2024-12-13 10:45</td>
+                                <td>3시간</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
         </div>
     </div>
 </div>
@@ -809,16 +1151,16 @@
             <div class="popup-info">
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">차종</span>
-                        <span class="info-value" id="detected-car-type">감지된 차량</span>
-                    </div>
-                    <div class="info-item">
                         <span class="info-label">번호판</span>
                         <span class="info-value" id="detected-car-number">없음</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">입차시간</span>
                         <span class="info-value" id="detected-entry-time">없음</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">출차시간</span>
+                        <span class="info-value" id="detected-exit-time">없음</span>
                     </div>
                 </div>
             </div>
