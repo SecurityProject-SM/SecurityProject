@@ -61,7 +61,7 @@
 
         <li>
             <a href="<c:url value="/repairs"/>">
-                <i class="zmdi zmdi-face"></i> <span>유지보수</span>
+                <i class="zmdi zmdi-face"></i> <span>일정관리</span>
             </a>
         </li>
         <li class="sidebar-header">회원</li>

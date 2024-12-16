@@ -38,7 +38,7 @@ public class Main {
         Random r = new Random();
         DecimalFormat df = new DecimalFormat( "#.##");
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 300; i++) {
 
             // ======== 전력량 데이터 ========
             for (int j = 0; j < iotIds.length; j++) {

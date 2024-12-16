@@ -636,15 +636,7 @@
                          onmouseleave="resetIcon('\${iotId}')"></label>
                 </div>
               </div>
-<!--              <button-->
-<!--                  class="control-button"-->
-<!--                  data-iot-id="\${iotId}"-->
-<!--                  onclick='energy.toggleIotStatus("\${iotId}", "\${iotData.status}")'>-->
-<!--                  제어-->
-<!--              </button>-->
-
             </td>
-
         </tr>`;
                 tableBody.append(row);
             });

@@ -79,12 +79,12 @@
                 let msg = JSON.stringify({
                     'content1': $("#alltext").val()
                 });
-                this.stompClient.send("/send/admin", {}, msg);
+                this.stompClient.send("/receive/admin", {}, msg);
             });
         },
         connect: function () {
             let sid = this.id;
-            let socket = new SockJS('http://210.119.34.211:82/ws');
+            let socket = new SockJS('https://210.119.34.211:82/ws');
             this.stompClient = Stomp.over(socket);
 
             this.stompClient.connect({}, function (frame) {
@@ -98,7 +98,7 @@
                     websocket.onNewMessage();
                 });
 
-                this.subscribe('/send/admin', function (msg) {
+                this.subscribe("/send/admin", function (msg) {
                     $("#all").prepend(
                         "<h5 class='admin-message'>" +
                         JSON.parse(msg.body).content1

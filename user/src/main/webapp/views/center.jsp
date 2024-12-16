@@ -283,7 +283,7 @@
             this.getdata();
             setInterval(() => {
                 this.getdata();
-            }, 5000000);
+            }, 5000);
         },
         initchart: function () {
             this.chartInstance = Highcharts.chart('container3', {
@@ -302,6 +302,24 @@
                 yAxis: {
                     title: {
                         text: '전력 값 (W)'
+                    }
+                },
+                plotOptions: {
+                    areaspline: {
+                        color: '#63a0ef',
+                        fillColor: {
+                            linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                            stops: [
+                                [0, '#63a0ef'],
+                                [1, '#63a0ef00']
+                            ]
+                        },
+                        threshold: null,
+                        marker: {
+                            lineWidth: 1,
+                            lineColor: null,
+                            fillColor: 'white'
+                        }
                     }
                 },
                 series: [

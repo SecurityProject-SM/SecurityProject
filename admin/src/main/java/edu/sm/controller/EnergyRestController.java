@@ -17,44 +17,6 @@ public class EnergyRestController {
     final GhtlfService ghtlfService;
 
 
-//    @GetMapping("/getFloorEnergy")
-//    public Map<String, Object> getFloorEnergy(@RequestParam("floor") String floor) {
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("floor", floor);
-//
-//        List<Map<String, Object>> rooms = new ArrayList<>();
-//        double totalPower = 0;
-//
-//        for (int i = 1; i <= 5; i++) {
-//            Map<String, Object> room = new HashMap<>();
-//            double power = 150 + Math.random() * 50; // 랜덤 전력량
-//            totalPower += power;
-//
-//            room.put("room", floor + String.format("%02d호", i));
-//            room.put("power", power + "kW");
-//            room.put("temp", (24 + Math.random() * 5) + "°C");
-//
-//            // 상태 설정
-//            String status;
-//            if (power < 170) {
-//                status = "normal";
-//            } else if (power < 190) {
-//                status = "warning";
-//            } else {
-//                status = "critical";
-//            }
-//            room.put("status", status);
-//
-//            rooms.add(room);
-//        }
-//
-//        double avgPower = totalPower / 5; // 평균 전력량
-//        result.put("avgPower", avgPower);
-//        result.put("rooms", rooms);
-//
-//        return result;
-//    }
-
     @GetMapping("/getFloorStats")
     public Object getFloorStats() throws Exception {
         Random random = new Random();
