@@ -197,7 +197,9 @@
             // DB 이벤트 로드
             this.getEvents(calendarInstance);
             // 예정된 일정 목록 초기화
-            this.updateEventList(calendarInstance);
+            setTimeout(() => {
+                calendar.updateEventList(calendarInstance);
+            }, 1000); // 1초 지연
         },
 
         // DB값 가져오기
@@ -231,6 +233,7 @@
 
             // 현재 날짜 기준으로 향후 30일 간의 모든 이벤트 가져오기
             const now = new Date();
+            now.setDate(now.getDate() - 1);
             const thirtyDaysFromNow = new Date();
             thirtyDaysFromNow.setDate(now.getDate() + 30);
 
@@ -285,25 +288,25 @@
                         'background-color: rgba(231, 76, 60, 0.2);' :
                         'background-color: rgba(103, 231, 60, 0.2);';
                     statusBadge = `<span style="
-                    ${badgeColor}
+                    \${badgeColor}
                     padding: 2px 8px;
                     border-radius: 12px;
                     font-size: 0.8em;
                     margin-left: 8px;
-                ">${status}</span>`;
+                ">\${status}</span>`;
                 }
 
                 // HTML 구성
                 eventItem.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div style="font-size: 0.9em; color: rgba(255, 255, 255, 0.7);">
-                        ${dateString} ${timeString}
+                        \${dateString} \${timeString}
                     </div>
-                    ${statusBadge}
+                    \${statusBadge}
                 </div>
                 <div style="margin-top: 8px; display: flex; align-items: center;">
-                    <span style="margin-right: 8px;">${icon}</span>
-                    <span>${event.title}</span>
+                    <span style="margin-right: 8px;">\${icon}</span>
+                    <span>\${event.title}</span>
                 </div>
             `;
 
