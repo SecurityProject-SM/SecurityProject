@@ -922,7 +922,7 @@
                                     <span class="camera-label">CAM 04 - 2층복도</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
-                                <img src="/img/cctv/bokdo.png" alt="CCTV Feed 4">
+                                <img src="/img/cctv/bokdo2.png" alt="CCTV Feed 4">
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
