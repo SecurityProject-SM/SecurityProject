@@ -508,6 +508,7 @@
         intervalId: null, // 반복 통신을 위한 ID
         isPowerBoxActive: false, // 클릭 상태 확인 변수
         init: function () {
+            this.fetchIotStatus();
             console.log("energy.init 호출됨"); // init 함수 호출 확인
             this.fetchTotalPower();
             setInterval(this.fetchIotStatus, 3000);
@@ -521,7 +522,6 @@
                 }
             }, 0);
         },
-
 
 
         // iot상태 불러와서 이미지 업데이트

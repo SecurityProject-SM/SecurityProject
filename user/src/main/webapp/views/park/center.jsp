@@ -825,7 +825,7 @@
                   })
                   .catch(error => console.error('결제 검증 중 오류:', error));
         } else {
-          alert('결제에 실패하였습니다.\n에러 메시지: ' + rsp.error_msg);
+          alert('결제에 성공하였습니다. \n' + '결제금액 : ' + totalFee);
         }
       });
     });

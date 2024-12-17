@@ -127,8 +127,6 @@
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center me-2 active" aria-current="page"
                                    href="<c:url value="/"/> ">
-                                    <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-                                    메인 페이지
                                 </a>
                             </li>
 <%--                            <li class="nav-item">--%>
@@ -184,11 +182,11 @@
                                 <form id="login_form">
                                     <div class="form-group">
                                         <label for="id">아이디 </label>
-                                        <input type="text" class="form-control" placeholder="아이디를 입력하세요" id="id" name="id" value="user01">
+                                        <input type="text" class="form-control" placeholder="아이디를 입력하세요" id="id" name="id">
                                     </div>
                                     <div class="form-group">
                                         <label for="pwd">비밀번호</label>
-                                        <input type="password" class="form-control" placeholder="비밀번호를 입력하세요" id="pwd" name="pwd" value="password1">
+                                        <input type="password" class="form-control" placeholder="비밀번호를 입력하세요" id="pwd" name="pwd">
                                     </div>
 
                                     <button type="button" class="btn btn-primary" style="background-color: #9042dc;margin-bottom: 1px">로그인</button>

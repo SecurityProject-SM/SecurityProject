@@ -75,8 +75,8 @@
                             <div class="card-body">
                                 <div class="card-title text-center">입주자 정보</div>
                                 <hr>
-                                <form action="/users/updateimpl" method="post">
-                                    <input type="hidden" name="usersId" value="${ghtlf.ghtlfid}">
+                                <form action="/users/updateus" method="post">
+                                    <input type="hidden" name="ghtlfid" value="${ghtlf.ghtlfid}">
 
                                     <div class="form-group">
                                         <label for="userPwd">상호명</label>
@@ -86,23 +86,23 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="userPwd">호실</label>
-                                        <input type="text" class="form-control form-control-rounded" id="userPwd"
-                                               name="userPwd"
+                                        <label for="room">호실</label>
+                                        <input type="text" class="form-control form-control-rounded" id="room"
+                                               name="room"
                                                value="${ghtlf.room}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="userMail">이름</label>
-                                        <input type="email" class="form-control form-control-rounded" id="userMail"
-                                               name="userMail"
+                                        <label for="dlfma">이름</label>
+                                        <input type="text" class="form-control form-control-rounded" id="dlfma"
+                                               name="dlfma"
                                                value="${ghtlf.dlfma}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="userName">전화번호</label>
-                                        <input type="text" class="form-control form-control-rounded" id="userName"
-                                               name="userName"
+                                        <label for="tel">전화번호</label>
+                                        <input type="text" class="form-control form-control-rounded" id="tel"
+                                               name="tel"
                                                value="${ghtlf.tel}">
                                     </div>
 
@@ -131,7 +131,7 @@
                             <div class="card-body">
                                 <div class="card-title text-center">계약 정보</div>
                                 <hr>
-                                <form action="/users/updateimpl" method="post">
+                                <form action="/users/updateus" method="post">
                                     <input type="hidden" name="usersId" value="${ghtlf.ghtlfid}">
 
                                     <div class="form-group">

@@ -283,7 +283,7 @@
             this.getdata();
             setInterval(() => {
                 this.getdata();
-            }, 5000);
+            }, 3000);
         },
         initchart: function () {
             this.chartInstance = Highcharts.chart('container3', {
@@ -365,7 +365,7 @@
     let elec = {
         init: function () {
             this.getelec();
-            setInterval(this.getelec, 5000);
+            setInterval(this.getelec, 3000);
         },
 
         getelec: function () {

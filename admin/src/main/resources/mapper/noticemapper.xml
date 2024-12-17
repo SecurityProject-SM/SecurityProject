@@ -11,7 +11,7 @@
 
     <!-- 모든 공지사항 조회 -->
     <select id="select" resultType="edu.sm.app.dto.NoticeDto">
-        SELECT * FROM notice
+        SELECT * FROM notice order by notice_id desc
     </select>
 
     <!-- 공지사항 추가 -->

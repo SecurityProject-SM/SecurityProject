@@ -177,7 +177,7 @@
                     type: 'areaspline'
                 },
                 title: {
-                    text: 'IoT 실시간 데이터'
+                    text: '전력 사용량'
                 },
                 xAxis: {
                     type: 'datetime', // X축에 시간 표시
@@ -405,7 +405,6 @@
         <div class="chart-container realtime-data">
             <div class="chart-header">
                 <h3>실시간 전력 사용량</h3>
-                <div class="refresh-time">최근 업데이트: 1분 전</div>
             </div>
             <div id="container3" class="chart-content"></div>
         </div>
