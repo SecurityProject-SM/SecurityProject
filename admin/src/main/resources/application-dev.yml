@@ -21,11 +21,11 @@ spring:
   datasource:
     # SQL 로그를 찍기위해 위에것을 사용 실 서비스 시에는 아래 드라이버 사용
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/smartbuilding?characterEncoding=utf8
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/final_project?characterEncoding=utf8
     #    driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mysql://127.0.0.1:3306/immersive?characterEncoding=utf8
-    username: smuser
-    password: 111111
+    username: root
+    password: 1234
 
 # Mybatis settings
 mybatis:
@@ -55,16 +55,19 @@ app:
     logdir: file:///c:/springsm/logs/
     readlogdir: c:/springsm/logs/
 #    uploadimgdir: c:/springsm/imgs/
-    uploadimgdir: c:/SmartBuildingProject/imgs/
+    uploadimgdir: c:/SmartBuilding-Management-System/imgs/
 
   key:
     wkey: ENC(4PAWoDD5oYX4vQinseKwW+ga3MPEBm3s68OnAiWR1mfpdUbARblM1k4ued+xkw4ok4QfuDFSPfP2qc3IpN1np9T5cKv/PGilw2hR/lV33dRNMcwwheKLtejQwPXKTiXM+t/0opitWOGchB5p9ZtsZNHXx8/qT0pn)
     # 기상청 키값
-    okey: d9bd21f2e39484f2a5b501bcd28825b3
+    okey: d9bd21f2e39484f2a5b501bcd28825b3`
     # open weather 키값
     algo: PBEWithMD5AndDES    # ENC변경 필 (보안사유)
     skey: mykey
     ocr-key: UVdOdGpGV2NwemhiU1RCeXFwaG9CZEJ2SW53SWVkcEc=
+    # 파파고
+    papago-id: 8umjbm0xti
+    papago-secret: seSEeQEtOObQ1GXXmW2TG7cGfTztpoH9mg7DX5B3
 
   kakao:
     client-id: "18bb7ea0e94b0d6aa04bf15517db1397"  # 카카오 개발자 콘솔에서 얻은 REST API 키

@@ -905,10 +905,10 @@
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
-                                    <span class="camera-label">CAM 02 - 로비 B</span>
+                                    <span class="camera-label">CAM 02 - 외부 A</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
-                                <img src="/img/cctv/lobby.png" alt="CCTV Feed 2">
+                                <img src="/img/admin_cctv1.gif" alt="CCTV Feed 2">
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">
@@ -929,7 +929,7 @@
                                     <span class="camera-label">CAM 05 - 주차장 A</span>
                                     <span class="timestamp">LIVE</span>
                                 </div>
-                                <img src="/img/cctv/parkA.jpg" alt="CCTV Feed 5">
+                                <img src="/img/admin_cctv2.gif" alt="CCTV Feed 5">
                             </div>
                             <div class="camera-feed">
                                 <div class="camera-overlay">

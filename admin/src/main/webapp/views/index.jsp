@@ -267,9 +267,7 @@
 
 
                 <li class="nav-item">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                        <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>
-                    </a>
+
                     <!-- 나머지 프로필 드롭다운 코드 -->
                 </li>
             </ul>

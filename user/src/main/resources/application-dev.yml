@@ -1,7 +1,7 @@
 
   # tomcat server setting
 server:
-  port: 81
+  port: 80
   servlet:
     encoding:
       charset: UTF-8
@@ -22,11 +22,11 @@ spring:
   datasource:
     # SQL 로그를 찍기위해 위에것을 사용 실 서비스 시에는 아래 드라이버 사용
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/smartbuilding?characterEncoding=utf8
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/final_project?characterEncoding=utf8
     #    driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mysql://127.0.0.1:3306/immersive?characterEncoding=utf8
-    username: smuser
-    password: 111111
+    username: root
+    password: 1234
 
 # Mybatis settings
 mybatis:
@@ -48,8 +48,7 @@ logging:
 # 위까지는 spring꺼 아래부터는 팀, 개인의 변수들
 app:
   url:
-    server-url: http://210.119.34.211:81
-#    server-url: http://210.119.34.211:82
+    server-url: http://210.119.34.211:82
     chatbot: https://3vd0tljt1i.apigw.ntruss.com/custom/v1/16306/2ff9d4e7ae8c78eccb95f0cc246199873c652301b5ef2390e613074339289a77
   dir:
     imgdir: file:///c:/springsm/imgs/    # 위치가 springsm 하위가 아니어도 상관없음

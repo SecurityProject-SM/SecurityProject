@@ -156,7 +156,7 @@
                     <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                         <div class="card card-plain">
                             <div class="card-header pb-0 text-start" style="background-color: #FCFBFF">
-                                <h4 class="font-weight-bolder">추가 정보 입력</h4>
+                                <h4 class="font-weight-bolder">회원가입 정보 입력</h4>
                                 <p class="mb-0" style="font-size: 14px">회원 가입을 하기 위해 추가 정보를 입력해주세요</p>
                             </div>
                             <div class="card-body" style="background-color: #FCFBFF">

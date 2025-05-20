@@ -39,14 +39,14 @@
 </head>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var loginid = "${sessionScope.loginid}";
+    <%--document.addEventListener("DOMContentLoaded", function () {--%>
+    <%--    var loginid = "${sessionScope.loginid}";--%>
 
-        if (!loginid || loginid === "null") {
-            alert("로그인이 필요한 서비스 입니다.");
-            window.location.href = "/login";
-        }
-    });
+    <%--    if (!loginid || loginid === "null") {--%>
+    <%--        alert("로그인이 필요한 서비스 입니다.");--%>
+    <%--        window.location.href = "/login";--%>
+    <%--    }--%>
+    <%--});--%>
 </script>
 
 
