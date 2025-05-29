@@ -25,8 +25,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public StandardPBEStringEncryptor  textEncoder(@Value("${app.key.algo}") String algo,
-                                                   @Value("${app.key.skey}") String skey) {
+    public StandardPBEStringEncryptor textEncoder(@Value("${app.key.algo}") String algo,
+                                                  @Value("${app.key.skey}") String skey) {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setAlgorithm(algo);
         encryptor.setPassword(skey);
@@ -35,23 +35,39 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        //CSRF, CORS
-        http.csrf((csrf) -> csrf.disable());
-        //http.cors(Customizer.withDefaults());
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin(CorsConfiguration.ALL);
-        configuration.addAllowedMethod(CorsConfiguration.ALL);
-        configuration.addAllowedHeader(CorsConfiguration.ALL);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**,/chbot", configuration);
-        // 권한 규칙 작성
-        http.authorizeHttpRequests(authorize -> authorize
-                        //@PreAuthrization을 사용할 것이기 때문에 모든 경로에 대한 인증처리는 Pass
-                        .anyRequest().permitAll()           // 개발시에는 일단 보안은 풀어놓음
-//                        .anyRequest().authenticated()
+
+        // ✅ 커스텀 CSRF 리포지토리 설정 (SameSite 적용됨)
+        http.csrf(csrf -> csrf
+                .csrfTokenRepository(new SameSiteCookieCsrfTokenRepository())
         );
+
+        // ✅ CORS 설정
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        http.cors(cors -> cors.configurationSource(source));
+
+        // ✅ 헤더 설정 - JSESSIONID 보안 강화
+        http.headers(headers -> headers
+                .frameOptions(frame -> frame.deny())
+                .addHeaderWriter((request, response) -> {
+                    if (request.getSession(false) != null) {
+                        String sessionId = request.getSession().getId();
+                        response.setHeader("Set-Cookie",
+                                "JSESSIONID=" + sessionId + "; HttpOnly; Secure; SameSite=Strict");
+                    }
+                })
+        );
+
+        // ✅ 인증 설정
+        http.authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()
+        );
+
         return http.build();
     }
-
-
 }
